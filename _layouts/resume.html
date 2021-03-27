@@ -114,12 +114,14 @@
           {% endif %}
           <ul class="resume-item-list">
             {% for paper in site.data.papers %}
-            <li>
-              <a href="{{ paper.url }}">"{{ paper.title }}"</a><br>
-              <span style="font-size:smaller;">
-                <span style="color: gray;">{{ paper.authors }}</span>
-                <br><i>{{ paper.journal }}</i> {{ paper.volume }} ({{ paper.year }})</span>
-            </li><br>
+              {% if paper.highlight %}
+              <li>
+                <a href="{{ paper.url }}">"{{ paper.title }}"</a><br>
+                <span style="font-size:smaller;">
+                  <span style="color: gray;">{{ paper.authors }}</span>
+                  <br><i>{{ paper.journal }}</i> {{ paper.volume }} ({{ paper.year }})</span>
+              </li><br>
+              {% endif %}
             {% endfor %}
           </ul>
         </div>

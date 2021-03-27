@@ -21,7 +21,6 @@
 
       </header>
       
-      {% if site.resume_section_papers %}
       <section class="content-section">
         <header class="section-header">
           <h2>Academic Publications</h2>
@@ -42,7 +41,39 @@
           </ul>
         </div>
       </section>
-      {% endif %}
+      
+      <section class="content-section">
+        <header class="section-header">
+          <h2>Talks</h2>
+        </header>
+        <div class="resume-item">
+          <ul class="resume-item-list">
+            {% for talk in site.data.presentations.talks %}
+            <li>
+              {{ talk.detail }}
+              {% if talk.url %}<a href="{{ talk.url }}">(link)</a>{% endif %}
+            </li><br>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
+      
+      <section class="content-section">
+        <header class="section-header">
+          <h2>Posters</h2>
+        </header>
+        <div class="resume-item">
+          <ul class="resume-item-list">
+            {% for poster in site.data.presentations.posters %}
+            <li>
+              {{ poster.detail }}
+              {% if talk.url %}<a href="{{ talk.url }}">(link)</a>{% endif %}
+            </li><br>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
+      
     </div>
 
   </body>

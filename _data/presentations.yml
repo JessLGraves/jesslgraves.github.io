@@ -23,9 +23,9 @@ posters:
 
 teaching:
   -
-    name: Statistical Analysis (lecture, September 2020)
-    organization: UPMC Mercy Internal Medicine Residency
+    name: Statistical Analysis (lecture)
+    organization: UPMC Mercy Internal Medicine Residency, September 2020
     detail: "Lecture covering basics if biostatistical methods such as: study design (observational vs. randomized trial, prospective vs. retrospective vs. cross-sectional); hypothesis testing; measures of association (e.g. odds ratios, rate ratios); generalized linear modeling; survival analyses; longitudinal analyses"
-  - name: "Introduction to Statistical Methods I (recitation instructor, Fall 2017)"
-    organization: University of Pittsburgh
+  - name: "Introduction to Statistical Methods I (recitation instructor)"
+    organization: University of Pittsburgh, Fall 2017
     detail: "Supplemental recitation instructor. Lectures included: Two-sample inference, ANOVA, and linear regression."

@@ -182,7 +182,9 @@
           <ul class="resume-item-list">
             {% for class in site.data.presentations.teaching %}
             <li>
-              {{ class.name }} - {{ class.organization }} - {{ class.detail }}
+              <b>{{ class.name }}</b><br>
+              {{ class.organization }}<br>
+              <span style="font-size:smaller; color: gray;">{{ class.detail }}</span>
             </li><br>
             {% endfor %}
           </ul>
@@ -231,14 +233,22 @@
           <h2>Recognition</h2>
         </header>
 
-        {% assign recognitions = site.data.recognitions | sort: "year" %}
-        {% for recognition in recognitions %}
+        {% assign recognitions = site.data.recognitions | sort: "year" | reverse %}
         <div class="resume-item">
-          <h3 class="resume-item-title" itemprop="award">{{ recognition.award }}</h3>
+        <ul class="resume-item-list">
+        {% for recognition in recognitions %}
+          <li>
+            <b>{{ recognition.award }}</b><br>
+            {{ recognition.organization }} &bull; {{ recognition.year }}<br>
+          </li><br>
+          <!-- <ul class="resume-item-list"> -->
+          <!-- <li>{{ association.organization }}<br>{{ association.role }} &bull; {{ association.year }}</li> -->
+          <!-- <h3 class="resume-item-title" itemprop="award">{{ recognition.award }}</h3>
           <h4 class="resume-item-details">{{ recognition.organization }} &bull; {{ recognition.year }}</h4>
-          <p class="resume-item-copy">{{ recognition.summary }}</p>
-        </div>
+          <p class="resume-item-copy">{{ recognition.summary }}</p> -->
         {% endfor %}
+        </ul>
+        </div>
 
       </section>
       {% endif %}
@@ -250,13 +260,16 @@
           <h2>Associations</h2>
         </header>
 
-        {% for association in site.data.associations %}
         <div class="resume-item" itemscope itemprop="memberOf" itemtype="http://schema.org/Organization">
-          <h3 class="resume-item-title" itemprop="name">{% if association.url %}<a href="{{ association.url }}">{{ association.organization }}</a>{% else %}{{ association.organization }}{% endif %}</h3>
+        <ul class="resume-item-list">
+        {% for association in site.data.associations %}
+          <li><b>{{ association.role }}</b><br>{{ association.organization }} &bull; {{ association.year }}</li><br>
+          <!-- <h3 class="resume-item-title" itemprop="name">{% if association.url %}<a href="{{ association.url }}">{{ association.organization }}</a>{% else %}{{ association.organization }}{% endif %}</h3>
           <h4 class="resume-item-details" itemprop="description">{{ association.role }} &bull; {{ association.year }}</h4>
-          <p class="resume-item-copy">{{ association.summary }}</p>
-        </div>
+          <p class="resume-item-copy">{{ association.summary }}</p> -->
         {% endfor %}
+        </ul>
+        </div>
 
       </section>
       {% endif %}

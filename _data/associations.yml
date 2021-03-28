@@ -1,15 +1,44 @@
 # Associations
 # comment out the urls if you do not wish to display them
 
-- organization: PETA
-  role: Volunteer
-  year: 2001 &mdash; 2010
-  url: https://www.peta.org/
-  summary: Organized fund drives and participated in fundraising events for the benefit of PETA's local Springfield operations.
+- organization: Educational Policies and Curriculum Committee, University of Pittsburgh
+  role: PhD Student Representative
+  year: 2018 &mdash; present
+  url: ""
+  summary: ""
 
+- organization: Community Research Advisory Board, University of Pittsburgh
+  role: Student member
+  year: 2017 &mdash; present
+  url: ""
+  summary: ""
 
-- organization: Yale Amnesty International
-  role: Communications coordinator
-  year: 2002 &mdash; 2004
-  url: http://campuspress.yale.edu/amnesty/
-  summary: During my junion and senior years at Yale, I was actively involved in Yale Amnesty International where I helped facilitate our student organization communications through website maintenance, writing for our campus publication, and graphic design of related materials.
+- organization: American Statistical Association, University of Pittsburgh
+  role: Student member
+  year: 2017 &mdash; 2018
+  url: ""
+  summary: ""
+
+- organization: Laboratory of Neurocognitive Development, University of Pittsburgh
+  role: Community Outreach
+  year: 2015
+  url: ""
+  summary: ""
+
+- organization: Developmental Cognitive Neuroscience Lab, University of Pittsburgh
+  role: Summer Outreach Volunteer
+  year: 2015
+  url: ""
+  summary: ""
+
+- organization: Inner South Community Health Services, Melbourne, Australia 
+  role: Falls Prevention Volunteer
+  year: 2013
+  url: ""
+  summary: ""
+
+- organization: Beyond Zero Emissions, Melbourne, Australia 
+  role: Volunteer Researcher
+  year: 2013
+  url: ""
+  summary: ""

@@ -20,3 +20,12 @@ posters:
   - detail: "<b>Graves JL</b>, Kirk EC, Lewis RJ. (2010) Effects of Social Cohesion, Pair-bonding and Monogamy on Primate Brain Evolution. American Association of Physical Anthropologists. Minneapolis, MN."
 
   - detail: "<b>Graves JL</b>, Kirk EC, Lewis RJ. (2010) Effects of Social Cohesion, Pair-bonding and Monogamy on Primate Brain Evolution. Texas Association of Biological Anthropologists. Waco, TX."
+
+teaching:
+  -
+    name: Statistical Analysis (lecture, September 2020)
+    organization: UPMC Mercy Internal Medicine Residency
+    detail: "Lecture covering basics if biostatistical methods such as: study design (observational vs. randomized trial, prospective vs. retrospective vs. cross-sectional); hypothesis testing; measures of association (e.g. odds ratios, rate ratios); generalized linear modeling; survival analyses; longitudinal analyses"
+  - name: "Introduction to Statistical Methods I (recitation instructor, Fall 2017)"
+    organization: University of Pittsburgh
+    detail: "Supplemental recitation instructor. Lectures included: Two-sample inference, ANOVA, and linear regression."

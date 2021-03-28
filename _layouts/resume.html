@@ -173,6 +173,21 @@
           </ul>
         </div>
       </section>
+
+      <section class="content-section">
+        <header class="section-header">
+          <h2>Teaching</h2>
+        </header>
+        <div class="resume-item">
+          <ul class="resume-item-list">
+            {% for class in site.data.presentations.teaching %}
+            <li>
+              {{ class.name }} - {{ class.organization }} - {{ class.detail }}
+            </li><br>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
       {% endif %}
 
       {% if site.resume_section_projects %}
@@ -216,7 +231,8 @@
           <h2>Recognition</h2>
         </header>
 
-        {% for recognition in site.data.recognitions %}
+        {% assign recognitions = site.data.recognitions | sort: "year" %}
+        {% for recognition in recognitions %}
         <div class="resume-item">
           <h3 class="resume-item-title" itemprop="award">{{ recognition.award }}</h3>
           <h4 class="resume-item-details">{{ recognition.organization }} &bull; {{ recognition.year }}</h4>

@@ -22,7 +22,8 @@ posters:
   - detail: "<b>Graves JL</b>, Kirk EC, Lewis RJ. (2010) Effects of Social Cohesion, Pair-bonding and Monogamy on Primate Brain Evolution. Texas Association of Biological Anthropologists. Waco, TX."
 
 teaching:
-  - name: Preparing Data for Analysis (lecture)
+  - 
+    name: Preparing Data for Analysis (lecture)
     organization: UPMC Mercy Internal Medicine Residency, April 2021
     detail: "Lecture covering basics of data quality and data cleaning. Provided guidelines on best practices for data entry, data cleaning, and data management."
   - name: Statistical Analysis (lecture)

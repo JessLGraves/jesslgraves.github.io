@@ -1,4 +1,12 @@
 - 
+  title: "Physiological sleep measures predict time to 15-year mortality in community adults: Application of a novel machine learning framework."
+  authors: "Wallace, M.W., Coleman, T.S, Mentch, L.K., Buysse, D.J., <b>Graves, J.L. </b>,..., Peppard, P.E."
+  journal: "Journal of Sleep Research"
+  year: 2021
+  volume: "00:e13386."
+  url: "https://doi.org/10.1111/jsr.13386"
+  highlight: true
+- 
   title: "Profiles of Accelerometry-Derived Physical Activity Are Related to Perceived Physical Fatigability in Older Adults."
   authors: "<b>Graves, J. L.</b>, Qiao, Y. S., Moored, K. D., Boudreau, R. M., Venditti, E. M., Krafty, R. T., ... & Glynn, N. W."
   journal: "Sensors"

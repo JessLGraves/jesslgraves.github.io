@@ -11,7 +11,7 @@ sass:
 # Resume settings
 resume_avatar:                  "true"
 resume_name:                    "Jess L. Graves"
-resume_title:                   "Biostatistician"
+resume_title:                   "Biostatistician/Data Scientist"
 
 # used for the contact button in _layouts/resume.html
 resume_contact_email:           "jessica.lynn.graves@gmail.com"
@@ -51,7 +51,7 @@ resume_social_links:
 #   resume_twitter_url:           ""
 #   resume_dribbble_url:          ""
   # resume_facebook_url:          "insert Facebook URL here"
-#   resume_linkedin_url:          ""
+  resume_linkedin_url:          "https://www.linkedin.com/in/jessicalgraves/"
   # resume_instagram_url:         "insert your Instagram URL here"
 #   resume_website_url:           ""
 #   resume_medium_url:            ""

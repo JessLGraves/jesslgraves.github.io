@@ -1,0 +1,42 @@
+---
+title: "Feeding dogs a high-fat diet induces metabolic changes similar to natural aging, including dyslipidemia, hyperinsulinemia, and peripheral insulin resistance"
+author:
+  - name: Brennen McKenzie
+    affiliation: Loyal
+    affiliation-url: https://www.loyal.com
+  - name: Matt Peloquin
+  - name: Ashley Tovar
+  - name: Jessica L. Graves
+  - name: ...
+
+date: 06-01-2024
+categories: [longitudinal data analysis, metabolism, aging, dogs]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://avmajournals.avma.org/view/journals/ajvr/85/6/ajvr.23.11.0253.xml"
+---
+
+[Read full article here.](https://avmajournals.avma.org/view/journals/ajvr/85/6/ajvr.23.11.0253.xml)
+
+> ## **Abstract**
+>
+> ### OBJECTIVE
+>
+> The goal of this study was to characterize changes induced by a high-fat diet in body composition, insulin levels and sensitivity, blood lipids, and other key biomarkers also associated with the metabolic dysfunction that occurs with natural aging.
+>
+> ### ANIMALS
+>
+> 24 male Beagle dogs, 3 to 7 years of age, of mixed castration status.
+>
+> ### METHODS
+>
+> Dogs were randomly assigned to continue twice daily feeding of the commercial adult maintenance diet (n = 12, including 2 intact) that they were previously fed or to a high-fat diet (12, including 2 intact) for 17 weeks between December 1, 2021, and April 28, 2022. Assessments included body composition (weight, body condition score, and adipose mass determined by deuterium enrichment), clinical chemistries, plasma fatty acid quantification, oral glucose tolerance test, and histology of subcutaneous and visceral adipose biopsy samples.
+>
+> ### RESULTS
+>
+> The high-fat diet led to increased body weight, body condition score, fat mass and adipocyte size, hyperinsulinemia and peripheral insulin resistance, and elevations in serum lipids, including cholesterol, triglycerides, and several species of free fatty acids. Leptin levels increased in dogs fed a high-fat diet but not in control dogs. There were no significant changes in routine clinical chemistry values in either group.
+>
+> ### CLINICAL RELEVANCE
+>
+> Feeding a high-fat diet for 17 weeks led to potentially deleterious changes in metabolism similar to those seen in natural aging in dogs, including hyperinsulinemia, insulin resistance, and dyslipidemia. A high-fat diet model may provide insights into the similar metabolic dysfunction that occurs during natural aging.

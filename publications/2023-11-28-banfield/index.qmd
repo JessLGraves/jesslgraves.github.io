@@ -1,0 +1,31 @@
+---
+title: "Body weight, gonadectomy, and other risk factors for diagnosis of osteoarthritis in companion dogs"
+author:
+  - name: Jessica L. Graves
+    affiliation: Loyal
+    affiliation-url: https://www.loyal.com
+  - name: Brennen A. McKenzie
+  - name: Zane Koch
+  - name: ...
+description: ''
+date: 11-28-2023
+categories: [survival analysis, aging, dogs]
+image: preview-image2.png
+draft: false
+citation: 
+  url: "https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2023.1275964/full"
+---
+
+[Read full article here.](https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2023.1275964/full)
+
+> ## Abstract
+>
+> **Objective:** The aim of this study is to evaluate age, sex, body weight, breed, neuter status, and age at neutering as risk factors for diagnosis of osteoarthritis in companion dogs.
+>
+> **Animals:** Dogs seen as patients at Banfield Pet Hospital in the United States from 1998 to 2019 with a date of death in 2019. The final cohort consisted of 131,140 dogs.
+>
+> **Methods:** In this retrospective cohort study, Cox proportional hazard models were used to test for associations between osteoarthritis incidence and age at baseline, sex, maximum body weight, maximum body condition score, neuter status, and age at neutering. The same model was used to test these associations in 12 representative breeds, chosen based on breed weight and sample size.
+>
+> **Results:** Older age, higher adult body weight, gonadectomy, and younger age at gonadectomy were significantly associated with higher risks of osteoarthritis in the total cohort and in all 12 breeds evaluated. Higher body condition scores and sex were also significantly associated with osteoarthritis but with minimal effect sizes in the overall cohort, and these risk factors were not consistently significant in all breeds tested.
+>
+> **Clinical relevance:** These results will assist veterinarians in identifying dogs at higher risk for osteoarthritis and applying appropriate diagnostic, preventative, and treatment interventions. An understanding of potentially modifiable risk factors, such as body condition and neutering, will support evidence-based discussions with dog owners about risk management in individual patients.

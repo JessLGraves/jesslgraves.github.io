@@ -1,0 +1,70 @@
+---
+title: "About"
+about: 
+  template: solana
+  image: avatar.png
+  image-width: 7em
+  image-shape: round
+  links: 
+    - icon: journal-medical
+      text: Scholar
+      href: https://scholar.google.com/citations?user=7Rmo0iUAAAAJ&hl=en
+    - icon: github
+      text: Github
+      href: https://github.com/JessLGraves
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/jessicalgraves/
+    - icon: bsky
+      text: Bluesky
+      href: https://bsky.app/profile/jessgraves.bsky.social
+---
+
+## Hello! 👋
+
+| 🧮 Statistics & data science
+| 💊 Clinical trials & aging & drug development
+| 💻 R enthusiast
+| 👩‍💻 Statistician \@ [loyal.com](https://loyal.com/)
+
+------------------------------------------------------------------------
+
+I'm a **(bio)statistician/data scientist**(/whatever you want to call it) working in **aging, clinical trials** and **drug development**.
+
+I have been doing applied statistics for almost a decade now (yeesh time flies), covering a variety of areas like, epidemiology, occupational health, circadian rhythms, actigraphy, depression & substance use.
+
+Right now, my statistical interests include: everything Rstats, longitudinal data analysis, simulation-based power analysis, and survival analysis.
+
+I'm also a mom of twins 👯‍♂️ who loves horror movies 🎥 and is currently obsessed with Skyrim 🧙.
+
+## Skills
+
+-   **Statistical programming**: R (expert), Python (proficient), SAS (trained in, but rarely use)
+
+-   **Statistical methods**: Longitudinal data analysis, study design & power, survival analysis, unsupervised learning
+
+-   **Professional**: Regulatory & academic report writing, cross-functional teams, stats communication
+
+## Education
+
+I have an **MS** in both **Biostatistics** (2018) and **Epidemiology** (2020) from the University of Pittsburgh, Graduate School of Public Health.
+
+## Work Experience
+
+**Senior Statistician**\
+*Loyal \| 2021-Present*
+
+**Statistician** *\
+University of Pittsburgh Medical Center \| 2020-2021*
+
+**Graduate Student & Researcher in Biostatistics & Epidemiology**\
+*Graduate School of Public Health, University of Pittsburgh \| 2016-2020*
+
+**Staff Biostatistician\
+***Center for Occupational Biostatistics and Epidemiology \| 2017-2018*
+
+## Helpful resources
+
+-   Csik, Samantha. 2022. “[**Adding a Blog to Your Existing Quarto Website**.](https://samanthacsik.github.io/posts/2022-10-24-quarto-blogs/)” 
+
+-   Rapp, Albert. 2022. "[**The ultimate guide to starting a Quarto blog**.](https://albert-rapp.de/posts/13_quarto_blog_writing_guide/13_quarto_blog_writing_guide.html)"

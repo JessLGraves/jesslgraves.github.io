@@ -1,0 +1,22 @@
+---
+title: "Profiles of Accelerometry-Derived Physical Activity Are Related to Perceived Physical Fatigability in Older Adults"
+author:
+  - name: Jessica L. Graves
+    affiliation: Department of Epidemiology, University of Pittsburgh
+  - name: Yujia (Susanna) Qiao
+  - name: Kyle D. Moored
+  - name: ...
+description: ''
+date: 03-02-2021
+categories: [clustering, r package, circadian rhythms, aging]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://www.mdpi.com/1424-8220/21/5/1718"
+---
+
+[Read full article here.](https://www.mdpi.com/1424-8220/21/5/1718)
+
+> ## **Abstract**
+>
+> Physical activity (PA) is associated with greater fatigability in older adults; little is known about magnitude, shape, timing and variability of the entire 24-h rest–activity rhythm (RAR) associated with fatigability. We identified which features of the 24-h RAR pattern were independently and jointly associated with greater perceived physical fatigability (Pittsburgh Fatigability Scale, PFS, 0–50) in older adults (n = 181, 71.3 ± 6.7 years). RARs were characterized using anti-logistic extended cosine models and 4-h intervals of PA means and standard deviations across days. A K-means clustering algorithm approach identified four profiles of RAR features: “Less Active/Robust”, “Earlier Risers”, “More Active/Robust” and “Later RAR”. Quantile regression tested associations of each RAR feature/profile on median PFS adjusted for age, sex, race, body mass index and depression symptomatology. Later rise times (up mesor; β = 1.38, p = 0.01) and timing of midpoint of activity (acrophase; β = 1.29, p = 0.01) were associated with higher PFS scores. Lower PA between 4 a.m. and 8 a.m. was associated with higher PFS scores (β = −4.50, p = 0.03). “Less Active/Robust” (β = 6.14, p = 0.01) and “Later RAR” (β = 3.53, p = 0.01) patterns were associated with higher PFS scores compared to “Earlier Risers”. Greater physical fatigability in older adults was associated with dampened, more variable, and later RARs. This work can guide development of interventions aimed at modifying RARs to reduce fatigability in older adults.

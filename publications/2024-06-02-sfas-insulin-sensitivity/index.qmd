@@ -1,0 +1,23 @@
+---
+title: "Saturated fatty acid concentrations are predictive of insulin sensitivity and beta cell compensation in dogs"
+author:
+  - name: Matt Peloquin
+    affiliation: Loyal
+    affiliation-url: https://www.loyal.com
+  - name: Ashley Tovar
+  - name: Jessica L. Graves
+  - name: ...
+description: ''
+date: 06-02-2024
+categories: [longitudinal data analysis, metabolism, dogs]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://www.nature.com/articles/s41598-024-63373-5"
+---
+
+[Read full article here.](https://www.nature.com/articles/s41598-024-63373-5)
+
+> ## Abstract
+>
+> Chronic feeding of a high fat diet (HFD) in preclinical species induces broad metabolic dysfunction characterized by body weight gain, hyperinsulinemia, dyslipidemia and impaired insulin sensitivity. The plasma lipidome is not well characterized in dogs with HFD-induced metabolic dysfunction. We therefore aimed to describe the alterations that occur in the plasma lipid composition of dogs that are fed a HFD and examine the association of these changes with the clinical signs of metabolic dysfunction. Dogs were fed a normal diet (ND) or HFD for 12 weeks. Insulin sensitivity (S~I~) and beta cell compensation (AIR~G~) were assessed through an intravenous glucose tolerance test (IVGTT) and serum biochemistry was analyzed before the introduction of HFD and again after 12 weeks of continued ND or HFD feeding. Plasma lipidomics were conducted prior to the introduction of HFD and again at week 8 in both ND and HFD-fed dogs. 12 weeks of HFD feeding resulted in impaired insulin sensitivity and increased beta cell compensation measured by S~I~ (ND mean: 11.5 \[mU/l\]^–1^ min^–1^, HFD mean: 4.7 \[mU/l\]^–1^ min^–1^) and AIR~G~ (ND mean: 167.0 \[mU/l\]min, HFD mean: 260.2 \[mU/l\]min), respectively, compared to dogs fed ND over the same duration. Chronic HFD feeding increased concentrations of plasma lipid species and deleterious fatty acids compared to dogs fed a ND. Saturated fatty acid (SFA) concentrations were significantly associated with fasting insulin (R^2^ = 0.29), S~I~ (R^2^ = 0.49) and AIR~G~ (R^2^ = 0.37) in all dogs after 12 weeks, irrespective of diet. Our results demonstrate that chronic HFD feeding leads to significant changes in plasma lipid composition and fatty acid concentrations associated with metabolic dysfunction. High SFA concentrations may be predictive of deteriorated insulin sensitivity in dogs.

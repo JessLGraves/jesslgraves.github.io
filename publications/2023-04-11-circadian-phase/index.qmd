@@ -1,0 +1,21 @@
+---
+title: "Pre-pandemic circadian phase predicts pandemic alcohol use among adolescents"
+author:
+  - name: Brant P. Hasler
+    affiliation: [Department of Psychiatry, University of Pittsburgh School of Medicine]
+  - name: Meredith L. Wallace
+  - name: Jessica L. Graves
+  - name: ...
+date: 04-11-2023
+categories: [longitudinal data analysis, circadian rhythms]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://www.nature.com/articles/s41598-024-63373-5"
+---
+
+[Read full article here.](https://www.nature.com/articles/s41598-024-63373-5)
+
+> ### Summary
+>
+> Later circadian timing during adolescence is linked to worse sleep, more severe depression and greater alcohol involvement, perhaps due to circadian misalignment imposed by early school schedules. School schedules shifted later during the COVID-19 pandemic, ostensibly reducing circadian misalignment and potentially mitigating problems with depression and alcohol. We used the pandemic as a natural experiment to test whether adolescent drinkers with later circadian timing showed improvements in sleep, depression and alcohol involvement. Participants were 42 adolescents reporting alcohol use. We assessed circadian phase via dim light melatonin onset prior to the pandemic, then conducted remote assessments of sleep, depressive symptoms and alcohol use during the pandemic. Mixed-effects models were used to test for pandemic effects, covarying for age, sex, time since baseline evaluation, and current school/work status. Adolescents with later circadian timing reported less sleep than other teens on school nights, both before and during the pandemic. Although school night sleep increased during the pandemic (*F* = 28.36, *p* \< 0.001), those increases were not greater for individuals with later circadian timing. Individuals with later circadian timing reported larger increases in alcohol use than other teens during the pandemic (*X*^2^ = 36.03, *p* \< 0.001). Depressive symptoms increased during the pandemic (*X*^2^ = 46.51, *p* \< 0.001) but did not differ based on circadian timing. Consistent with prior reports, adolescents with later circadian timing obtained less sleep, and later school schedules facilitated increased sleep duration. Nonetheless, individuals with later circadian timing reported the sharpest increases in alcohol use, suggesting that circadian timing contributes to risk for alcohol use beyond the effects of insufficient sleep.

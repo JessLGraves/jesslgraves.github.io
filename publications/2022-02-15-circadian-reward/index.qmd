@@ -1,0 +1,28 @@
+---
+title: "Preliminary Evidence That Circadian Alignment Predicts Neural Response to Monetary Reward in Late Adolescent Drinkers"
+author:
+  - name: Brant A. Hasler
+    affiliation: Department of Psychiatry, University of Pittsburgh School of Medicine
+  - name: Jessica L. Graves
+  - name: Adriane  M. Soehner
+  - name: Meredith L. Wallace
+  - name: ...
+date: 02-15-2022
+categories: [deviation models, circadian rhythms, neuroscience, substance use]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2022.803349/full"
+---
+
+[Read full article here.](https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2022.803349/full)
+
+> ## **Abstract**
+>
+> **Background:** Robust evidence links sleep and circadian rhythm disturbances to alcohol use and alcohol-related problems, with a growing literature implicating reward-related mechanisms. However, the extant literature has been limited by cross-sectional designs, self-report or behavioral proxies for circadian timing, and samples without substantive alcohol use. Here, we employed objective measures of sleep and circadian rhythms, and an intensive prospective design, to assess whether circadian alignment predicts the neural response to reward in a sample of late adolescents reporting regular alcohol use.
+>
+> **Methods:** Participants included 31 late adolescents (18–22 y/o; 19 female participants) reporting weekly alcohol use. Participants completed a 14-day protocol including pre- and post-weekend (Thursday and Sunday) circadian phase assessments *via* the dim light melatonin onset (DLMO), in counterbalanced order. Sleep-wake timing was assessed *via* actigraphy. Circadian alignment was operationalized as the DLMO-midsleep interval; secondary analyses considered social jet lag based on weekday-weekend differences in midsleep or DLMO. Neural response to reward (anticipation and outcome) was assessed *via* a monetary reward fMRI task (Friday and Monday scans). Alcohol use was assessed at baseline and *via* ecological momentary assessment. Mean BOLD signal was extracted from two regions-of-interest (striatum and medial prefrontal cortex, mPFC) for analyses in regression models, accounting for age, sex, racial identity, and scan order.
+>
+> **Results:** In primary analyses, shorter DLMO-midsleep intervals (i.e., greater misalignment) on Thursday predicted lower striatal and mPFC responses to anticipated reward, but not reward outcome, on Friday. Lower neural (striatum and mPFC) responses to anticipated reward on Friday correlated with more binge-drinking episodes at baseline, but were not associated with alcohol use in the post-scan weekend. In secondary analyses, greater social jet lag (particularly larger weekend delays in midsleep or DLMO) was associated with lower neural responses to reward anticipation on Monday.
+>
+> **Conclusion:** Findings provide preliminary evidence of proximal associations between objectively determined circadian alignment and the neural response to anticipated monetary reward, which is linked in turn to patterns of problematic drinking. Replication in a larger sample and experimental designs will be important next steps to determining the extent to which circadian misalignment influences risk for alcohol involvement *via* alterations in reward function.

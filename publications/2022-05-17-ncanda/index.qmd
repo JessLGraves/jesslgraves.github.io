@@ -1,0 +1,36 @@
+---
+title: "Self-reported sleep and circadian characteristics predict alcohol and cannabis use: A longitudinal analysis of the National Consortium on Alcohol and Neurodevelopment in Adolescence study"
+author:
+  - name: Brant A. Hasler
+    affiliation: Department of Psychiatry, University of Pittsburgh School of Medicine
+  - name: Jessica L. Graves
+  - name: Meredith L. Wallace
+  - name: ...
+description: ''
+date: 05-17-2022
+categories: [longitudinal data analysis, generalized linear mixed effects models, circadian rhythms]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://www.mdpi.com/1424-8220/21/5/1718"
+---
+
+[Read full article here.](https://www.mdpi.com/1424-8220/21/5/1718)
+
+> ## **Abstract**
+>
+> ### BACKGROUND:
+>
+> Growing evidence indicates that sleep characteristics predict future substance use and related problems. However, most prior studies assessed a limited range of sleep characteristics, studied a narrow age span, and included few follow-up assessments. Here, we used six annual assessments from the National Consortium on Alcohol and Neurodevelopment in Adolescence (NCANDA) study, which spans adolescence and young adulthood with an accelerated longitudinal design, to examine whether multiple sleep characteristics in any year predict alcohol and cannabis use the following year.
+>
+> ### METHODS:
+>
+> The sample included 831 NCANDA participants (423 females; baseline age 12–21 years). Sleep variables included circadian preference, sleep quality, daytime sleepiness, timing of midsleep (weekday/weekend), and sleep duration (weekday/weekend). Using generalized linear mixed models (logistic for cannabis; ordinal for binge severity), we tested whether each repeatedly-measured sleep characteristic (years 0–4) predicted substance use (alcohol binge severity or cannabis use) the following year (years 1–5), covarying for age, sex, race, visit, parental education, and previous year’s substance use.
+>
+> ### RESULTS:
+>
+> Greater eveningness, more daytime sleepiness, later weekend sleep timing and shorter sleep duration (weekday/weekend) all predicted more severe alcohol bingeing the following year. Only greater eveningness predicted a greater likelihood of any cannabis use the following year. Post-hoc stratified exploratory analyses indicated that some associations (e.g. greater eveningness, shorter weekend sleep duration) predicted binge severity only in female participants, and that middle-high school, versus post-high school, adolescents were more vulnerable to sleep-related risk for cannabis use.
+>
+> ### CONCLUSIONS:
+>
+> Our findings support the relevance of multiple sleep/circadian characteristics in the risk for future alcohol binge severity and cannabis use. Preliminary findings suggest that these risk factors vary based on developmental stage and sex. Results underscore a need for greater attention to sleep/circadian characteristics as potential risk factors for substance use in youth, and may inform new avenues to prevention and intervention.

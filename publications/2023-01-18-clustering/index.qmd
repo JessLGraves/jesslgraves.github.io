@@ -1,0 +1,23 @@
+---
+title: "Quantifying Distances between Non-elliptical Clusters to Enhance the Identification of Meaningful Emotional Reactivity Subtypes"
+author:
+  - name: Meredith L. Wallace
+    affiliation: Department of Psychiatry, University of Pittsburgh
+  - name: Lisa M. McTeague
+    affiliation: Department of Psychiatry and Behavioral Sciences, Medical University of South Carolina
+  - name: Jessica L. Graves
+  - name: ...
+description: ''
+date: 01-18-2023
+categories: [clustering, simulation, psychology]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://www.tandfonline.com/doi/full/10.1080/26941899.2022.2157349"
+---
+
+[Read full article here.](https://www.tandfonline.com/doi/full/10.1080/26941899.2022.2157349)
+
+> ## **Abstract**
+>
+> Coordinated emotional responses across psychophysiological and subjective indices is a cornerstone of adaptive emotional functioning. Using clustering to identify cross-diagnostic subgroups with similar emotion response profiles may suggest novel underlying mechanisms and treatments. However, many psychophysiological measures are non-normal even in homogenous samples, and over-reliance on traditional elliptical clustering approaches may inhibit the identification of meaningful subgroups. Finite mixture models that allow for non-elliptical cluster distributions is an emerging methodological field that may overcome this hurdle. Furthermore, succinctly quantifying pairwise cluster separation could enhance the clinical utility of the clustering solutions. However, a comprehensive examination of distance measures in the context of elliptical and non-elliptical model-based clustering is needed to provide practical guidance on the computation, benefits, and disadvantages of existing measures. We summarize several measures that can quantify the multivariate distance between two clusters and suggest practical computational tools. Through a simulation study, we evaluate the measures across three scenarios that allow for clusters to differ in location, scale, skewness, and rotation. We then demonstrate our approaches using psychophysiological and subjective responses to emotional imagery captured through the Transdiagnostic Anxiety Study. Finally, we synthesize findings to provide guidance on how to use distance measures in clustering applications.

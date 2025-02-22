@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Jess Graves"
+  site-url: https://JessLGraves.github.io
   navbar:
     left:
       # - href: index.qmd

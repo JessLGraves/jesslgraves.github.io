@@ -5,3 +5,4 @@ _vendor
 .Rproj.user
 
 /.quarto/
+/_site/

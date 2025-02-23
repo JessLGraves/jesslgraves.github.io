@@ -28,3 +28,8 @@ filters:
   
 execute: 
   freeze: auto
+
+output-dir: _site
+publish:
+  gh-pages:
+    repo: https://github.com/JessLGraves/jesslgraves.github.io

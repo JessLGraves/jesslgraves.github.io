@@ -1,0 +1,50 @@
+{
+  "index.qmd": {
+    "index.html": "3e38753e"
+  },
+  "posts/2025-02-09-percent-change/index.qmd": {
+    "index.html": "7d40bdd0"
+  },
+  "posts/2025-02-13-streamgraph/index.qmd": {
+    "index.html": "65b8b802"
+  },
+  "publications/2022-05-17-ncanda/index.qmd": {
+    "index.html": "613d17b9"
+  },
+  "publications/2023-11-28-banfield/index.qmd": {
+    "index.html": "25835b53"
+  },
+  "publications/2023-02-13-geroscience/index.qmd": {
+    "index.html": "38edd660"
+  },
+  "publications/2022-02-15-circadian-reward/index.qmd": {
+    "index.html": "7838c4d3"
+  },
+  "publications/2024-06-01-hfd-metab/index.qmd": {
+    "index.html": "ce587b77"
+  },
+  "publications/2023-01-18-clustering/index.qmd": {
+    "index.html": "eb600acc"
+  },
+  "publications/2021-03-02-sensors/index.qmd": {
+    "index.html": "2853ff95"
+  },
+  "publications/2023-04-11-circadian-phase/index.qmd": {
+    "index.html": "815a0e4d"
+  },
+  "publications/2025-02-13_healthspan-biomarkers/index.qmd": {
+    "index.html": "c196f7bb"
+  },
+  "publications/2024-06-02-sfas-insulin-sensitivity/index.qmd": {
+    "index.html": "f0fa4bff"
+  },
+  "publications.qmd": {
+    "publications.html": "9ea7af14"
+  },
+  "about.qmd": {
+    "about.html": "8f96ef83"
+  },
+  "posts.qmd": {
+    "posts.html": "012cd555"
+  }
+}

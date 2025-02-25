@@ -44,7 +44,7 @@ The purpose of this post is to chronicle my learnings on how to estimate percent
 
 In longitudinal studies and clinical trials, we often want to be able to compare how changes from baseline differ across groups – specifically what the percent change from baseline is and how that differs across groups.
 
-It's tempting to re-calculate the outcome itself as percent change ($Y_{\%\Delta} = 100*\frac{Y_t - Y_{t-1}}{Y_{t-1}}$) and then perform the statistical test of your choice on that new outcome. However, this isn't a robust choice for a few reasons (which maybe warrants it's own blog post? (In the meantime, [see this collection of statistical myths](https://discourse.datamethods.org/t/reference-collection-to-push-back-against-common-statistical-myths/1787#analyzing-change-measures-in-rcts-4), and [other references @sec-references]). But, to summarize, converting your longitudinal data to a percent change score leaves you open to bias through:
+It's tempting to re-calculate the outcome itself as percent change ($Y_{\%\Delta} = 100*\frac{Y_t - Y_{t-1}}{Y_{t-1}}$) and then perform the statistical test of your choice on that new outcome. However, this isn't a robust choice for a few reasons (which maybe warrants its own blog post? (In the meantime, [see this collection of statistical myths](https://discourse.datamethods.org/t/reference-collection-to-push-back-against-common-statistical-myths/1787#analyzing-change-measures-in-rcts-4), and [other references @sec-references]). But, to summarize, converting your longitudinal data to a percent change score leaves you open to bias through:
 
 -   Regression to the mean
 
@@ -244,9 +244,9 @@ fitted_resids | resid_qq
 
 ### Statistical tests
 
-I personally like to use {[emmeans](https://cran.r-project.org/web/packages/emmeans/index.html)}[@emmeans] perform post-hoc statistical tests based on a fit model. Though I know there are some other great packages out there too!
+I personally like to use {[emmeans](https://cran.r-project.org/web/packages/emmeans/index.html)}[@emmeans] to perform post-hoc statistical tests based on a fit model. Though I know there are some other great packages out there too!
 
-W'll take a quick sidebar on log transformations – recall that data are modeled on the natural-log scale. Therefore, when we calculate differences we can convert these easily to ratios, which can be converted into percent changes.
+Wuick sidebar on log transformations – recall that data are modeled on the natural-log scale. Therefore, when we calculate differences of logs, they are equivalent to the ratio of logs, which can be converted into percent changes.
 
 Percent change = $100 *\frac{a-b}{b} = 100*(\frac{a}{b}- 1)$
 

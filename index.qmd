@@ -51,8 +51,9 @@ I have an **MS** in both **Biostatistics** (2018) and **Epidemiology** (2020) fr
 
 ## Work Experience
 
-**Senior Statistician**\
-*Loyal \| 2021-Present*
+**Statistics Manager, Research**\
+*Loyal \| 2021-Present\
+*(Data Scientist $\to$ Senior Data Scientist $\to$ Senior Statistician $\to$ Statistics Manager)
 
 **Statistician** *\
 University of Pittsburgh Medical Center \| 2020-2021*

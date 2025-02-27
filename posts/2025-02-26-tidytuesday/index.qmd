@@ -155,7 +155,7 @@ p1 <- article_dat %>%
                       color = 'grey50') + 
   scale_fill_manual(values=study_pal) + 
   labs(y='', 
-       x='Racial groups') + 
+       x='Racial groups\nin studies') + 
   theme(legend.position = 'none',
         axis.line.y = element_blank(), 
         axis.ticks = element_blank(), 
@@ -209,7 +209,7 @@ p2 <- article_dat %>%
     plot.margin = margin(1, 0, 0, 0.5, "cm")
   ) +
   labs(
-    x = "Year", y = "\nPublications",
+    x = "\nYear of publication", y = "\nPublications",
     color = "", fill = ""
   ) +
   scale_fill_manual(values = rev(study_pal)) +
@@ -234,7 +234,8 @@ p3 <- article_dat %>%
   ggplot(aes(
     x = date,
     y = n_races,
-    fill = study_type
+    fill = study_type, 
+    color = study_type,
   )) +
   geom_area(alpha = 0.9, position = "stack") +
   theme(
@@ -245,7 +246,7 @@ p3 <- article_dat %>%
     plot.margin = margin(1, 0, 0, 0.5, "cm")
   ) +
   labs(
-    x = "Year", y = "\nRacial groups\nin the study",
+    x = "\nYear of publication", y = "\nRacial groups\nin the study",
     color = "", fill = ""
   ) +
   scale_fill_manual(values = rev(study_pal)) +
@@ -322,7 +323,7 @@ label3 <- ggplot() +
            y = 5,
            size=4,
            fontface = 'bold',
-           label = "Case-control and RCTs consistently have\nthe fewestracial groups represented.", 
+           label = "Case-control and RCTs consistently have\nthe fewest racial groups represented.", 
            hjust=0,
            color = 'white', 
            ) +

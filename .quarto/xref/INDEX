@@ -46,5 +46,8 @@
   },
   "posts.qmd": {
     "posts.html": "012cd555"
+  },
+  "posts/2025-02-26-tidytuesday/index.qmd": {
+    "index.html": "eb2be517"
   }
 }

@@ -4,7 +4,7 @@
     "href": "posts.html",
     "title": "Blog",
     "section": "",
-    "text": "A place to talk about what I am learning, have learned, or want to learn or things I am doing, have done, or want to do.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTidyTuesday: Racial disparities in reproductive research\n\n\n\ntidy tuesday\n\n\ndata visualization\n\n\n\n\n\n\n\nJess Graves\n\n\nFeb 26, 2025\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nStream graphs are a real scream 😱\n\n\n\ndata visualization\n\n\nkaggle\n\n\nblogging-to-learn\n\n\nR\n\n\n\nLooking at horror franchises over time using {ggstream}\n\n\n\nJess Graves\n\n\nFeb 17, 2025\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModeling percent change\n\n\n\nlongitudinal data analysis\n\n\nsimulation\n\n\nemmeans\n\n\nlme4\n\n\nR\n\n\n\nEstimate percent change in longitudinal data using log-transformations and {emmeans}\n\n\n\nJess Graves\n\n\nFeb 9, 2025\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "A place to talk about what I am learning, have learned, or want to learn or things I am doing, have done, or want to do.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTidyTuesday: Long Beach Animal Shelter\n\n\n\ntidy tuesday\n\n\ndata visualization\n\n\n\n\n\n\n\nJess Graves\n\n\nMar 1, 2025\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTidyTuesday: Racial disparities in reproductive research\n\n\n\ntidy tuesday\n\n\ndata visualization\n\n\n\n\n\n\n\nJess Graves\n\n\nFeb 26, 2025\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nStream graphs are a real scream 😱\n\n\n\ndata visualization\n\n\nkaggle\n\n\nblogging-to-learn\n\n\nR\n\n\n\nLooking at horror franchises over time using {ggstream}\n\n\n\nJess Graves\n\n\nFeb 17, 2025\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModeling percent change\n\n\n\nlongitudinal data analysis\n\n\nsimulation\n\n\nemmeans\n\n\nlme4\n\n\nR\n\n\n\nEstimate percent change in longitudinal data using log-transformations and {emmeans}\n\n\n\nJess Graves\n\n\nFeb 9, 2025\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "publications.html",
@@ -82,6 +82,48 @@
     "title": "Stream graphs are a real scream 😱",
     "section": "And, just for fun: do ratings change over time?",
     "text": "And, just for fun: do ratings change over time?\nI was curious to know if there was a general trend in ratings over time – that is, are reviewers generally becoming more or less favorable to horror movies?\nBased on Figure 8, looks like no. Looks pretty flat.\n\n\nCode for scatter\n# setting ggplot theme\nmy_theme &lt;- theme_classic(base_size = 12) +\n  theme(\n    axis.title = element_text(size = 18),\n    axis.text = element_text(size = 16)\n  )\n\ntheme_set(my_theme)\n\np &lt;- df %&gt;%\n  dplyr::select(`Tomato Meter`, Franchise, `Release Date`) %&gt;%\n  ggplot(aes(x = `Release Date`, y = `Tomato Meter`)) +\n  geom_point() +\n  theme(legend.position = \"none\") +\n  stat_smooth(method = \"lm\") +\n  stat_cor(\n    label.y.npc = \"top\",\n    label.x.npc = \"center\"\n  )\n\nggMarginal(p,\n  type = \"histogram\",\n  xparams = list(binwidth = 365 * 2),\n  yparams = list(binwidth = 5)\n)\n\n\n\n\n\n\n\n\nFigure 8. Scatterplot of ratings over time\n\n\n\n\n\nBut once you look within Franchises (Figure 9), actually looks like most are showing some trending decrease over time. Specific yikes to Texas Chainsaw Massacre, who has tanked 50 points over it’s 38 years. And Paranormal Activity & Hellraiser, who burned hot and fast, with a 50 point decline over 6-8 years (This dataset doesn’t have the latest Hellraiser…).\n\n\nCode for scatter with correlations\ndf %&gt;%\n  dplyr::select(`Tomato Meter`, Franchise, `Release Date`) %&gt;%\n  ggplot(aes(\n    x = `Release Date`, y = `Tomato Meter`,\n    color = Franchise, fill = Franchise\n  )) +\n  geom_point() +\n  theme(\n    legend.position = \"none\",\n    axis.text.x = element_text(angle = 45, hjust = 1)\n  ) +\n  stat_smooth(method = \"lm\", se = F) +\n  scale_fill_manual(values = pal) +\n  scale_color_manual(values = pal2) +\n  stat_cor(\n    label.x.npc = \"left\", label.y = 90,\n    size = 5\n  ) +\n  facet_wrap(~Franchise) +\n  scale_x_date(date_labels = \"%Y\", breaks = \"10 year\")\n\n\n\n\n\n\n\n\nFigure 9. Scatterplot of ratings over time for each franchise"
+  },
+  {
+    "objectID": "posts/2025-03-01-tidytuesday/index.html",
+    "href": "posts/2025-03-01-tidytuesday/index.html",
+    "title": "TidyTuesday: Long Beach Animal Shelter",
+    "section": "",
+    "text": "This week’s tidytuesday included a published dataset from Long Beach Animal Shelter. Here’s what their README says:\n\n\n\n\n\n\nThis week we’re exploring the Long Beach Animal Shelter Data!\nThe dataset comes from the City of Long Beach Animal Care Services via the {animalshelter} R package.\n\nThis dataset comprises of the intake and outcome record from Long Beach Animal Shelter.\n\n\nHow has the number of pet adoptions changed over the years?\nWhich type of pets are adopted most often?\n\n\n\n\n\n\n\nWhat pets are represented in the dataset?\nWhat outcomes are most likely to occur in different pets?\nHave visit rates changed over time?"
+  },
+  {
+    "objectID": "posts/2025-03-01-tidytuesday/index.html#what-i-hope-to-visualize",
+    "href": "posts/2025-03-01-tidytuesday/index.html#what-i-hope-to-visualize",
+    "title": "TidyTuesday: Long Beach Animal Shelter",
+    "section": "",
+    "text": "What pets are represented in the dataset?\nWhat outcomes are most likely to occur in different pets?\nHave visit rates changed over time?"
+  },
+  {
+    "objectID": "posts/2025-03-01-tidytuesday/index.html#version-1",
+    "href": "posts/2025-03-01-tidytuesday/index.html#version-1",
+    "title": "TidyTuesday: Long Beach Animal Shelter",
+    "section": "Version 1",
+    "text": "Version 1\n\n\nCode\np_bottom &lt;- (p_hist + plot_spacer() + p_mosaic + theme(axis.title.y=element_blank())) + \n    plot_layout(nrow = 1, widths = c(2, 0.1, 1))\n(p_stream / p_bottom )+ \n  plot_layout(nrow=2, \n              heights = c(1, 0.5))"
+  },
+  {
+    "objectID": "posts/2025-03-01-tidytuesday/index.html#version-2-final-version",
+    "href": "posts/2025-03-01-tidytuesday/index.html#version-2-final-version",
+    "title": "TidyTuesday: Long Beach Animal Shelter",
+    "section": "Version 2 (Final version)",
+    "text": "Version 2 (Final version)\n\n\nCode\nright_side &lt;- (p_hist +\n    theme(axis.text.x = element_text(vjust=1))) /\n  (p_mosaic) +\n  plot_layout(ncol = 1, \n              heights = c(1, 1))\n\n\n\n\nCode\nfinal &lt;- (p_stream | right_side) + plot_layout(widths = c(2.5, 1.1))+ \n  plot_annotation(title = 'Long Beach Animal Shelter', \n                  caption = 'Data from: Long Beach Animal Shelter (tidytuesday Week 8); Vis by: github.com/jesslgraves') & \n  theme(plot.title = element_text(size=28, face = 'bold'))\n\nfinal \n\n\n\n\n\n\n\n\n\nCode\nggsave('preview-image.png', final, \n       units='cm', \n       width = 50, \n       height = 25)"
+  },
+  {
+    "objectID": "posts/2025-02-26-tidytuesday/index.html",
+    "href": "posts/2025-02-26-tidytuesday/index.html",
+    "title": "TidyTuesday: Racial disparities in reproductive research",
+    "section": "",
+    "text": "This week’s tidytuesday included a published dataset from review article Racial and ethnic disparities in reproductive medicine in the United States: a narrative review of contemporary high-quality evidence published in the American Journal of Obstetrics and Gynecology in January 2025. Here’s what their README says:\n\n\n\n\n\n\nThis week we’re exploring data on studies investigating racial and ethnic disparities in reproductive medicine as published in the eight highest impact peer-reviewed Ob/Gyn journals from January 1, 2010 through June 30, 2023. The data were collected as part of a review article Racial and ethnic disparities in reproductive medicine in the United States: a narrative review of contemporary high-quality evidence published in the American Journal of Obstetrics and Gynecology in January 2025.\n\n“There has been increasing debate around how or if race and ethnicity should be used in medical research—including the conceptualization of race as a biological entity, a social construct, or a proxy for racism. The objectives of this narrative review are to identify and synthesize reported racial and ethnic inequalities in obstetrics and gynecology (ob/gyn) and develop informed recommendations for racial and ethnic inequity research in ob/gyn.”\n\n\n\n\n\n\nWe know already that science has historically failed to enroll representative groups. And so, with this data I wanted to explore two things:\n\nAre there differences in representation in racial groups across study types – that is, are we more likely to get better representation in cohort studies or clinical trials?\nAre there changes in the magnitude of representation over time – have we seen improvements in cohort representatives over the years?"
+  },
+  {
+    "objectID": "posts/2025-02-26-tidytuesday/index.html#what-i-hope-to-visualize",
+    "href": "posts/2025-02-26-tidytuesday/index.html#what-i-hope-to-visualize",
+    "title": "TidyTuesday: Racial disparities in reproductive research",
+    "section": "",
+    "text": "We know already that science has historically failed to enroll representative groups. And so, with this data I wanted to explore two things:\n\nAre there differences in representation in racial groups across study types – that is, are we more likely to get better representation in cohort studies or clinical trials?\nAre there changes in the magnitude of representation over time – have we seen improvements in cohort representatives over the years?"
   },
   {
     "objectID": "posts/2025-02-09-percent-change/index.html",
@@ -208,19 +250,5 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
-  },
-  {
-    "objectID": "posts/2025-02-26-tidytuesday/index.html",
-    "href": "posts/2025-02-26-tidytuesday/index.html",
-    "title": "TidyTuesday: Racial disparities in reproductive research",
-    "section": "",
-    "text": "This week’s tidytuesday included a published dataset from review article Racial and ethnic disparities in reproductive medicine in the United States: a narrative review of contemporary high-quality evidence published in the American Journal of Obstetrics and Gynecology in January 2025. Here’s what their README says:\n\n\n\n\n\n\nThis week we’re exploring data on studies investigating racial and ethnic disparities in reproductive medicine as published in the eight highest impact peer-reviewed Ob/Gyn journals from January 1, 2010 through June 30, 2023. The data were collected as part of a review article Racial and ethnic disparities in reproductive medicine in the United States: a narrative review of contemporary high-quality evidence published in the American Journal of Obstetrics and Gynecology in January 2025.\n\n“There has been increasing debate around how or if race and ethnicity should be used in medical research—including the conceptualization of race as a biological entity, a social construct, or a proxy for racism. The objectives of this narrative review are to identify and synthesize reported racial and ethnic inequalities in obstetrics and gynecology (ob/gyn) and develop informed recommendations for racial and ethnic inequity research in ob/gyn.”\n\n\n\n\n\n\nWe know already that science has historically failed to enroll representative groups. And so, with this data I wanted to explore two things:\n\nAre there differences in representation in racial groups across study types – that is, are we more likely to get better representation in cohort studies or clinical trials?\nAre there changes in the magnitude of representation over time – have we seen improvements in cohort representatives over the years?"
-  },
-  {
-    "objectID": "posts/2025-02-26-tidytuesday/index.html#what-i-hope-to-visualize",
-    "href": "posts/2025-02-26-tidytuesday/index.html#what-i-hope-to-visualize",
-    "title": "TidyTuesday: Racial disparities in reproductive research",
-    "section": "",
-    "text": "We know already that science has historically failed to enroll representative groups. And so, with this data I wanted to explore two things:\n\nAre there differences in representation in racial groups across study types – that is, are we more likely to get better representation in cohort studies or clinical trials?\nAre there changes in the magnitude of representation over time – have we seen improvements in cohort representatives over the years?"
   }
 ]

@@ -6,6 +6,9 @@ listing:
   sort: "date desc" # can also sort on more than one field
   categories: true # allows you to sort posts by assigned categories 
   fields: [image, author, categories, date, title]
+format:
+  html:
+    comments: false
 ---
 
 Selected publications. Here is my [Google Scholar profile](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=7Rmo0iUAAAAJ&sortby=pubdate) for a full list of my publications.

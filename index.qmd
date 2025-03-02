@@ -1,5 +1,8 @@
 ---
 title: "About"
+format: 
+  html:
+    comments: false
 about: 
   template: solana
   image: avatar.png

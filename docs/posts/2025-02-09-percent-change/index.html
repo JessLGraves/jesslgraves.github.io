@@ -203,7 +203,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Modeling percent change</h1>
+      <div class="quarto-title-block"><div><h1 class="title">Modeling percent change</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
                   <div>
         <div class="description">
           Estimate percent change in longitudinal data using log-transformations and {emmeans}
@@ -314,6 +314,8 @@ Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\tex
 <section id="set-up-libraries-defaults" class="level3">
 <h3 class="anchored" data-anchor-id="set-up-libraries-defaults">Set up libraries &amp; defaults</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for libraries &amp; custom functions &amp; themes</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simstudy)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(styler)</span>
@@ -354,12 +356,15 @@ Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\tex
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  rr <span class="ot">&lt;-</span> <span class="fu">if_else</span>(rr <span class="sc">==</span> <span class="st">"NANA"</span> <span class="sc">|</span> <span class="fu">is.na</span>(rr), <span class="st">""</span>, rr)</span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(rr)</span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 </section>
 <section id="generating-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="generating-the-data">Generating the data</h3>
 <p>We’re going to simulate a longitudinal dataset for a randomized control trial with 3 parallel groups with 3 total visits. I’ll transform it to long format to make it easier to work with.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for generating data in {simstudy}</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>def <span class="ot">&lt;-</span> <span class="fu">defData</span>(<span class="at">id =</span> <span class="st">"id"</span>, <span class="at">varname =</span> <span class="st">"placeholder"</span>, </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">formula =</span> <span class="dv">0</span>) </span>
@@ -395,6 +400,7 @@ Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\tex
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt =</span> <span class="fu">factor</span>(trt, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">'Placebo'</span>, <span class="st">'Treatment A'</span>, <span class="st">'Treatment B'</span>)), </span>
 <span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>         <span class="at">id=</span><span class="fu">factor</span>(id))</span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   id    trt         time     score
@@ -411,6 +417,8 @@ Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\tex
 <h4 class="anchored" data-anchor-id="visualizing-the-data">Visualizing the data</h4>
 <p>So, plotting the data (<a href="#fig-spag" class="quarto-xref">Figure&nbsp;1</a>), we can see in the data that Placebo group stays stable, Treatment A and B both show reductions from baseline, with Treatment B showing more reductions than Treatment A.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for spaghetti plot</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig1 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>score, <span class="at">color=</span>trt, <span class="at">group=</span>trt)) <span class="sc">+</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>id), <span class="at">aes=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
@@ -435,6 +443,7 @@ Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\tex
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.3</span>))</span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>fig1 <span class="sc">/</span> fig2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-spag" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -457,6 +466,8 @@ Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\tex
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(score) <span class="sc">~</span> trt <span class="sc">+</span> time <span class="sc">+</span> trt <span class="sc">*</span> time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for diagnostic plots</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diags <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Fitted =</span> <span class="fu">fitted</span>(model), <span class="at">Residuals =</span> <span class="fu">resid</span>(model))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fitted_resids <span class="ot">&lt;-</span> diags <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Fitted, <span class="at">y =</span> Residuals)) <span class="sc">+</span></span>
@@ -473,6 +484,7 @@ Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\tex
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fitted_resids <span class="sc">|</span> resid_qq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-diagnostics" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -548,6 +560,8 @@ Tests are performed on the log scale </code></pre>
 <h4 class="anchored" data-anchor-id="within-group-changes-from-baseline">Within group changes from baseline</h4>
 <p>Here is some hidden code that tidy’s up the output for plotting and outputting tables – I don’t want to force you to suffer it, but click to open if you want!</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for tidying the output</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pct_change_tidy <span class="ot">&lt;-</span> pct_change <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -595,9 +609,12 @@ Tests are performed on the log scale </code></pre>
 <span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>                <span class="fu">contains</span>(<span class="st">'pct'</span>), </span>
 <span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>                <span class="sc">-</span><span class="fu">contains</span>(<span class="st">'pct_chr'</span>), </span>
 <span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>                stars, p.value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Now we can plot the percent reductions (<a href="#fig-pct-change" class="quarto-xref">Figure&nbsp;3</a>) and put their significance values on the plot to show which groups have significant reductions from baseline.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for line plot</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting significance data for plotting</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig_stars <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(trt, Day, pct_change, stars) <span class="sc">%&gt;%</span></span>
@@ -639,8 +656,11 @@ Tests are performed on the log scale </code></pre>
 <span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">"bold"</span></span>
 <span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"* = p&lt;0.05; ** = p&lt;0.01; *** = p&lt;0.001"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for table</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>table <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span> </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
@@ -651,10 +671,14 @@ Tests are performed on the log scale </code></pre>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> p.value) <span class="sc">%&gt;%</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Treatment) <span class="sc">%&gt;%</span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Great! Just as we suspected! Treatment A and B do show significant reductions. Does Treatment B truly work better?</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code combined table &amp; line plot</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wrap_table</span>(table, <span class="at">panel=</span><span class="st">'full'</span>, <span class="at">space=</span><span class="st">'free_x'</span>) <span class="sc">+</span> fig3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-pct-change" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -681,6 +705,8 @@ Tests are performed on the log scale </code></pre>
 <p>Alternatively, if you’re good with ratios of ratios, you can ignore the <code>regrid()</code>! The significance of the results will be fairly similar, especially for larger N. For smaller N, you’ll see some variability though.</p>
 <p><a href="#fig-bar-group-diffs" class="quarto-xref">Figure&nbsp;4</a> has the final results for these analyses in table + bar chart to visualize the differences.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code of differences in percent changes across groups</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab everything but the baseline timepoint</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>days <span class="ot">&lt;-</span> <span class="fu">levels</span>(df<span class="sc">$</span>time)[<span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -720,6 +746,7 @@ Tests are performed on the log scale </code></pre>
 <span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>()</span>
 <span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 8
   contrast             estimate      SE    df lower.CL upper.CL t.ratio  p.value
@@ -734,6 +761,8 @@ Tests are performed on the log scale </code></pre>
 </div>
 <p>We can interpret these are the <code>-100*estimate</code> difference in the percent reductions from baseline across treatment groups. So, for row 1, we say Treatment A affords <code>-100*0.0224=-2.24</code> more percent reduction compared to Placebo.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Code to pretty up results for tables</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>results_to_table0 <span class="ot">&lt;-</span> results <span class="sc">%&gt;%</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">(|</span><span class="sc">\\</span><span class="st">)"</span>, <span class="st">""</span>, contrast),</span>
@@ -769,8 +798,11 @@ Tests are performed on the log scale </code></pre>
 <span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(<span class="st">"Tukey adjustment for pairwise comparisons"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="fu">c</span>(<span class="st">"right"</span>), <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="fu">c</span>(<span class="st">"center"</span>), <span class="at">columns =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code to create significance lines for plotting group differences</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>lines <span class="ot">&lt;-</span> results_to_table0 <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group1 =</span> <span class="fu">map_chr</span>(</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split</span>(Comparison, <span class="st">" vs. "</span>),</span>
@@ -789,8 +821,11 @@ Tests are performed on the log scale </code></pre>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y.position =</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">8</span>, <span class="at">length =</span> <span class="fu">n</span>())) <span class="sc">%&gt;%</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Day =</span> <span class="fu">factor</span>(Day))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code to create barplot to illustrate group differences</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>figbar <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
@@ -833,8 +868,11 @@ Tests are performed on the log scale </code></pre>
 <span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> lines, <span class="at">label =</span> <span class="st">"stars"</span>, <span class="at">xmin =</span> <span class="st">"group1"</span>, <span class="at">xmax =</span> <span class="st">"group2"</span>,</span>
 <span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> F, <span class="at">tip =</span> <span class="fl">0.005</span></span>
 <span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Code for final figure</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tbl_fig_grp_diffs <span class="ot">&lt;-</span> <span class="fu">wrap_table</span>(table_grp_diffs,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel =</span> <span class="st">"full"</span>, <span class="at">space =</span> <span class="st">"free_x"</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> figbar</span>
@@ -844,6 +882,7 @@ Tests are performed on the log scale </code></pre>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#        units='cm',</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#        width=16*2,</span></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#        height=6*2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-bar-group-diffs" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -880,6 +919,8 @@ Vickers, Andrew J, and Douglas G Altman. 2001. <span>“Analysing Controlled Tri
 </div>
 </div>
 
+
+<!-- -->
 
 </section>
 
@@ -983,6 +1024,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -1315,7 +1407,624 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 <script src="https://utteranc.es/client.js" repo="JessLGraves/post-comments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Modeling percent change"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Estimate percent change in longitudinal data using log-transformations and {emmeans}"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Jess Graves</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 02-09-2025</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="an">execute-dir:</span><span class="co"> project</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: '**Figure**'</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: '**Table**'</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-labels: arabic</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-labels: arabic</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "."</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [longitudinal data analysis, simulation, emmeans, lme4, R] # self-defined categories</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> preview-image.png</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false  </span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="an">nocite:</span><span class="co"> |</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">  @*</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># csl: statistics-in-biosciences.csl</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="an">bibliographystyle:</span><span class="co"> apa</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span><span class="co"> true</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>The purpose of this post is to chronicle my learnings on how to estimate percent change in longitudinal data in R using {<span class="co">[</span><span class="ot">lme4</span><span class="co">](https://cran.r-project.org/web/packages/lme4/index.html)</span>}<span class="co">[</span><span class="ot">@lme4</span><span class="co">]</span> and {<span class="co">[</span><span class="ot">emmeans</span><span class="co">](https://cran.r-project.org/web/packages/emmeans/index.html)</span>}<span class="co">[</span><span class="ot">@emmeans</span><span class="co">]</span>.</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>In longitudinal studies and clinical trials, we often want to be able to compare how changes from baseline differ across groups – specifically what the percent change from baseline is and how that differs across groups.</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>It's tempting to re-calculate the outcome itself as percent change ($Y_{\%\Delta} = 100*\frac{Y_t - Y_{t-1}}{Y_{t-1}}$) and then perform the statistical test of your choice on that new outcome. However, this isn't a robust choice for a few reasons (which maybe warrants its own blog post? (In the meantime, <span class="co">[</span><span class="ot">see this collection of statistical myths</span><span class="co">](https://discourse.datamethods.org/t/reference-collection-to-push-back-against-common-statistical-myths/1787#analyzing-change-measures-in-rcts-4)</span>, and <span class="co">[</span><span class="ot">other references @sec-references</span><span class="co">]</span>). But, to summarize, converting your longitudinal data to a percent change score leaves you open to bias through:</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Regression to the mean</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Mathematical coupling</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Skewness &amp; non-normality</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Heteroscedasticity &amp; increased variability</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>**Log-transformations to the rescue!**</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>If your data are <span class="co">[</span><span class="ot">\&gt;</span><span class="co">]</span>{.underline} 0 you can reliably estimate percent change by simply taking the <span class="in">`log(y)`</span> of your outcome. If your data do include 0 (but are never <span class="sc">\&lt;</span> 0) , then you can do <span class="in">`log(y+1)`</span> .</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## Method</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Simulate some longitudinal data</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Fit a linear mixed effects model to estimate group, time, and time x group effects with subjects as random intercepts, like:</span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>    \begin{aligned}</span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>    Y_{it} =&nbsp;\beta_0 +&nbsp;&nbsp;\beta_1 (\text{Group}_i) +&nbsp;\beta_2 (\text{Time}_t) + \beta_3 (\text{Group}_i&nbsp;\times&nbsp;\text{Time}_t) + u_i +&nbsp;\epsilon_{it}</span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>    \end{aligned}</span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>    $$</span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>$Y_{it}$= outcome for subject $i$ &amp; time $t$</span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>$\beta_0$ = overall intercept</span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>$\beta_1$ = fixed effect for group assignment</span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>$\beta_2$ = fixed effect for time</span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>$\beta_3$ = fixed effect for interaction between time and group assignment</span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>$u_i&nbsp;\sim&nbsp;N(0,&nbsp;\sigma_u^2)$ = random intercept&nbsp;for subject $i$ (accounts for individual differences)</span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>$\epsilon_i&nbsp;\sim&nbsp;N(0,&nbsp;\sigma_u^2)$ = residual error</span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Use {<span class="co">[</span><span class="ot">emmeans</span><span class="co">](https://cran.r-project.org/web/packages/emmeans/index.html)</span>}<span class="co">[</span><span class="ot">@emmeans</span><span class="co">]</span> to do post-hoc comparisons to estimate percent changes &amp; compare across groups</span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## Code</span></span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>I'm going to use the {<span class="co">[</span><span class="ot">simstudy</span><span class="co">](https://cran.r-project.org/web/packages/simstudy/index.html)</span>} library to generate longitudinal data that has three timepoints across three treatment groups (Placebo, Treatment A, &amp; Treatment B).</span>
+<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="fu">### Set up libraries &amp; defaults</span></span>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for libraries &amp; custom functions &amp; themes</span></span>
+<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  </span>
+<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(simstudy)</span>
+<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(styler)</span>
+<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parameters)</span>
+<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a><span class="co"># setting ggplot theme</span></span>
+<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a>my_theme <span class="ot">&lt;-</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>), </span>
+<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>)</span>
+<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(my_theme)</span>
+<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting p-values for significance for tables</span></span>
+<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a>format_pvalues <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">stars_only =</span> <span class="cn">FALSE</span>, <span class="at">stars =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x <span class="sc">&gt;=</span> <span class="fl">0.05</span>, <span class="st">""</span>,</span>
+<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"***"</span>,</span>
+<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="fl">0.01</span> <span class="sc">&amp;</span> x <span class="sc">&gt;=</span> <span class="fl">0.001</span>, <span class="st">"**"</span>,</span>
+<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(x <span class="sc">&gt;=</span> <span class="fl">0.01</span> <span class="sc">&amp;</span> x <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="st">"*"</span>, <span class="st">""</span>)</span>
+<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt;0.001"</span>, <span class="fu">format</span>(<span class="fu">round</span>(x, <span class="dv">3</span>), <span class="at">nsmall =</span> <span class="dv">3</span>))</span>
+<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a>  rr <span class="ot">&lt;-</span> p</span>
+<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (stars <span class="sc">&amp;</span> <span class="sc">!</span>stars_only) {</span>
+<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a>    rr <span class="ot">&lt;-</span> <span class="fu">paste0</span>(p, r)</span>
+<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (stars_only <span class="sc">&amp;</span> stars){</span>
+<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a>    rr <span class="ot">&lt;-</span> r</span>
+<span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a>  rr <span class="ot">&lt;-</span> <span class="fu">if_else</span>(rr <span class="sc">==</span> <span class="st">"NANA"</span> <span class="sc">|</span> <span class="fu">is.na</span>(rr), <span class="st">""</span>, rr)</span>
+<span id="cb19-122"><a href="#cb19-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(rr)</span>
+<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a><span class="fu">### Generating the data</span></span>
+<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-128"><a href="#cb19-128" aria-hidden="true" tabindex="-1"></a>We're going to simulate a longitudinal dataset for a randomized control trial with 3 parallel groups with 3 total visits. I'll transform it to long format to make it easier to work with.</span>
+<span id="cb19-129"><a href="#cb19-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-132"><a href="#cb19-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-133"><a href="#cb19-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for generating data in {simstudy}</span></span>
+<span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1111</span>)</span>
+<span id="cb19-135"><a href="#cb19-135" aria-hidden="true" tabindex="-1"></a>def <span class="ot">&lt;-</span> <span class="fu">defData</span>(<span class="at">id =</span> <span class="st">"id"</span>, <span class="at">varname =</span> <span class="st">"placeholder"</span>, </span>
+<span id="cb19-136"><a href="#cb19-136" aria-hidden="true" tabindex="-1"></a>               <span class="at">formula =</span> <span class="dv">0</span>) </span>
+<span id="cb19-137"><a href="#cb19-137" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment probabilities</span></span>
+<span id="cb19-138"><a href="#cb19-138" aria-hidden="true" tabindex="-1"></a>def <span class="ot">&lt;-</span>  <span class="fu">defDataAdd</span>(def, <span class="at">varname =</span> <span class="st">"trt"</span>, </span>
+<span id="cb19-139"><a href="#cb19-139" aria-hidden="true" tabindex="-1"></a>                  <span class="at">formula =</span>  <span class="st">'0.33;0.33;0.34'</span>, </span>
+<span id="cb19-140"><a href="#cb19-140" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dist =</span> <span class="st">"categorical"</span>)  </span>
+<span id="cb19-141"><a href="#cb19-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Baseline value</span></span>
+<span id="cb19-142"><a href="#cb19-142" aria-hidden="true" tabindex="-1"></a>def <span class="ot">&lt;-</span> <span class="fu">defDataAdd</span>(def, <span class="at">varname =</span> <span class="st">"baseline"</span>, </span>
+<span id="cb19-143"><a href="#cb19-143" aria-hidden="true" tabindex="-1"></a>                  <span class="at">formula =</span> <span class="dv">20</span>, </span>
+<span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a>                  <span class="at">variance =</span> <span class="fl">0.5</span>) </span>
+<span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Visit 1 values</span></span>
+<span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a>def <span class="ot">&lt;-</span> <span class="fu">defDataAdd</span>(def, <span class="at">varname =</span> <span class="st">"visit1"</span>, </span>
+<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a>                  <span class="at">formula =</span> <span class="st">"ifelse(trt == 1, baseline, </span></span>
+<span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a><span class="st">                  ifelse(trt == 2, baseline - 0.5, baseline - 2))"</span>,</span>
+<span id="cb19-149"><a href="#cb19-149" aria-hidden="true" tabindex="-1"></a>                  <span class="at">variance =</span> .<span class="dv">2</span>) </span>
+<span id="cb19-150"><a href="#cb19-150" aria-hidden="true" tabindex="-1"></a><span class="co"># Visit 2 values</span></span>
+<span id="cb19-151"><a href="#cb19-151" aria-hidden="true" tabindex="-1"></a>def <span class="ot">&lt;-</span> <span class="fu">defDataAdd</span>(def, <span class="at">varname =</span> <span class="st">"visit2"</span>, </span>
+<span id="cb19-152"><a href="#cb19-152" aria-hidden="true" tabindex="-1"></a>                  <span class="at">formula =</span> <span class="st">"ifelse(trt == 1, visit1, </span></span>
+<span id="cb19-153"><a href="#cb19-153" aria-hidden="true" tabindex="-1"></a><span class="st">                  ifelse(trt == 2, visit1 - 1, visit1 - 3))"</span>, </span>
+<span id="cb19-154"><a href="#cb19-154" aria-hidden="true" tabindex="-1"></a>                  <span class="at">variance =</span> .<span class="dv">2</span>) </span>
+<span id="cb19-155"><a href="#cb19-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-156"><a href="#cb19-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Total N</span></span>
+<span id="cb19-157"><a href="#cb19-157" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">130</span> </span>
+<span id="cb19-158"><a href="#cb19-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the data</span></span>
+<span id="cb19-159"><a href="#cb19-159" aria-hidden="true" tabindex="-1"></a>dd_all <span class="ot">&lt;-</span> <span class="fu">genData</span>(<span class="at">n =</span> n, <span class="at">dtDefs =</span> def) <span class="sc">%&gt;%</span></span>
+<span id="cb19-160"><a href="#cb19-160" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>placeholder)</span>
+<span id="cb19-161"><a href="#cb19-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-162"><a href="#cb19-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Long format</span></span>
+<span id="cb19-163"><a href="#cb19-163" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> dd_all <span class="sc">%&gt;%</span></span>
+<span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="at">names_to=</span><span class="st">'time'</span>, <span class="at">values_to=</span><span class="st">'score'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time=</span><span class="fu">factor</span>(time, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">'Baseline'</span>, <span class="st">'Visit 1'</span>, <span class="st">'Visit 2'</span>)), </span>
+<span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt =</span> <span class="fu">factor</span>(trt, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">'Placebo'</span>, <span class="st">'Treatment A'</span>, <span class="st">'Treatment B'</span>)), </span>
+<span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a>         <span class="at">id=</span><span class="fu">factor</span>(id))</span>
+<span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span>
+<span id="cb19-169"><a href="#cb19-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-170"><a href="#cb19-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-171"><a href="#cb19-171" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Visualizing the data</span></span>
+<span id="cb19-172"><a href="#cb19-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-173"><a href="#cb19-173" aria-hidden="true" tabindex="-1"></a>So, plotting the data (@fig-spag), we can see in the data that Placebo group stays stable, Treatment A and B both show reductions from baseline, with Treatment B showing more reductions than Treatment A.</span>
+<span id="cb19-174"><a href="#cb19-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-177"><a href="#cb19-177" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-178"><a href="#cb19-178" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb19-179"><a href="#cb19-179" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 7</span></span>
+<span id="cb19-180"><a href="#cb19-180" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-spag</span></span>
+<span id="cb19-181"><a href="#cb19-181" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Spaghetti plot &amp; observed means over time and treatment group </span></span>
+<span id="cb19-182"><a href="#cb19-182" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for spaghetti plot</span></span>
+<span id="cb19-183"><a href="#cb19-183" aria-hidden="true" tabindex="-1"></a>fig1 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb19-184"><a href="#cb19-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>score, <span class="at">color=</span>trt, <span class="at">group=</span>trt)) <span class="sc">+</span> </span>
+<span id="cb19-185"><a href="#cb19-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>id), <span class="at">aes=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb19-186"><a href="#cb19-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">size=</span><span class="fl">0.2</span>, </span>
+<span id="cb19-187"><a href="#cb19-187" aria-hidden="true" tabindex="-1"></a>               <span class="at">color=</span><span class="st">'black'</span>) <span class="sc">+</span> </span>
+<span id="cb19-188"><a href="#cb19-188" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">color=</span><span class="st">'black'</span>, <span class="at">geom=</span><span class="st">'line'</span>) <span class="sc">+</span> </span>
+<span id="cb19-189"><a href="#cb19-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>trt) <span class="sc">+</span> </span>
+<span id="cb19-190"><a href="#cb19-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette=</span><span class="st">'Set2'</span>) <span class="sc">+</span> </span>
+<span id="cb19-191"><a href="#cb19-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">'none'</span>, </span>
+<span id="cb19-192"><a href="#cb19-192" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">25</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb19-193"><a href="#cb19-193" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span>scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">10</span>)) <span class="sc">+</span> </span>
+<span id="cb19-194"><a href="#cb19-194" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">''</span>)</span>
+<span id="cb19-195"><a href="#cb19-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-196"><a href="#cb19-196" aria-hidden="true" tabindex="-1"></a>fig2 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb19-197"><a href="#cb19-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>score, <span class="at">color=</span>trt, <span class="at">group=</span>trt)) <span class="sc">+</span> </span>
+<span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">size=</span><span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom=</span><span class="st">'line'</span>) <span class="sc">+</span></span>
+<span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">name=</span><span class="st">''</span>, <span class="at">palette=</span><span class="st">'Set2'</span>) <span class="sc">+</span> </span>
+<span id="cb19-201"><a href="#cb19-201" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span>scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">10</span>)) <span class="sc">+</span> </span>
+<span id="cb19-202"><a href="#cb19-202" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">''</span>) <span class="sc">+</span> </span>
+<span id="cb19-203"><a href="#cb19-203" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">'inside'</span>, </span>
+<span id="cb19-204"><a href="#cb19-204" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.3</span>))</span>
+<span id="cb19-205"><a href="#cb19-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-206"><a href="#cb19-206" aria-hidden="true" tabindex="-1"></a>fig1 <span class="sc">/</span> fig2</span>
+<span id="cb19-207"><a href="#cb19-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-208"><a href="#cb19-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-209"><a href="#cb19-209" aria-hidden="true" tabindex="-1"></a><span class="fu">### Modeling</span></span>
+<span id="cb19-210"><a href="#cb19-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-211"><a href="#cb19-211" aria-hidden="true" tabindex="-1"></a>As promised, we'll fit a LMM to model the data and test if these reductions are significant.</span>
+<span id="cb19-212"><a href="#cb19-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-215"><a href="#cb19-215" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-216"><a href="#cb19-216" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb19-217"><a href="#cb19-217" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(score) <span class="sc">~</span> trt <span class="sc">+</span> time <span class="sc">+</span> trt <span class="sc">*</span> time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> df)</span>
+<span id="cb19-218"><a href="#cb19-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-219"><a href="#cb19-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-222"><a href="#cb19-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-223"><a href="#cb19-223" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-diagnostics</span></span>
+<span id="cb19-224"><a href="#cb19-224" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Diagnostics of regression model show assumptions are largely met</span></span>
+<span id="cb19-225"><a href="#cb19-225" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 10</span></span>
+<span id="cb19-226"><a href="#cb19-226" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for diagnostic plots </span></span>
+<span id="cb19-228"><a href="#cb19-228" aria-hidden="true" tabindex="-1"></a>diags <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Fitted =</span> <span class="fu">fitted</span>(model), <span class="at">Residuals =</span> <span class="fu">resid</span>(model))</span>
+<span id="cb19-229"><a href="#cb19-229" aria-hidden="true" tabindex="-1"></a>fitted_resids <span class="ot">&lt;-</span> diags <span class="sc">%&gt;%</span></span>
+<span id="cb19-230"><a href="#cb19-230" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Fitted, <span class="at">y =</span> Residuals)) <span class="sc">+</span></span>
+<span id="cb19-231"><a href="#cb19-231" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-232"><a href="#cb19-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb19-233"><a href="#cb19-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>()</span>
+<span id="cb19-234"><a href="#cb19-234" aria-hidden="true" tabindex="-1"></a>resid_qq <span class="ot">&lt;-</span> diags <span class="sc">%&gt;%</span></span>
+<span id="cb19-235"><a href="#cb19-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> Residuals)) <span class="sc">+</span></span>
+<span id="cb19-236"><a href="#cb19-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>(<span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-237"><a href="#cb19-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb19-238"><a href="#cb19-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-239"><a href="#cb19-239" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Theoretical quantiles"</span>,</span>
+<span id="cb19-240"><a href="#cb19-240" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Empirical quantiles"</span></span>
+<span id="cb19-241"><a href="#cb19-241" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-242"><a href="#cb19-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a>fitted_resids <span class="sc">|</span> resid_qq</span>
+<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a><span class="fu">### Statistical tests</span></span>
+<span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a>I personally like to use {<span class="co">[</span><span class="ot">emmeans</span><span class="co">](https://cran.r-project.org/web/packages/emmeans/index.html)</span>}<span class="co">[</span><span class="ot">@emmeans</span><span class="co">]</span> to perform post-hoc statistical tests based on a fit model. Though I know there are some other great packages out there too!</span>
+<span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-250"><a href="#cb19-250" aria-hidden="true" tabindex="-1"></a>Wuick sidebar on log transformations – recall that data are modeled on the natural-log scale. Therefore, when we calculate differences of logs, they are equivalent to the ratio of logs, which can be converted into percent changes.</span>
+<span id="cb19-251"><a href="#cb19-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-252"><a href="#cb19-252" aria-hidden="true" tabindex="-1"></a>Percent change = $100 *\frac{a-b}{b} = 100*(\frac{a}{b}- 1)$</span>
+<span id="cb19-253"><a href="#cb19-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-254"><a href="#cb19-254" aria-hidden="true" tabindex="-1"></a>Recall, rules of logs say: $ln(a) - ln(b) = ln(\frac{a}{b})$</span>
+<span id="cb19-255"><a href="#cb19-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-256"><a href="#cb19-256" aria-hidden="true" tabindex="-1"></a>As a very quick and crude example to show $100*ln(\frac{a}{b}) \approx 100*((\frac{a}{b}) - 1)$, let $a=110$ and $b=100$:\</span>
+<span id="cb19-257"><a href="#cb19-257" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb19-258"><a href="#cb19-258" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a>\text{Percent change} &amp;\approx \text{Ratio of logs} <span class="sc">\\</span></span>
+<span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a>(\frac{a}{b}) -1 &amp;\approx ln(\frac{a}{b}) <span class="sc">\\</span></span>
+<span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a>(\frac{110}{100}) -1 &amp;\approx ln(\frac{110}{100}) <span class="sc">\\</span></span>
+<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a>1.1-1 &amp;\approx ln(1.1) <span class="sc">\\</span></span>
+<span id="cb19-263"><a href="#cb19-263" aria-hidden="true" tabindex="-1"></a>0.10 &amp;\approx 0.095 <span class="sc">\\</span></span>
+<span id="cb19-264"><a href="#cb19-264" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb19-265"><a href="#cb19-265" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb19-266"><a href="#cb19-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-269"><a href="#cb19-269" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-270"><a href="#cb19-270" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb19-271"><a href="#cb19-271" aria-hidden="true" tabindex="-1"></a>ems <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(model, <span class="sc">~</span> time <span class="sc">|</span> trt,</span>
+<span id="cb19-272"><a href="#cb19-272" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> df, <span class="at">infer =</span> T</span>
+<span id="cb19-273"><a href="#cb19-273" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-274"><a href="#cb19-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-275"><a href="#cb19-275" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percent change within groups</span></span>
+<span id="cb19-276"><a href="#cb19-276" aria-hidden="true" tabindex="-1"></a><span class="co"># ln(a) - ln(b) = ln(a/b) approx a/b - 1</span></span>
+<span id="cb19-277"><a href="#cb19-277" aria-hidden="true" tabindex="-1"></a>pct_change <span class="ot">&lt;-</span> <span class="fu">contrast</span>(ems,</span>
+<span id="cb19-278"><a href="#cb19-278" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"trt.vs.ctrl"</span>,</span>
+<span id="cb19-279"><a href="#cb19-279" aria-hidden="true" tabindex="-1"></a>  <span class="at">infer =</span> T,</span>
+<span id="cb19-280"><a href="#cb19-280" aria-hidden="true" tabindex="-1"></a>  <span class="co"># type = 'response' tells emmeans to present as a ratio</span></span>
+<span id="cb19-281"><a href="#cb19-281" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"response"</span></span>
+<span id="cb19-282"><a href="#cb19-282" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-283"><a href="#cb19-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-284"><a href="#cb19-284" aria-hidden="true" tabindex="-1"></a>pct_change</span>
+<span id="cb19-285"><a href="#cb19-285" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-286"><a href="#cb19-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-287"><a href="#cb19-287" aria-hidden="true" tabindex="-1"></a>We can interpret these ratios as: "For a given reatment group, Visit 1 is <span class="sc">\[</span><span class="in">`ratio`</span><span class="sc">\]</span> times the Baseline value". Ratio <span class="sc">\&lt;</span> 1 means reduction, ratio <span class="sc">\&gt;</span> 1 means increase.</span>
+<span id="cb19-288"><a href="#cb19-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-289"><a href="#cb19-289" aria-hidden="true" tabindex="-1"></a>To convert these to percent changes, we'll just do <span class="in">`100*(ratio - 1)`</span>.</span>
+<span id="cb19-290"><a href="#cb19-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-291"><a href="#cb19-291" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Within group changes from baseline</span></span>
+<span id="cb19-292"><a href="#cb19-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-293"><a href="#cb19-293" aria-hidden="true" tabindex="-1"></a>Here is some hidden code that tidy's up the output for plotting and outputting tables – I don't want to force you to suffer it, but click to open if you want!</span>
+<span id="cb19-294"><a href="#cb19-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-297"><a href="#cb19-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-298"><a href="#cb19-298" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pct-change-line</span></span>
+<span id="cb19-299"><a href="#cb19-299" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb19-300"><a href="#cb19-300" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for tidying the output</span></span>
+<span id="cb19-301"><a href="#cb19-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-302"><a href="#cb19-302" aria-hidden="true" tabindex="-1"></a>pct_change_tidy <span class="ot">&lt;-</span> pct_change <span class="sc">%&gt;%</span></span>
+<span id="cb19-303"><a href="#cb19-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb19-304"><a href="#cb19-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-305"><a href="#cb19-305" aria-hidden="true" tabindex="-1"></a><span class="co"># Cleaning up the results for figuring &amp; tabeling </span></span>
+<span id="cb19-306"><a href="#cb19-306" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> pct_change_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb19-307"><a href="#cb19-307" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Converting ratio to % and formatting as character </span></span>
+<span id="cb19-308"><a href="#cb19-308" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(ratio, lower.CL, upper.CL),</span>
+<span id="cb19-309"><a href="#cb19-309" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">format</span>(<span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> (.x <span class="sc">-</span> <span class="dv">1</span>), <span class="dv">2</span>), <span class="at">nsmall =</span> <span class="dv">2</span>),</span>
+<span id="cb19-310"><a href="#cb19-310" aria-hidden="true" tabindex="-1"></a>    <span class="at">.names =</span> <span class="st">"{.col}_pct_chr"</span></span>
+<span id="cb19-311"><a href="#cb19-311" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb19-312"><a href="#cb19-312" aria-hidden="true" tabindex="-1"></a>  <span class="co"># and as numeric</span></span>
+<span id="cb19-313"><a href="#cb19-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(ratio, lower.CL, upper.CL),</span>
+<span id="cb19-314"><a href="#cb19-314" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fns =</span> <span class="sc">~</span> (<span class="dv">100</span> <span class="sc">*</span> (.x <span class="sc">-</span> <span class="dv">1</span>)),</span>
+<span id="cb19-315"><a href="#cb19-315" aria-hidden="true" tabindex="-1"></a>    <span class="at">.names =</span> <span class="st">"{.col}_pct"</span></span>
+<span id="cb19-316"><a href="#cb19-316" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Characters get concatenated so that we can reporte them more easily</span></span>
+<span id="cb19-318"><a href="#cb19-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-319"><a href="#cb19-319" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_change =</span> <span class="fu">paste0</span>(</span>
+<span id="cb19-320"><a href="#cb19-320" aria-hidden="true" tabindex="-1"></a>      ratio_pct_chr, <span class="st">" ("</span>,</span>
+<span id="cb19-321"><a href="#cb19-321" aria-hidden="true" tabindex="-1"></a>      lower.CL_pct_chr, <span class="st">", "</span>,</span>
+<span id="cb19-322"><a href="#cb19-322" aria-hidden="true" tabindex="-1"></a>      lower.CL_pct_chr, <span class="st">")"</span></span>
+<span id="cb19-323"><a href="#cb19-323" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-324"><a href="#cb19-324" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adding stars for significance levels</span></span>
+<span id="cb19-325"><a href="#cb19-325" aria-hidden="true" tabindex="-1"></a>    <span class="at">stars =</span> <span class="fu">format_pvalues</span>(p.value, <span class="at">stars_only=</span>T),</span>
+<span id="cb19-326"><a href="#cb19-326" aria-hidden="true" tabindex="-1"></a>    <span class="at">p.value =</span> <span class="fu">format_pvalues</span>(p.value),</span>
+<span id="cb19-327"><a href="#cb19-327" aria-hidden="true" tabindex="-1"></a>    <span class="at">Day =</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">str_split</span>(contrast, <span class="st">" / "</span>), <span class="cf">function</span>(f) f[[<span class="dv">1</span>]]))</span>
+<span id="cb19-328"><a href="#cb19-328" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-329"><a href="#cb19-329" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adding in 'Baseline' data which is 0 so that we can visualize that drop from 'Baseline'</span></span>
+<span id="cb19-330"><a href="#cb19-330" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(., <span class="fu">crossing</span>(</span>
+<span id="cb19-331"><a href="#cb19-331" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="st">"Baseline"</span>,</span>
+<span id="cb19-332"><a href="#cb19-332" aria-hidden="true" tabindex="-1"></a>    <span class="at">trt =</span> <span class="fu">factor</span>(<span class="fu">unique</span>(df<span class="sc">$</span>trt)),</span>
+<span id="cb19-333"><a href="#cb19-333" aria-hidden="true" tabindex="-1"></a>    <span class="at">ratio_pct =</span> <span class="dv">0</span></span>
+<span id="cb19-334"><a href="#cb19-334" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb19-335"><a href="#cb19-335" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Factoring &amp; re-labeling</span></span>
+<span id="cb19-336"><a href="#cb19-336" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Day =</span> <span class="fu">factor</span>(contrast,</span>
+<span id="cb19-337"><a href="#cb19-337" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb19-338"><a href="#cb19-338" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Baseline"</span>,</span>
+<span id="cb19-339"><a href="#cb19-339" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Visit 1 / Baseline"</span>,</span>
+<span id="cb19-340"><a href="#cb19-340" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Visit 2 / Baseline"</span></span>
+<span id="cb19-341"><a href="#cb19-341" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-342"><a href="#cb19-342" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Baseline"</span>, <span class="st">"Visit 1"</span>, <span class="st">"Visit 2"</span>)</span>
+<span id="cb19-343"><a href="#cb19-343" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb19-344"><a href="#cb19-344" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Only keeping the relevant columns</span></span>
+<span id="cb19-345"><a href="#cb19-345" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Day, trt, ratio, SE, </span>
+<span id="cb19-346"><a href="#cb19-346" aria-hidden="true" tabindex="-1"></a>                <span class="fu">contains</span>(<span class="st">'pct'</span>), </span>
+<span id="cb19-347"><a href="#cb19-347" aria-hidden="true" tabindex="-1"></a>                <span class="sc">-</span><span class="fu">contains</span>(<span class="st">'pct_chr'</span>), </span>
+<span id="cb19-348"><a href="#cb19-348" aria-hidden="true" tabindex="-1"></a>                stars, p.value)</span>
+<span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-350"><a href="#cb19-350" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-351"><a href="#cb19-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include=F}</span></span>
+<span id="cb19-353"><a href="#cb19-353" aria-hidden="true" tabindex="-1"></a><span class="in">#| label: tbl-output</span></span>
+<span id="cb19-354"><a href="#cb19-354" aria-hidden="true" tabindex="-1"></a><span class="in">#| tbl-cap: Example rows of cleaned up output</span></span>
+<span id="cb19-355"><a href="#cb19-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-356"><a href="#cb19-356" aria-hidden="true" tabindex="-1"></a><span class="in">library(DT)</span></span>
+<span id="cb19-357"><a href="#cb19-357" aria-hidden="true" tabindex="-1"></a><span class="in">datatable(res %&gt;%</span></span>
+<span id="cb19-358"><a href="#cb19-358" aria-hidden="true" tabindex="-1"></a><span class="in">            mutate(across(where(is.numeric),</span></span>
+<span id="cb19-359"><a href="#cb19-359" aria-hidden="true" tabindex="-1"></a><span class="in">                          ~round(.x, 3))),</span></span>
+<span id="cb19-360"><a href="#cb19-360" aria-hidden="true" tabindex="-1"></a><span class="in">          options = list(scrollX = TRUE,</span></span>
+<span id="cb19-361"><a href="#cb19-361" aria-hidden="true" tabindex="-1"></a><span class="in">                         scrollY = '400px',</span></span>
+<span id="cb19-362"><a href="#cb19-362" aria-hidden="true" tabindex="-1"></a><span class="in">            searching = FALSE,</span></span>
+<span id="cb19-363"><a href="#cb19-363" aria-hidden="true" tabindex="-1"></a><span class="in">            lengthChange = FALSE,</span></span>
+<span id="cb19-364"><a href="#cb19-364" aria-hidden="true" tabindex="-1"></a><span class="in">            paging = FALSE,</span></span>
+<span id="cb19-365"><a href="#cb19-365" aria-hidden="true" tabindex="-1"></a><span class="in">            info = FALSE,</span></span>
+<span id="cb19-366"><a href="#cb19-366" aria-hidden="true" tabindex="-1"></a><span class="in">            ordering = FALSE</span></span>
+<span id="cb19-367"><a href="#cb19-367" aria-hidden="true" tabindex="-1"></a><span class="in">          ))</span></span>
+<span id="cb19-368"><a href="#cb19-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-369"><a href="#cb19-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-370"><a href="#cb19-370" aria-hidden="true" tabindex="-1"></a>Now we can plot the percent reductions (@fig-pct-change) and put their significance values on the plot to show which groups have significant reductions from baseline.</span>
+<span id="cb19-371"><a href="#cb19-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-374"><a href="#cb19-374" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-375"><a href="#cb19-375" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for line plot</span></span>
+<span id="cb19-376"><a href="#cb19-376" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting significance data for plotting</span></span>
+<span id="cb19-377"><a href="#cb19-377" aria-hidden="true" tabindex="-1"></a>fig_stars <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span></span>
+<span id="cb19-378"><a href="#cb19-378" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(trt, Day, pct_change, stars) <span class="sc">%&gt;%</span></span>
+<span id="cb19-379"><a href="#cb19-379" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Day, trt) <span class="sc">%&gt;%</span></span>
+<span id="cb19-380"><a href="#cb19-380" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Day) <span class="sc">%&gt;%</span></span>
+<span id="cb19-381"><a href="#cb19-381" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adding position markers for adding stars to the figure</span></span>
+<span id="cb19-382"><a href="#cb19-382" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y.position =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">length =</span> <span class="fu">length</span>(<span class="fu">unique</span>(df<span class="sc">$</span>trt)))) <span class="sc">%&gt;%</span></span>
+<span id="cb19-383"><a href="#cb19-383" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stars <span class="sc">!=</span> <span class="st">"ns"</span>)</span>
+<span id="cb19-384"><a href="#cb19-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-385"><a href="#cb19-385" aria-hidden="true" tabindex="-1"></a>fig3 <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span></span>
+<span id="cb19-386"><a href="#cb19-386" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Day, <span class="at">y =</span> ratio_pct, <span class="at">color =</span> trt)) <span class="sc">+</span></span>
+<span id="cb19-387"><a href="#cb19-387" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> trt),</span>
+<span id="cb19-388"><a href="#cb19-388" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">1</span>)</span>
+<span id="cb19-389"><a href="#cb19-389" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-390"><a href="#cb19-390" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
+<span id="cb19-391"><a href="#cb19-391" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb19-392"><a href="#cb19-392" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> trt,</span>
+<span id="cb19-393"><a href="#cb19-393" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> <span class="dv">100</span> <span class="sc">*</span> ((ratio <span class="sc">-</span> SE) <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb19-394"><a href="#cb19-394" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymax =</span> <span class="dv">100</span> <span class="sc">*</span> ((ratio <span class="sc">+</span> SE) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb19-395"><a href="#cb19-395" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-396"><a href="#cb19-396" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">0</span>,</span>
+<span id="cb19-397"><a href="#cb19-397" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">1</span>), <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb19-398"><a href="#cb19-398" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-399"><a href="#cb19-399" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">1</span>), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb19-400"><a href="#cb19-400" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette=</span><span class="st">'Set2'</span>) <span class="sc">+</span></span>
+<span id="cb19-401"><a href="#cb19-401" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb19-402"><a href="#cb19-402" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb19-403"><a href="#cb19-403" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"inside"</span>,</span>
+<span id="cb19-404"><a href="#cb19-404" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>)</span>
+<span id="cb19-405"><a href="#cb19-405" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-406"><a href="#cb19-406" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">''</span>, <span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"% Change (SE)"</span>) <span class="sc">+</span></span>
+<span id="cb19-407"><a href="#cb19-407" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb19-408"><a href="#cb19-408" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add significance stars to figure</span></span>
+<span id="cb19-409"><a href="#cb19-409" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb19-410"><a href="#cb19-410" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> fig_stars,</span>
+<span id="cb19-411"><a href="#cb19-411" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> Day, <span class="at">y =</span> y.position, <span class="at">label =</span> stars),</span>
+<span id="cb19-412"><a href="#cb19-412" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">5</span>,</span>
+<span id="cb19-413"><a href="#cb19-413" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> F,</span>
+<span id="cb19-414"><a href="#cb19-414" aria-hidden="true" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">"bold"</span></span>
+<span id="cb19-415"><a href="#cb19-415" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-416"><a href="#cb19-416" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"* = p&lt;0.05; ** = p&lt;0.01; *** = p&lt;0.001"</span>)  </span>
+<span id="cb19-417"><a href="#cb19-417" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-418"><a href="#cb19-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-421"><a href="#cb19-421" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-422"><a href="#cb19-422" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for table</span></span>
+<span id="cb19-423"><a href="#cb19-423" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb19-424"><a href="#cb19-424" aria-hidden="true" tabindex="-1"></a>table <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span> </span>
+<span id="cb19-425"><a href="#cb19-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-426"><a href="#cb19-426" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(trt, Day, pct_change, p.value) <span class="sc">%&gt;%</span></span>
+<span id="cb19-427"><a href="#cb19-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Treatment =</span> trt, </span>
+<span id="cb19-428"><a href="#cb19-428" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Comparison to baseline</span><span class="st">`</span> <span class="ot">=</span> Day, </span>
+<span id="cb19-429"><a href="#cb19-429" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">% Change (95% CI)</span><span class="st">`</span> <span class="ot">=</span> pct_change, </span>
+<span id="cb19-430"><a href="#cb19-430" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> p.value) <span class="sc">%&gt;%</span></span>
+<span id="cb19-431"><a href="#cb19-431" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Treatment) <span class="sc">%&gt;%</span></span>
+<span id="cb19-432"><a href="#cb19-432" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span>
+<span id="cb19-433"><a href="#cb19-433" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-434"><a href="#cb19-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-435"><a href="#cb19-435" aria-hidden="true" tabindex="-1"></a>Great! Just as we suspected! Treatment A and B do show significant reductions. Does Treatment B truly work better?</span>
+<span id="cb19-436"><a href="#cb19-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-439"><a href="#cb19-439" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-440"><a href="#cb19-440" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code combined table &amp; line plot</span></span>
+<span id="cb19-441"><a href="#cb19-441" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pct-change</span></span>
+<span id="cb19-442"><a href="#cb19-442" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Within group percent changes from baseline. </span></span>
+<span id="cb19-443"><a href="#cb19-443" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 11</span></span>
+<span id="cb19-444"><a href="#cb19-444" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb19-445"><a href="#cb19-445" aria-hidden="true" tabindex="-1"></a><span class="fu">wrap_table</span>(table, <span class="at">panel=</span><span class="st">'full'</span>, <span class="at">space=</span><span class="st">'free_x'</span>) <span class="sc">+</span> fig3</span>
+<span id="cb19-446"><a href="#cb19-446" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-447"><a href="#cb19-447" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-448"><a href="#cb19-448" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Between group comparisons of changes from baseline</span></span>
+<span id="cb19-449"><a href="#cb19-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-450"><a href="#cb19-450" aria-hidden="true" tabindex="-1"></a>I personally find it easier to think about differences of percents as absolute differences and not multiplicative, so if you want to get the absolute differneces in percent change across groups:</span>
+<span id="cb19-451"><a href="#cb19-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-452"><a href="#cb19-452" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Fit percent changes, just like we did above, for each post-treatment time-point,</span>
+<span id="cb19-453"><a href="#cb19-453" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Use <span class="in">`regrid()`</span> to tell {emmeans} to keep the ratio as the units we want, and</span>
+<span id="cb19-454"><a href="#cb19-454" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Use <span class="in">`contrast()`</span> to get the differences of the percent changes (not the ratio of the percent changes)</span>
+<span id="cb19-455"><a href="#cb19-455" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-456"><a href="#cb19-456" aria-hidden="true" tabindex="-1"></a>🚧 NOTE: This is how *I personally* have figured out how to do this – if you know another way please let me know!</span>
+<span id="cb19-457"><a href="#cb19-457" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-458"><a href="#cb19-458" aria-hidden="true" tabindex="-1"></a>Alternatively, if you're good with ratios of ratios, you can ignore the <span class="in">`regrid()`</span>! The significance of the results will be fairly similar, especially for larger N. For smaller N, you'll see some variability though.</span>
+<span id="cb19-459"><a href="#cb19-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-460"><a href="#cb19-460" aria-hidden="true" tabindex="-1"></a>@fig-bar-group-diffs has the final results for these analyses in table + bar chart to visualize the differences.</span>
+<span id="cb19-461"><a href="#cb19-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-464"><a href="#cb19-464" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-465"><a href="#cb19-465" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code of differences in percent changes across groups</span></span>
+<span id="cb19-466"><a href="#cb19-466" aria-hidden="true" tabindex="-1"></a><span class="co"># Grab everything but the baseline timepoint</span></span>
+<span id="cb19-467"><a href="#cb19-467" aria-hidden="true" tabindex="-1"></a>days <span class="ot">&lt;-</span> <span class="fu">levels</span>(df<span class="sc">$</span>time)[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb19-468"><a href="#cb19-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-469"><a href="#cb19-469" aria-hidden="true" tabindex="-1"></a><span class="co"># Some list items to capture these</span></span>
+<span id="cb19-470"><a href="#cb19-470" aria-hidden="true" tabindex="-1"></a>day_emmeans <span class="ot">&lt;-</span> day_contrast <span class="ot">&lt;-</span> day_pairwise_groups <span class="ot">&lt;-</span> result <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb19-471"><a href="#cb19-471" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(days)) {</span>
+<span id="cb19-472"><a href="#cb19-472" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Group emmeans only for Baseline &amp; Day i</span></span>
+<span id="cb19-473"><a href="#cb19-473" aria-hidden="true" tabindex="-1"></a>  day_emmeans[[i]] <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(model, <span class="sc">~</span> time <span class="sc">*</span> trt,</span>
+<span id="cb19-474"><a href="#cb19-474" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> df,</span>
+<span id="cb19-475"><a href="#cb19-475" aria-hidden="true" tabindex="-1"></a>    <span class="at">at =</span> <span class="fu">list</span>(<span class="at">time =</span> <span class="fu">c</span>(</span>
+<span id="cb19-476"><a href="#cb19-476" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Baseline"</span>,</span>
+<span id="cb19-477"><a href="#cb19-477" aria-hidden="true" tabindex="-1"></a>      days[i]</span>
+<span id="cb19-478"><a href="#cb19-478" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb19-479"><a href="#cb19-479" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-480"><a href="#cb19-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-481"><a href="#cb19-481" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculating percent change relative for that Day i</span></span>
+<span id="cb19-482"><a href="#cb19-482" aria-hidden="true" tabindex="-1"></a>  day_contrast[[i]] <span class="ot">&lt;-</span> <span class="fu">contrast</span>(day_emmeans[[i]],</span>
+<span id="cb19-483"><a href="#cb19-483" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"trt.vs.ctrl"</span>,</span>
+<span id="cb19-484"><a href="#cb19-484" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"trt"</span>,</span>
+<span id="cb19-485"><a href="#cb19-485" aria-hidden="true" tabindex="-1"></a>    <span class="at">adjust =</span> <span class="st">"none"</span>,</span>
+<span id="cb19-486"><a href="#cb19-486" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"response"</span></span>
+<span id="cb19-487"><a href="#cb19-487" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-488"><a href="#cb19-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-489"><a href="#cb19-489" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Regrid tells emmeans to keep the units here</span></span>
+<span id="cb19-490"><a href="#cb19-490" aria-hidden="true" tabindex="-1"></a>  <span class="co"># So that we can get absolute difference of the ratios</span></span>
+<span id="cb19-491"><a href="#cb19-491" aria-hidden="true" tabindex="-1"></a>  day_pairwise_groups[[i]] <span class="ot">&lt;-</span> <span class="fu">regrid</span>(day_contrast[[i]]) <span class="sc">%&gt;%</span></span>
+<span id="cb19-492"><a href="#cb19-492" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contrast</span>(</span>
+<span id="cb19-493"><a href="#cb19-493" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"pairwise"</span>, <span class="at">by =</span> <span class="cn">NULL</span>,</span>
+<span id="cb19-494"><a href="#cb19-494" aria-hidden="true" tabindex="-1"></a>      <span class="at">infer =</span> T</span>
+<span id="cb19-495"><a href="#cb19-495" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-496"><a href="#cb19-496" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-497"><a href="#cb19-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-498"><a href="#cb19-498" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
+<span id="cb19-499"><a href="#cb19-499" aria-hidden="true" tabindex="-1"></a>  day_pairwise_groups,</span>
+<span id="cb19-500"><a href="#cb19-500" aria-hidden="true" tabindex="-1"></a>  as_tibble</span>
+<span id="cb19-501"><a href="#cb19-501" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-502"><a href="#cb19-502" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_rows</span>()</span>
+<span id="cb19-503"><a href="#cb19-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-504"><a href="#cb19-504" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(results)</span>
+<span id="cb19-505"><a href="#cb19-505" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-506"><a href="#cb19-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-507"><a href="#cb19-507" aria-hidden="true" tabindex="-1"></a>We can interpret these are the <span class="in">`-100*estimate`</span> difference in the percent reductions from baseline across treatment groups. So, for row 1, we say Treatment A affords <span class="in">`-100*0.0224=-2.24`</span> more percent reduction compared to Placebo.</span>
+<span id="cb19-508"><a href="#cb19-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-511"><a href="#cb19-511" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-512"><a href="#cb19-512" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code to pretty up results for tables </span></span>
+<span id="cb19-513"><a href="#cb19-513" aria-hidden="true" tabindex="-1"></a>results_to_table0 <span class="ot">&lt;-</span> results <span class="sc">%&gt;%</span></span>
+<span id="cb19-514"><a href="#cb19-514" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-515"><a href="#cb19-515" aria-hidden="true" tabindex="-1"></a>    <span class="at">contrast =</span> <span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">(|</span><span class="sc">\\</span><span class="st">)"</span>, <span class="st">""</span>, contrast),</span>
+<span id="cb19-516"><a href="#cb19-516" aria-hidden="true" tabindex="-1"></a>    <span class="at">Day =</span> <span class="fu">map_chr</span>(</span>
+<span id="cb19-517"><a href="#cb19-517" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_split</span>(contrast, <span class="st">"/"</span>),</span>
+<span id="cb19-518"><a href="#cb19-518" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> .x[<span class="dv">1</span>]</span>
+<span id="cb19-519"><a href="#cb19-519" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-520"><a href="#cb19-520" aria-hidden="true" tabindex="-1"></a>    <span class="at">Comparison =</span> <span class="fu">gsub</span>(</span>
+<span id="cb19-521"><a href="#cb19-521" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="sc">\\</span><span class="st">Visit </span><span class="sc">\\</span><span class="st">d+/Baseline "</span>, <span class="st">""</span>,</span>
+<span id="cb19-522"><a href="#cb19-522" aria-hidden="true" tabindex="-1"></a>      contrast</span>
+<span id="cb19-523"><a href="#cb19-523" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-524"><a href="#cb19-524" aria-hidden="true" tabindex="-1"></a>    <span class="at">Comparison =</span> <span class="fu">gsub</span>(<span class="st">"-"</span>, <span class="st">"vs."</span>, Comparison),</span>
+<span id="cb19-525"><a href="#cb19-525" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">p-value</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">format_pvalues</span>(p.value),</span>
+<span id="cb19-526"><a href="#cb19-526" aria-hidden="true" tabindex="-1"></a>    <span class="at">stars =</span> <span class="fu">format_pvalues</span>(p.value, <span class="at">stars_only =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-527"><a href="#cb19-527" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Difference in % Change (95% CI)</span><span class="st">`</span> <span class="ot">=</span></span>
+<span id="cb19-528"><a href="#cb19-528" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste0</span>(</span>
+<span id="cb19-529"><a href="#cb19-529" aria-hidden="true" tabindex="-1"></a>        <span class="fu">format</span>(<span class="fu">round</span>(<span class="sc">-</span><span class="dv">100</span> <span class="sc">*</span> estimate, <span class="dv">2</span>), <span class="at">nsmall =</span> <span class="dv">2</span>),</span>
+<span id="cb19-530"><a href="#cb19-530" aria-hidden="true" tabindex="-1"></a>        <span class="st">" ("</span>, <span class="fu">format</span>(<span class="fu">round</span>(<span class="sc">-</span><span class="dv">100</span> <span class="sc">*</span> lower.CL, <span class="dv">2</span>), <span class="at">nsmall =</span> <span class="dv">2</span>),</span>
+<span id="cb19-531"><a href="#cb19-531" aria-hidden="true" tabindex="-1"></a>        <span class="st">", "</span>,</span>
+<span id="cb19-532"><a href="#cb19-532" aria-hidden="true" tabindex="-1"></a>        <span class="fu">format</span>(<span class="fu">round</span>(<span class="sc">-</span><span class="dv">100</span> <span class="sc">*</span> upper.CL, <span class="dv">2</span>), <span class="at">nsmall =</span> <span class="dv">2</span>),</span>
+<span id="cb19-533"><a href="#cb19-533" aria-hidden="true" tabindex="-1"></a>        <span class="st">")"</span></span>
+<span id="cb19-534"><a href="#cb19-534" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-535"><a href="#cb19-535" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-536"><a href="#cb19-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-537"><a href="#cb19-537" aria-hidden="true" tabindex="-1"></a>results_to_table <span class="ot">&lt;-</span> results_to_table0 <span class="sc">%&gt;%</span></span>
+<span id="cb19-538"><a href="#cb19-538" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Day, Comparison, <span class="fu">contains</span>(<span class="st">"95%"</span>), <span class="st">`</span><span class="at">p-value</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-539"><a href="#cb19-539" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(Day, Comparison), factor))</span>
+<span id="cb19-540"><a href="#cb19-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-541"><a href="#cb19-541" aria-hidden="true" tabindex="-1"></a><span class="co"># gt table to put in plot</span></span>
+<span id="cb19-542"><a href="#cb19-542" aria-hidden="true" tabindex="-1"></a>table_grp_diffs <span class="ot">&lt;-</span> results_to_table <span class="sc">%&gt;%</span></span>
+<span id="cb19-543"><a href="#cb19-543" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Day) <span class="sc">%&gt;%</span></span>
+<span id="cb19-544"><a href="#cb19-544" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-545"><a href="#cb19-545" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(<span class="st">"Tukey adjustment for pairwise comparisons"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-546"><a href="#cb19-546" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="fu">c</span>(<span class="st">"right"</span>), <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-547"><a href="#cb19-547" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="fu">c</span>(<span class="st">"center"</span>), <span class="at">columns =</span> <span class="dv">3</span>)</span>
+<span id="cb19-548"><a href="#cb19-548" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-549"><a href="#cb19-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-552"><a href="#cb19-552" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-553"><a href="#cb19-553" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code to create significance lines for plotting group differences</span></span>
+<span id="cb19-554"><a href="#cb19-554" aria-hidden="true" tabindex="-1"></a>lines <span class="ot">&lt;-</span> results_to_table0 <span class="sc">%&gt;%</span></span>
+<span id="cb19-555"><a href="#cb19-555" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group1 =</span> <span class="fu">map_chr</span>(</span>
+<span id="cb19-556"><a href="#cb19-556" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split</span>(Comparison, <span class="st">" vs. "</span>),</span>
+<span id="cb19-557"><a href="#cb19-557" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> .x[<span class="dv">1</span>]</span>
+<span id="cb19-558"><a href="#cb19-558" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb19-559"><a href="#cb19-559" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group2 =</span> <span class="fu">map_chr</span>(</span>
+<span id="cb19-560"><a href="#cb19-560" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_split</span>(Comparison, <span class="st">" vs. "</span>),</span>
+<span id="cb19-561"><a href="#cb19-561" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> .x[<span class="dv">2</span>]</span>
+<span id="cb19-562"><a href="#cb19-562" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb19-563"><a href="#cb19-563" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb19-564"><a href="#cb19-564" aria-hidden="true" tabindex="-1"></a>    group1, group2, Day, </span>
+<span id="cb19-565"><a href="#cb19-565" aria-hidden="true" tabindex="-1"></a>    estimate, lower.CL, stars</span>
+<span id="cb19-566"><a href="#cb19-566" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-567"><a href="#cb19-567" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Day) <span class="sc">%&gt;%</span></span>
+<span id="cb19-568"><a href="#cb19-568" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stars <span class="sc">!=</span> <span class="st">"ns"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-569"><a href="#cb19-569" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y.position =</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">8</span>, <span class="at">length =</span> <span class="fu">n</span>())) <span class="sc">%&gt;%</span></span>
+<span id="cb19-570"><a href="#cb19-570" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-571"><a href="#cb19-571" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Day =</span> <span class="fu">factor</span>(Day))</span>
+<span id="cb19-572"><a href="#cb19-572" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-573"><a href="#cb19-573" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-576"><a href="#cb19-576" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-577"><a href="#cb19-577" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code to create barplot to illustrate group differences</span></span>
+<span id="cb19-578"><a href="#cb19-578" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb19-579"><a href="#cb19-579" aria-hidden="true" tabindex="-1"></a>figbar <span class="ot">&lt;-</span> res <span class="sc">%&gt;%</span></span>
+<span id="cb19-580"><a href="#cb19-580" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-581"><a href="#cb19-581" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> ratio_pct, <span class="at">color =</span> trt, <span class="at">fill =</span> trt)) <span class="sc">+</span></span>
+<span id="cb19-582"><a href="#cb19-582" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">group =</span> trt),</span>
+<span id="cb19-583"><a href="#cb19-583" aria-hidden="true" tabindex="-1"></a>    <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">1</span>)</span>
+<span id="cb19-584"><a href="#cb19-584" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-585"><a href="#cb19-585" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
+<span id="cb19-586"><a href="#cb19-586" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb19-587"><a href="#cb19-587" aria-hidden="true" tabindex="-1"></a>      <span class="at">group =</span> trt,</span>
+<span id="cb19-588"><a href="#cb19-588" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> <span class="dv">100</span> <span class="sc">*</span> ((ratio <span class="sc">-</span> SE) <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb19-589"><a href="#cb19-589" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymax =</span> <span class="dv">100</span> <span class="sc">*</span> ((ratio <span class="sc">+</span> SE) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb19-590"><a href="#cb19-590" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-591"><a href="#cb19-591" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">0</span>,</span>
+<span id="cb19-592"><a href="#cb19-592" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">1</span>), <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb19-593"><a href="#cb19-593" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-594"><a href="#cb19-594" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">name =</span> <span class="st">""</span>, <span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
+<span id="cb19-595"><a href="#cb19-595" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">name =</span> <span class="st">""</span>, <span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
+<span id="cb19-596"><a href="#cb19-596" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb19-597"><a href="#cb19-597" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb19-598"><a href="#cb19-598" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">6</span>),</span>
+<span id="cb19-599"><a href="#cb19-599" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">25</span>, <span class="dv">8</span>)</span>
+<span id="cb19-600"><a href="#cb19-600" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-601"><a href="#cb19-601" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb19-602"><a href="#cb19-602" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb19-603"><a href="#cb19-603" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb19-604"><a href="#cb19-604" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">25</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb19-605"><a href="#cb19-605" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>),</span>
+<span id="cb19-606"><a href="#cb19-606" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb19-607"><a href="#cb19-607" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>),</span>
+<span id="cb19-608"><a href="#cb19-608" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-609"><a href="#cb19-609" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
+<span id="cb19-610"><a href="#cb19-610" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-611"><a href="#cb19-611" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"% Change (SE)"</span>) <span class="sc">+</span></span>
+<span id="cb19-612"><a href="#cb19-612" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb19-613"><a href="#cb19-613" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"* = p&lt;0.05; ** = p&lt;0.01; *** = p&lt;0.001"</span>) <span class="sc">+</span></span>
+<span id="cb19-614"><a href="#cb19-614" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Day) <span class="sc">+</span></span>
+<span id="cb19-615"><a href="#cb19-615" aria-hidden="true" tabindex="-1"></a>  <span class="co"># adding p-value lines from ggpubr</span></span>
+<span id="cb19-616"><a href="#cb19-616" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_pvalue_manual</span>(</span>
+<span id="cb19-617"><a href="#cb19-617" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> lines, <span class="at">label =</span> <span class="st">"stars"</span>, <span class="at">xmin =</span> <span class="st">"group1"</span>, <span class="at">xmax =</span> <span class="st">"group2"</span>,</span>
+<span id="cb19-618"><a href="#cb19-618" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> F, <span class="at">tip =</span> <span class="fl">0.005</span></span>
+<span id="cb19-619"><a href="#cb19-619" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-620"><a href="#cb19-620" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-621"><a href="#cb19-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-624"><a href="#cb19-624" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-625"><a href="#cb19-625" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Code for final figure</span></span>
+<span id="cb19-626"><a href="#cb19-626" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 13</span></span>
+<span id="cb19-627"><a href="#cb19-627" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb19-628"><a href="#cb19-628" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-bar-group-diffs</span></span>
+<span id="cb19-629"><a href="#cb19-629" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Group differences in changes from baseline at each timepoint</span></span>
+<span id="cb19-630"><a href="#cb19-630" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-631"><a href="#cb19-631" aria-hidden="true" tabindex="-1"></a>tbl_fig_grp_diffs <span class="ot">&lt;-</span> <span class="fu">wrap_table</span>(table_grp_diffs,</span>
+<span id="cb19-632"><a href="#cb19-632" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel =</span> <span class="st">"full"</span>, <span class="at">space =</span> <span class="st">"free_x"</span></span>
+<span id="cb19-633"><a href="#cb19-633" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> figbar</span>
+<span id="cb19-634"><a href="#cb19-634" aria-hidden="true" tabindex="-1"></a>tbl_fig_grp_diffs</span>
+<span id="cb19-635"><a href="#cb19-635" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb19-636"><a href="#cb19-636" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave('preview-image.png', tbl_fig_grp_diffs,</span></span>
+<span id="cb19-637"><a href="#cb19-637" aria-hidden="true" tabindex="-1"></a><span class="co">#        units='cm',</span></span>
+<span id="cb19-638"><a href="#cb19-638" aria-hidden="true" tabindex="-1"></a><span class="co">#        width=16*2,</span></span>
+<span id="cb19-639"><a href="#cb19-639" aria-hidden="true" tabindex="-1"></a><span class="co">#        height=6*2)</span></span>
+<span id="cb19-640"><a href="#cb19-640" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb19-641"><a href="#cb19-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-642"><a href="#cb19-642" aria-hidden="true" tabindex="-1"></a><span class="fu">## References &amp; other articles on change scores {#sec-references}</span></span>
+<span id="cb19-643"><a href="#cb19-643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-644"><a href="#cb19-644" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb19-645"><a href="#cb19-645" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

@@ -25,6 +25,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -112,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Profiles of Accelerometry-Derived Physical Activity Are Related to Perceived Physical Fatigability in Older Adults</h1>
+      <div class="quarto-title-block"><div><h1 class="title">Profiles of Accelerometry-Derived Physical Activity Are Related to Perceived Physical Fatigability in Older Adults</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
                                 <div class="quarto-categories">
                 <div class="quarto-category">clustering</div>
                 <div class="quarto-category">r package</div>
@@ -184,6 +218,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Physical activity (PA) is associated with greater fatigability in older adults; little is known about magnitude, shape, timing and variability of the entire 24-h rest–activity rhythm (RAR) associated with fatigability. We identified which features of the 24-h RAR pattern were independently and jointly associated with greater perceived physical fatigability (Pittsburgh Fatigability Scale, PFS, 0–50) in older adults (n&nbsp;= 181, 71.3 ± 6.7 years). RARs were characterized using anti-logistic extended cosine models and 4-h intervals of PA means and standard deviations across days. A K-means clustering algorithm approach identified four profiles of RAR features: “Less Active/Robust”, “Earlier Risers”, “More Active/Robust” and “Later RAR”. Quantile regression tested associations of each RAR feature/profile on median PFS adjusted for age, sex, race, body mass index and depression symptomatology. Later rise times (up mesor; β = 1.38,&nbsp;p&nbsp;= 0.01) and timing of midpoint of activity (acrophase; β = 1.29,&nbsp;p&nbsp;= 0.01) were associated with higher PFS scores. Lower PA between 4 a.m. and 8 a.m. was associated with higher PFS scores (β = −4.50,&nbsp;p&nbsp;= 0.03). “Less Active/Robust” (β = 6.14,&nbsp;p&nbsp;= 0.01) and “Later RAR” (β = 3.53,&nbsp;p&nbsp;= 0.01) patterns were associated with higher PFS scores compared to “Earlier Risers”. Greater physical fatigability in older adults was associated with dampened, more variable, and later RARs. This work can guide development of interventions aimed at modifying RARs to reduce fatigability in older adults.</p>
 </blockquote>
 
+
+<!-- -->
 
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{l._graves2021,
@@ -291,6 +327,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -623,7 +710,30 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 <script src="https://utteranc.es/client.js" repo="JessLGraves/post-comments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
-</script>
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Profiles of Accelerometry-Derived Physical Activity Are Related to Perceived Physical Fatigability in Older Adults"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Jessica L. Graves</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliation: Department of Epidemiology, University of Pittsburgh</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Yujia (Susanna) Qiao</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Kyle D. Moored</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: ...</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> ''</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 03-02-2021</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [clustering, r package, circadian rhythms, aging]</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> preview-image.png</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span><span class="co"> </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">  url: "https://www.mdpi.com/1424-8220/21/5/1718"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Read full article here.</span><span class="co">](https://www.mdpi.com/1424-8220/21/5/1718)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ## **Abstract**</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Physical activity (PA) is associated with greater fatigability in older adults; little is known about magnitude, shape, timing and variability of the entire 24-h rest–activity rhythm (RAR) associated with fatigability. We identified which features of the 24-h RAR pattern were independently and jointly associated with greater perceived physical fatigability (Pittsburgh Fatigability Scale, PFS, 0–50) in older adults (n&nbsp;= 181, 71.3 ± 6.7 years). RARs were characterized using anti-logistic extended cosine models and 4-h intervals of PA means and standard deviations across days. A K-means clustering algorithm approach identified four profiles of RAR features: “Less Active/Robust”, “Earlier Risers”, “More Active/Robust” and “Later RAR”. Quantile regression tested associations of each RAR feature/profile on median PFS adjusted for age, sex, race, body mass index and depression symptomatology. Later rise times (up mesor; β = 1.38,&nbsp;p&nbsp;= 0.01) and timing of midpoint of activity (acrophase; β = 1.29,&nbsp;p&nbsp;= 0.01) were associated with higher PFS scores. Lower PA between 4 a.m. and 8 a.m. was associated with higher PFS scores (β = −4.50,&nbsp;p&nbsp;= 0.03). “Less Active/Robust” (β = 6.14,&nbsp;p&nbsp;= 0.01) and “Later RAR” (β = 3.53,&nbsp;p&nbsp;= 0.01) patterns were associated with higher PFS scores compared to “Earlier Risers”. Greater physical fatigability in older adults was associated with dampened, more variable, and later RARs. This work can guide development of interventions aimed at modifying RARs to reduce fatigability in older adults.</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 
 

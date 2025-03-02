@@ -4,7 +4,6 @@ description: ""
 author:
   - name: Jess Graves
 date: 03-01-2025
-editor: visual
 execute-dir: project
 crossref:
   fig-title: '**Figure**'

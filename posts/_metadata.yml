@@ -9,3 +9,7 @@ title-block-banner: true
 # my author info
 author:
   - name: Jess Graves
+
+comments: 
+  utterances: 
+    repo:  JessLGraves/post-comments

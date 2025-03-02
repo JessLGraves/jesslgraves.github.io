@@ -4,15 +4,6 @@ description: "Estimate percent change in longitudinal data using log-transformat
 author:
   - name: Jess Graves
 date: 02-09-2025
-format:
-  html:
-    toc: true
-    toc-depth: 4
-    toc-expand: 2
-    embed-resources: true
-    code-fold: true
-    code-tools: true
-editor: visual
 execute-dir: project
 crossref:
   fig-title: '**Figure**'

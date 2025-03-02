@@ -4,15 +4,6 @@ description: "Looking at horror franchises over time using {ggstream}"
 author:
   - name: Jess Graves
 date: 02-17-2025
-format:
-  html:
-    toc: true
-    toc-depth: 4
-    toc-expand: 2
-    embed-resources: true
-    code-fold: true
-    code-tools: true
-editor: visual
 execute-dir: project
 crossref:
   fig-title: '**Figure**'
@@ -84,7 +75,7 @@ The data comes from a [kaggle](https://www.kaggle.com/datasets/monkeybusiness7/h
 First, a tiny bit of data tidying. I'm going to:
 
 1.  Get the dates in the right format,
-2.   Drop `Friday the 13th, Nightmare on Elm Street` as a franchise because it's a cross-over with an n of 1
+2.  Drop `Friday the 13th, Nightmare on Elm Street` as a franchise because it's a cross-over with an n of 1
 3.  Level the Franchises by their earliest date of release
 
 ```{r}
@@ -446,7 +437,7 @@ ggsave("preview-image.png", n_films_repels,
 
 Love to see it. We can see how Nightmare on Elm Street emerging on the market in the late 80s, and Paranormal Activity exploding around the 2010s. And then there's Child's Play, consistently releasing films from the late 80s into 2020.
 
-## And, just for fun: do ratings change over time? 
+## And, just for fun: do ratings change over time?
 
 I was curious to know if there was a general trend in ratings over time – that is, are reviewers generally becoming more or less favorable to horror movies?
 

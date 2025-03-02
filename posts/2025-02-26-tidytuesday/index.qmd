@@ -4,15 +4,6 @@ description: ""
 author:
   - name: Jess Graves
 date: 02-26-2025
-format:
-  html:
-    toc: true
-    toc-depth: 4
-    toc-expand: 2
-    embed-resources: true
-    code-fold: true
-    code-tools: true
-editor: visual
 execute-dir: project
 crossref:
   fig-title: '**Figure**'

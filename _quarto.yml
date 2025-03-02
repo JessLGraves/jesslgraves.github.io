@@ -5,6 +5,9 @@ project:
 website:
   title: "Jess Graves"
   site-url: https://JessLGraves.github.io
+  comments: 
+    utterances:
+      repo: JessLGraves/post-comments
   navbar:
     left:
       # - href: index.qmd

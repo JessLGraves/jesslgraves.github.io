@@ -69,6 +69,7 @@ library(colorspace)
 library(ggrepel)
 library(gganimate)
 # library(gifski) # can't call this due to environment issues
+library(av) 
 library(gt)
 
 background <- "#FBF7F2"
@@ -111,7 +112,6 @@ theme_set(my_theme)
 
 ```{r}
 #| code-fold: false
-library(gt)
 data(presidential) # from ggplot2
 presidential %>% gt()
 ```
@@ -186,7 +186,7 @@ Now, I will need to match dates within the market data to each president's terms
 
 To do this, I will expand the presidential data into a long format where there is a single column of the sequential dates in each term. I'm going to write a custom function to help me out here.
 
-(🤔 In retrospect, I did not need to write this function because there are no gaps between terms... but alas, this problem generalizes to other messier data like these, so will include in case its helpful to anyone reading).
+(🤔 In retrospect, I did not need to write this function because there are no gaps between terms... but alas, this problem generalizes to other messier data like these, so will include it in case it's helpful to anyone reading).
 
 ```{r}
 #| code-fold: false
@@ -260,7 +260,7 @@ recent_pres <- expanded_gspc %>%
   ) 
 ```
 
-# The market since 1980
+# The market since 1980's
 
 Let's just get a sense of what "the market" has done over the last 45 years.
 
@@ -269,7 +269,7 @@ It's generally increased over time. We can see that the recession that plagued B
 ```{r}
 #| code-summary: plot code 
 #| label: fig-snp-over-time
-#| fig-cap: S&P 500 since 1980 to today (natural log scale used to improve readabilty)
+#| fig-cap: S&P 500 since 1980's to today (natural log scale used to improve readabilty)
 #| fig-width: 10
 #| fig-height: 6
 # label dataset
@@ -287,9 +287,11 @@ snp_over_time <- recent_pres %>%
     group = name
   )) +
   geom_line(linewidth = 1.5) +
-  scale_x_date( # expand=c(0, 0),
-    date_breaks = "4 years",
-    date_labels = "%Y"
+  scale_x_date(expand=c(0, 0.01),
+    date_breaks = "5 years",
+    date_labels = "%Y", 
+    limits = c(as.Date('1981-01-01'), 
+               as.Date('2025-12-31'))
   ) +
   scale_y_continuous(
     breaks = scales::pretty_breaks(10),
@@ -300,7 +302,7 @@ snp_over_time <- recent_pres %>%
     x = "",
     y = "S&P 500 at closing\n(natural log scaled)",
     color = "",
-    title = "S&P 500 since 1980"
+    title = "S&P 500 since the 1980's"
   ) +
   scale_color_continuous_diverging(
     palette = "Blue-Red",
@@ -437,4 +439,20 @@ anim_save("snp-final.gif", p1 +
   renderer = gifski_renderer()
 )
 #
+```
+
+```{r}
+#| eval: false
+# Save the animation as a .mp4
+anim_save("snp-final.mp4", p1 +
+  geom_label(aes(label = name, color = time_party)) +
+  transition_reveal(days_from_start),
+  fps = 10,
+  height = 15,
+  width = 25,
+  units = "cm",
+  res = 180,
+  end_pause = 30,
+  renderer = av_renderer()
+)
 ```

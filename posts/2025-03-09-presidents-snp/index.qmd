@@ -396,7 +396,7 @@ p1 <- from_start_first_8_weeks %>%
     x = "Weeks since taking office",
     y = "Change in S&P 500 since taking office",
     color = "",
-    title = "S&P 500 during first 8 weeks of recent presidents"
+    title = "S&P 500 during first 8 weeks of recent presidential terms"
   ) +
   scale_color_continuous_diverging(
     palette = "Blue-Red",

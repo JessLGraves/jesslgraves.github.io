@@ -422,12 +422,12 @@ ggsave('snp-changes.png', p1_labels,
 
 # Now let's animate it
 
-![Animated trajectory of S&P 500 during each presidents first 8 weeks](snp-final.gif)
+![Animated trajectory of S&P 500 during each presidents first 8 weeks](snp-animated.gif)
 
 ```{r}
 #| eval: false
 # Save the animation as a .gif file
-anim_save("snp-final.gif", p1 +
+anim_save("snp-animated.gif", p1 +
   geom_label(aes(label = name, color = time_party)) +
   transition_reveal(days_from_start),
   fps = 10,
@@ -444,7 +444,7 @@ anim_save("snp-final.gif", p1 +
 ```{r}
 #| eval: false
 # Save the animation as a .mp4
-anim_save("snp-final.mp4", p1 +
+anim_save("snp-animated.mp4", p1 +
   geom_label(aes(label = name, color = time_party)) +
   transition_reveal(days_from_start),
   fps = 10,

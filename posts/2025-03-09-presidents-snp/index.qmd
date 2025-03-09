@@ -322,7 +322,7 @@ snp_over_time <- recent_pres %>%
 
 snp_over_time
 
-ggsave("snp-over-time.png", snp_over_time,
+ggsave("preview-image.png", snp_over_time,
   units = "cm",
   height = 30*.6,
   width = 30
@@ -412,7 +412,7 @@ p1_labels <- p1 +
 
 p1_labels
 
-ggsave('preview-image.png', p1_labels,
+ggsave('snp-changes.png', p1_labels,
        units='cm', 
        width = 25, 
        height = 15)

@@ -340,8 +340,8 @@ Overall, the first 8 weeks in Trump's 2nd term have shown the hardest falls in S
 ```{r}
 #| label: fig-changes
 #| fig-cap: Changes in S&P 500 over the first 8 weeks of each president's term (1980 and on)
-#| fig-height: 5
-#| fig-width: 8
+#| fig-height: 6
+#| fig-width: 9
 weeks_in_office <- 8
 
 from_start <- recent_pres %>%

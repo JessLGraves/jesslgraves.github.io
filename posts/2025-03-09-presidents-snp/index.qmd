@@ -18,7 +18,7 @@ execute:
   message: false
 categories: [animated figure, data visualization] # self-defined categories
 image: preview-image.png
-draft: true  
+draft: false  
 # bibliography: references.bib
 nocite: |
   @*
@@ -27,7 +27,7 @@ bibliographystyle: apa
 citation: true
 ---
 
-# Introduction
+# How does Trump's first 8 weeks compare to other recent presidents?
 
 It's no secret that the market ain't looking so hot under President Trump so far. Who's all saying it:
 
@@ -40,8 +40,6 @@ It's no secret that the market ain't looking so hot under President Trump so far
 -   [NBC](https://www.nbcnews.com/business/markets/stocks-fall-even-trump-gives-mexico-one-month-reprieve-tariffs-rcna195160): "Stocks fall as markets grapple with Trump's rapid shifts in tariff policy"
 
 But, based on what my not-very-tenured memory can recall, a lot of presidents have suffered market volatility during the start of their terms. But, I had no data to back that up. So...
-
-# How does Trump's first 8 weeks compare to other recent presidents?
 
 I thought this was a great opportunity to try to:
 

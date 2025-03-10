@@ -1,9 +1,10 @@
 ---
-title: "How has the market historically responded to the first 2 months of a president's term?"
+title: "What happens to the market in the first 2 months of a president's term?"
 description: "Using {quantmod} & {gganimate} to explore market changes under recent presidents."
 author:
   - name: Jess Graves
 date: 03-09-2025
+date-modified: last-modified
 execute-dir: project
 crossref:
   fig-title: '**Figure**'
@@ -26,6 +27,12 @@ nocite: |
 bibliographystyle: apa
 citation: true
 ---
+
+::: callout-note
+Edited to include percent change analysis (See @sec-percent-changes ). Inspired by a [comment](https://bsky.app/profile/louisaslett.bsky.social/post/3ljzsv3h7422d) from [\@louisaslett.bsky.social‬](https://bsky.app/profile/louisaslett.bsky.social) on bluesky.
+
+I also edited the title (original title: *How has the market historically responded to the first 2 months of a president’s term?*)
+:::
 
 # How does Trump's first 8 weeks compare to other recent presidents?
 
@@ -331,7 +338,7 @@ ggsave("preview-image.png", snp_over_time,
 )
 ```
 
-# Changes in market data
+# Point changes in market data
 
 Trump's been in office for almost 2 months, so I'll be looking at the first 8 weeks of data for every president since 1980.
 
@@ -420,7 +427,7 @@ ggsave('snp-changes.png', p1_labels,
        height = 15)
 ```
 
-# Now let's animate it
+## Now let's animate it
 
 ![Animated trajectory of S&P 500 during each presidents first 8 weeks](snp-animated.gif)
 
@@ -456,3 +463,364 @@ anim_save("snp-animated.mp4", p1 +
   renderer = av_renderer()
 )
 ```
+
+# Edited addition: Percent changes in market data {#sec-percent-changes}
+
+I received this comment from @louisaslett.bsky.social on blueky that was very insightful and inspired me to take a closer look at these data and compare the results above with percent changes.
+
+<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:valxun7yjnljqeslycrxfhch/app.bsky.feed.post/3ljzsv3h7422d" data-bluesky-cid="bafyreihwtvkcxxcn3viic5intqsmbckqcbnrq6upaxvypajhb3thac2kfu">
+
+<p lang="en">
+
+Nice animation, thanks! Is it possible to show % change? For example, index was around 1300 for Bush Jr vs around 6000 now, so the magnitude perhaps not that directly comparable between temporally distant presidents?
+
+</p>
+
+— Louis Aslett (`<a href="https://bsky.app/profile/did:plc:valxun7yjnljqeslycrxfhch?ref_src=embed"`{=html}@louisaslett.bsky.social</a>) `<a href="https://bsky.app/profile/did:plc:valxun7yjnljqeslycrxfhch/post/3ljzsv3h7422d?ref_src=embed"`{=html}March 10, 2025 at 9:58 AM</a>
+
+</blockquote>
+
+```{=html}
+<script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+```
+
+There is a steady increase in S&P 500 over time ( @fig-snp-over-time). So, each president has a different baseline starting market value that they are working with. Meaning that, as an example, a 1 point reduction for one president who started with the market at 100 (1% reduction) might not mean the same thing as a 1 point reduction for another president who started with the market of 50 (2% reduction). So, scaling these changes based on their starting value (e.g, using percent change) might make more sense.
+
+Now, this was philosophically interesting to me (in the mathematical sense) – and something that I did consider when I first wrote this post, but convinced myself against it. My reasoning being: earlier presidents will have lower baselines overall simply as *a function of time*, irrespective of the president themselves. Which led me to believe that presidents of the past would be unfairly penalized.
+
+But, if that were true, we'd expect to see percent changes to be a function of time as well – that is, earlier presidents would have greater percent changes compared to later presidents.
+
+```{r}
+from_start_log <- recent_pres %>%
+  group_by(name) %>%
+  arrange(date) %>%
+  mutate(
+    GSPC.Close = log(GSPC.Close),
+    start = first(GSPC.Close),
+    change = GSPC.Close - start,
+    days_from_start = as.numeric(date - first(date))
+  ) %>%
+  # 7-day rolling average
+  mutate(
+    mean_change = frollmean(change, 6),
+  ) %>%
+  ungroup()
+
+from_start_first_8_weeks_log <- from_start_log %>% 
+  filter(days_from_start <= 7 * weeks_in_office)
+
+pres_labels_end_log <- from_start_first_8_weeks_log %>%
+  group_by(name) %>% 
+  filter(date == last(date))
+```
+
+And we can see ( @fig-pct-change-facet ) that that just isn't true! So, % change does seem to be pretty time invariant!
+
+While the S&P 500 point unit data is useful, I can also now see why percent change is useful! So, let's look at the percent changes in S&P 500 for comparison.
+
+```{r}
+#| label: fig-pct-change-facet
+#| fig-cap: Percent change in S&P 500 broken down by term start year
+#| fig-height: 6
+#| fig-width: 10
+from_start_log %>%
+  ggplot(aes(
+    x = days_from_start,
+    y = mean_change,
+    color = time_party,
+    group = name
+  )) +
+  geom_hline(
+    yintercept = 0,
+    linetype = 2,
+    color = text,
+    alpha = 0.5
+  ) +
+  geom_line(aes(group = name),
+    size = 1.5
+  ) +
+  scale_x_continuous(
+    expand = c(0, 0),
+    limits = c(7, weeks_in_office * 7),
+    breaks = seq(7, weeks_in_office * 7, by = 7),
+    labels = c(1:8)
+  ) +
+  scale_y_continuous(
+    breaks = scales::pretty_breaks(5),
+    limits = c(-.2, 0.2)
+  ) +
+  theme(legend.position = "none") +
+  labs(
+    x = "Weeks since taking office",
+    y = "% Change in S&P 500 since taking office",
+    color = "",
+    title = "S&P 500 during first 8 weeks of recent presidential terms"
+  ) +
+  scale_color_continuous_diverging(
+    palette = "Blue-Red",
+    l1 = 20, l2 = 90,
+    p1 = 1, p2 = 1,
+    alpha = 1
+  )   + 
+  facet_wrap(~paste0(year(start_of_term), ' (', name, ')'), 
+             ncol=4)
+```
+
+## Why does this work so well? S&P 500 trends are log-linear
+
+In my original posting of this, I had the instinct to report this on the natural log scale to help with readability (@fig-snp-over-time ). But I didn't take away something important about the data: while the S&P is increasing over time, it's increasing *much faster* now than it was in the past.
+
+```{r}
+#| code-summary: plot code 
+#| label: fig-snp-over-time-pct
+#| fig-cap: S&P 500 since 1980's to today (natural scale)
+#| fig-width: 10
+#| fig-height: 6
+# label dataset
+snp_over_time_nat <- recent_pres %>%
+  ggplot(aes(
+    x = date,
+    y = GSPC.Close,
+    color = time_party,
+    group = name
+  )) +
+  geom_line(linewidth = 1.5) +
+  scale_x_date(expand=c(0, 0.01),
+    date_breaks = "5 years",
+    date_labels = "%Y", 
+    limits = c(as.Date('1981-01-01'), 
+               as.Date('2025-12-31'))
+  ) +
+  scale_y_continuous(
+    breaks = scales::pretty_breaks(10),
+    # limits = c(-300, 150)
+  ) +
+  theme(legend.position = "none") +
+  labs(
+    x = "",
+    y = "S&P 500 at closing",
+    color = "",
+    title = "S&P 500 since the 1980's"
+  ) +
+  scale_color_continuous_diverging(
+    palette = "Blue-Red",
+    l1 = 20, l2 = 90,
+    p1 = 1, p2 = 1,
+    alpha = 1
+  ) +
+  geom_label_repel(
+    data = pres_labels,
+    aes(
+      x = start_of_term,
+      y = y.position,
+      label = name,
+      color = time_party
+    ),
+    nudge_y = .75,
+    max.overlaps = 10
+  )
+
+snp_over_time_nat
+
+ggsave("preview-image2.png", snp_over_time_nat,
+  units = "cm",
+  height = 30*.6,
+  width = 30
+)
+```
+
+This means that the *within-term variability is also much higher* for more recent presidential terms. So, the range of change that was even possible for Reagan in 1981 was much smaller than the range of possible change for say Biden in 2021.
+
+The S&P 500 closed at 132 on Reagan's first day in office. He literally *could not have* *reduced the S&P 500 by more than 132*. Trump's present day reduction is 200 points, with a starting point of \~6,000, so of course the point reductions are not an apples-to-apples comparisons.
+
+So, as per one of my previous posts, I'll use [log transform](https://jesslgraves.github.io/posts/2025-02-09-percent-change/index.html) to estimate percent change. Log scaling is very good at dealing with this type of scaling issue.
+
+## Percent changes in the market
+
+And here are the results!
+
+@fig-changes-pct shows the percent changes in the first 8 weeks of these same presidential terms. These results look quite different from the absolute reductions ( @fig-changes) ! Now, the notable stand outs are Bush Jr's & Obama's 1st terms, with Trump's 2nd term coming in third worst performing so far.
+
+```{r}
+#| label: fig-changes-pct
+#| fig-cap: Percent canges in S&P 500 over the first 8 weeks of each president's term (1980 and on)
+#| fig-height: 6
+#| fig-width: 9
+
+p1_pct <- from_start_first_8_weeks_log %>%
+  ggplot(aes(
+    x = days_from_start,
+    y = mean_change,
+    color = time_party,
+    group = name
+  )) +
+  geom_hline(
+    yintercept = 0,
+    linetype = 2,
+    color = text,
+    alpha = 0.5
+  ) +
+  geom_line(aes(group = name),
+    size = 1.5
+  ) +
+  scale_x_continuous(
+    expand = c(0, 0),
+    limits = c(7, weeks_in_office * 7),
+    breaks = seq(7, weeks_in_office * 7, by = 7),
+    labels = c(1:8)
+  ) +
+  scale_y_continuous(
+    breaks = scales::pretty_breaks(10),
+    # limits = c(-300, 150)
+  ) +
+  theme(legend.position = "none") +
+  labs(
+    x = "Weeks since taking office",
+    y = "% Change in S&P 500 since taking office",
+    color = "",
+    title = "S&P 500 during first 8 weeks of recent presidential terms"
+  ) +
+  scale_color_continuous_diverging(
+    palette = "Blue-Red",
+    l1 = 20, l2 = 90,
+    p1 = 1, p2 = 1,
+    alpha = 1
+  ) 
+
+p1_labels_pct <- p1_pct + 
+  geom_label_repel(data=pres_labels_end_log,
+             aes(x=days_from_start, 
+                 y=mean_change, 
+                 label=name)
+             )
+
+p1_labels_pct
+
+ggsave('snp-pct-changes.png', p1_labels_pct,
+       units='cm', 
+       width = 25, 
+       height = 15)
+```
+
+Let's look more closely at Bush and Obama's terms ( @fig-snp-over-time-bush-obama) to see why these results look so different.
+
+Bush Jr's 1st term was generally considered to be the start of a recession – whether or not that was "his fault" is not for me to debate because that's outside the scope of my knowledge and this post. But, it's clear that there were legitimate, persistent declines during his first term.
+
+And Obama's 1st term actually started at the *tail* *end of Bush Jr's 1st term recession*. This means that his starting value was dramatically lower than that of the presidential terms that book-end him. So, compared to his peers (?) at that time, he is (numerically) at a disadvantage.
+
+Under Obama's 1st term, we actually see improvements in the market starting at week 7. And, we can clearly see from the overall trajectory of the S&P during his two terms ( @fig-snp-over-time-bush-obama ) that the market turned around.
+
+So, percent change does indeed take innto accounnt different baseline starting values very well – whether they can be interpreted causally with a given term is a much more complicated question.
+
+```{r}
+#| code-summary: plot code 
+#| label: fig-snp-over-time-bush-obama
+#| fig-cap: S&P 500 during Bush Jr's and Obama's terms
+#| fig-width: 10
+#| fig-height: 6
+snp_over_time_nat_bush_obama <- recent_pres %>%
+  filter(grepl("Bush Jr|Obama", name)) %>%
+  ggplot(aes(
+    x = date,
+    y = GSPC.Close,
+    color = time_party,
+    group = name
+  )) +
+  geom_line(linewidth = 1.5) +
+  scale_x_date(expand=c(0, 0.01),
+    date_breaks = "2 years",
+    date_labels = "%Y", 
+  ) +
+  scale_y_continuous(
+    breaks = scales::pretty_breaks(10),
+  ) +
+  theme(legend.position = "none") +
+  labs(
+    x = "",
+    y = "S&P 500 at closing",
+    color = "",
+    title = "S&P 500 during Bush Jr. and Obama's terms"
+  ) +
+  scale_color_continuous_diverging(
+    palette = "Blue-Red",
+    l1 = 20, l2 = 90,
+    p1 = 1, p2 = 1,
+    alpha = 1
+  ) +
+  geom_label_repel(
+    data = pres_labels %>%
+      filter(grepl('Bush Jr|Obama', name )),
+    aes(
+      x = start_of_term,
+      y = y.position,
+      label = name,
+      color = time_party
+    ),
+    nudge_y = .75,
+    max.overlaps = 10
+  )
+
+snp_over_time_nat_bush_obama
+
+```
+
+## Now let's animate it again!
+
+![Percent changes in S&P 500 by presidential term](snp-animated-pct.gif)
+
+```{r}
+#| eval: false
+# Save the animation as a .mp4
+anim_save("snp-animated-pct.mp4", p1_pct +
+  geom_label(aes(label = name, color = time_party)) +
+  transition_reveal(days_from_start),
+  fps = 10,
+  height = 15,
+  width = 25,
+  units = "cm",
+  res = 180,
+  end_pause = 30,
+  renderer = av_renderer()
+)
+
+#| eval: false
+# Save the animation as a .gif
+anim_save("snp-animated-pct.gif", p1_pct +
+  geom_label(aes(label = name, color = time_party)) +
+  transition_reveal(days_from_start),
+  fps = 10,
+  height = 15,
+  width = 25,
+  units = "cm",
+  res = 180,
+  end_pause = 30,
+  renderer = gifski_renderer()
+)
+```
+
+# Conclusions & learnings
+
+## Interpreting market data is complex
+
+If I were to interpret these data in a meaningful way I would say: "Consult a real expert."
+
+But, if you want my opinion here goes:
+
+1.  Market data is very challenging to summarize (both quatitatively and qualitatively) into a single "take away". The data should be explored in many ways, not only as market points, but also their relative scale, and within the broader context of American politics.
+2.  Yes. The market is falling under Trump's 2nd term. Trump has shown the most dramatic point reduction in his first 8 weeks since Reagan.
+3.  However, the magnitude of these changes are less extreme when you consider where the market started (at the highest baseline value of any president so far).
+4.  Under percent change, Bush Jr. and Obama's 1st terms see the worst reductions relative to their starting values
+    -   It seems to me that drops in Bush Jr.'s term is indicative of the onset of a real recession.
+    -   By contrast, Obama's 1st term decline is more of an 'outlier' here in that the reductions are carry overs from another smaller recession during Bush Jr's 2nd term
+
+## I learned so much from making this post!
+
+1.  Blogging is a great way to learn and learn from people
+    -   Thank you to [\@louisaslett.bsky.social‬](https://bsky.app/profile/louisaslett.bsky.social) for encouraging me to look at these data in a different way!
+2.  How to access market and presidential data
+3.  How to animate figures
+4.  How to think (more) critically about market changes
+    -   The range of market values that are possible has increased over time
+    -   It's important to consider the changes in the context of both point scales and percent change
+    -   Starting values are important to understanding the relative magnitude of changes
+    -   However, starting values can also be carryovers from previous terms (Obama's first term)

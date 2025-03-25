@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jess Graves">
+<meta name="dcterms.date" content="2025-03-24">
+<meta name="description" content="The influence of publication bias on estimating effect sizes.">
+
+<title>Small samples, big biases – Jess Graves</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Jess Graves</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title">Small samples, big biases</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+                  <div>
+        <div class="description">
+          The influence of publication bias on estimating effect sizes.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">simulation</div>
+                <div class="quarto-category">effect sizes</div>
+                <div class="quarto-category">publication bias</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Jess Graves </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 24, 2025</p>
+      </div>
+    </div>
+    
+      <div>
+      <div class="quarto-title-meta-heading">Modified</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date-modified">March 24, 2025</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#save-a-hot-dog-for-me" id="toc-save-a-hot-dog-for-me" class="nav-link active" data-scroll-target="#save-a-hot-dog-for-me">Save a hot dog for me</a></li>
+  <li><a href="#just-because-its-published-doesnt-mean-its-real" id="toc-just-because-its-published-doesnt-mean-its-real" class="nav-link" data-scroll-target="#just-because-its-published-doesnt-mean-its-real">Just because it’s published doesn’t mean it’s real</a></li>
+  <li><a href="#sec-questions" id="toc-sec-questions" class="nav-link" data-scroll-target="#sec-questions">How do small samples &amp; publication bias work together to distort effect sizes?</a>
+  <ul class="collapse">
+  <li><a href="#simulation-methods" id="toc-simulation-methods" class="nav-link" data-scroll-target="#simulation-methods">Simulation methods</a></li>
+  <li><a href="#setting-the-simulation-parameters" id="toc-setting-the-simulation-parameters" class="nav-link" data-scroll-target="#setting-the-simulation-parameters">Setting the simulation parameters</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#effects-in-small-studies-are-wildly-variable" id="toc-effects-in-small-studies-are-wildly-variable" class="nav-link" data-scroll-target="#effects-in-small-studies-are-wildly-variable">Effects in small studies are <em>wildly variable</em></a></li>
+  <li><a href="#publication-bias-small-samples-big-bias" id="toc-publication-bias-small-samples-big-bias" class="nav-link" data-scroll-target="#publication-bias-small-samples-big-bias">Publication bias + small samples = big bias</a></li>
+  </ul></li>
+  <li><a href="#read-with-caution" id="toc-read-with-caution" class="nav-link" data-scroll-target="#read-with-caution">Read with caution</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="save-a-hot-dog-for-me" class="level2">
+<h2 class="anchored" data-anchor-id="save-a-hot-dog-for-me">Save a hot dog for me</h2>
+<p>The goal of most scientific &amp; statistical endeavors is to identify if some variable or feature influences an outcome or disease state – and perhaps more importantly, by how much.</p>
+<p>This “how much” is called the “treatment effect”, or “effect size” more generally. I’ll use effect size here. Effect sizes are the “so what” of scientific discovery. Just because we see a difference doesn’t mean that difference is meaningful – or, the treatment won’t dramatically change the odds of the outcome occurring.</p>
+<p>One of my favorite examples is the finding that <a href="https://sph.umich.edu/news/2021posts/small-changes-in-diet-could-help-you-live-healthier-more-sustainably.html">eating one hot dog will result in 36 minutes off your lifespan</a> <span class="citation" data-cites="stylianou2021small">(<a href="#ref-stylianou2021small" role="doc-biblioref">Stylianou, Fulgoni III, and Jolliet 2021</a>)</span>. No hard feelings to the authors, there’s no doubt that hot dogs are not great for your health.</p>
+<p>But, for the sake of discussing the “so what”, let’s break it down. 1 hot dog = 36 mins / 60 mins per hour / 24 hours per day / 365 days per year = 6.849315e-05 years of life. So, how many hot dogs do you need to eat to lose 1 year of life? 14,600.</p>
+<p>Let’s say you live to be 75 years old. Then you need to eat 195 hot dogs per year <em>for</em> <em>75 years.</em> You’d need to be averaging one hot dog every other day <em>for 75 years</em>.</p>
+<p>🌭 So, I won’t be changing my hot dog eating habits. I am not eating nearly enough hot dogs to make a meaningful dent in my lifespan. Plus, I love hot dogs.</p>
+<p>Anyway! Back to the point.</p>
+</section>
+<section id="just-because-its-published-doesnt-mean-its-real" class="level2">
+<h2 class="anchored" data-anchor-id="just-because-its-published-doesnt-mean-its-real">Just because it’s published doesn’t mean it’s real</h2>
+<p>Randomized control trials (RCTs) are generally considered the gold standard, or at least a good approximation of the gold standard, for capturing and measuring real treatment effects.</p>
+<p>We need accurate treatment effect estimates to:</p>
+<ol type="1">
+<li>Actually improve health outcomes</li>
+<li>Guide clinical practice</li>
+<li>Accurately test new treatments</li>
+</ol>
+<p>We want to do the best science all the time! But RCTs have many resources and constraints to balance, like: financial and human resources, how many patients to enroll, safety, ethics (stopping trials early due to benefit or harm), regulatory risk, etc.</p>
+<p>As I see it there are two major threats to accurate effect size estimation in RCTs:</p>
+<ol type="1">
+<li><strong>Publication Bias</strong> – Journals largely publish significant results. People tend to want to read about things “that work” over things “that don’t”. The consequence of this is that journals end up only publishing a subset of the studies actually conducted on a given treatment. And not even a random subset, a systematic subset of largely significant findings. By the generally acceptable <a href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">Type I error rate</a> (5%), approximately 5% of all studies may falsely identify an effect when none exists.
+<ul>
+<li>📑 A nice read on what publication bias means, and how to measure it <span class="citation" data-cites="fujian2013publication">(<a href="#ref-fujian2013publication" role="doc-biblioref">Fujian, Hooper, and Yoon 2013</a>)</span></li>
+<li>Publication bias parallels many cognitive biases we have to combat when exploring data and interpreting results. We tend to think that if we see p &lt; 0.05, it means we have attained something <em>real</em>.</li>
+<li>This is not specific to RCTs – it’s a threat to all published studies.</li>
+</ul></li>
+<li><strong>Interim Analyses</strong> (or small sample sizes) - As mentioned above, sometimes there is good motivation to stop a study early. In very high stakes trials, like cancer trials, stopping a trial early could mean reducing the time that the placebo group <em>doesn’t</em> receive an effective treatment. As a simplification, studies can stop early when their pre-determined statistical analysis performed at “interim” shows statistically significant differences. However, meta-analyses have shown that trials that stop early due to early detection of an effect often overestimates those differences, because smaller, more realistic effects take longer to reach significance.
+<ul>
+<li>📑 I really like this paper by Bassler et al 2010 <span class="citation" data-cites="bassler2010stopping">(<a href="#ref-bassler2010stopping" role="doc-biblioref">Bassler et al. 2010</a>)</span>, see <a href="#fig-bassler" class="quarto-xref">Figure&nbsp;1</a> from the paper.</li>
+<li>This would apply to any prospective cohort study too</li>
+<li>Study size can also be an arguable surrogate for interim analysis, because in general, they occur <em>before</em> a certain number of events are attained.</li>
+</ul></li>
+</ol>
+<div id="fig-bassler" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Scatter plot of treatment effects (Relative Risks) on y axis and number of outcomes on x axis. Treatment effects are large for small samples, and decrease as samples increase.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bassler-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="https://d1wqtxts1xzle7.cloudfront.net/57167273/Stopping_randomized_trials_early_for_ben20180810-22461-1gn0lby-libre.pdf?1533941184=&amp;response-content-disposition=inline%3B+filename%3DStopping_Randomized_Trials_Early_for_Ben.pdf&amp;Expires=1742759424&amp;Signature=Ea5NahUKQZxPYv2udJq9TbFeg6kzI4PwbJGoaZTmsQa6rQtl4-eYyOaBy6sCqEzYVhiC2nJ56swIemJCp1ul4XHPgE3x7HXksRPewlob~Hnq5hG8xyAOMZTaLulrBRlesB6JTYhO2oFDsyV9d2E1IpYLuiyEzYJkXEo6FD45y6MqBRTpXXgr04~Utw9QqfSqEpeOxhIKzQD9gGqaARH~OBSgm-WDXsHAuebpoaxy~EcPrftJZu98n0LGkKoBFp3lQGrVeFCgLdjmlXT-U2LAcCIUVMuEXoQlVwCf8-bTSlM17qkUl-BN9exuNFvNnfnnyFHwnYH7Fqmy4Isf9Q0ZqA__&amp;Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA"><img src="images/clipboard-3137372249.png" class="img-fluid figure-img" alt="Scatter plot of treatment effects (Relative Risks) on y axis and number of outcomes on x axis. Treatment effects are large for small samples, and decrease as samples increase."></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bassler-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;1. Figure 3 from Bassler et al.&nbsp;(2010) – Stopping Randomized Trials Early for Benefit and Estimation of Treatment Effects
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-questions" class="level2">
+<h2 class="anchored" data-anchor-id="sec-questions">How do small samples &amp; publication bias work together to distort effect sizes?</h2>
+<p>First, to make a distinction – there are two different definitions of bias. The colloquial version, like the one used in the phrase “Publication Bias”, and the other is the statistical version.</p>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator#Definition"><strong>Statistical Bias</strong></a>: Systematic difference in the true effect and the one that is observed, due to factors such as improper study design, data collection, or selective reporting, which can lead to exaggerated or misleading conclusions.</p>
+</div>
+</div>
+</div>
+<p>Here I’ll use a simple simulation to ask how the following lead to or influence bias in observed treatment effects:</p>
+<ul>
+<li><p>Sample size</p></li>
+<li><p>Publication bias (reporting only p &lt; 0.05 studies)</p></li>
+<li><p>Sample size x Publication bias</p></li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Libraries</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorspace)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>background <span class="ot">&lt;-</span> <span class="st">'grey20'</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="st">'grey90'</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>my_theme <span class="ot">&lt;-</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text), </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text, </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">face=</span> <span class="st">'bold'</span>, </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin=</span><span class="fu">margin</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>)), </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text), </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>, </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text), </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text, </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size=</span><span class="dv">14</span>, </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">face =</span> <span class="st">'bold'</span>),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text, </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> background, </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">fill =</span> background), </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> background, </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">fill =</span> background),</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> background, </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">fill =</span> background), </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">color =</span> text), </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(my_theme)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="simulation-methods" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-methods">Simulation methods</h3>
+<p>The simulation framework is simple. We’re going to assume that we have two groups that are different from each other. We’ll:</p>
+<ol type="1">
+<li>Generate <span class="math inline">\(N\)</span> observations of a random variable ( <span class="math inline">\(y_1\)</span>) that is normally distributed with a mean ( <span class="math inline">\(\mu_1\)</span>) and standard deviation ( <span class="math inline">\(\sigma\)</span>)</li>
+<li>Pre-determine our effect size ( <span class="math inline">\(\Delta\)</span> )</li>
+<li>Generate another set of <span class="math inline">\(N\)</span> observations of another random variable ( <span class="math inline">\(y_2\)</span>) that is normally distributed with a mean that is offset by our pre-determined effect size plus a little random noise ( <span class="math inline">\(\mu_2 = \mu_1 + \Delta + \mathcal{N}(0, 0.25)\)</span> ) with the same standard deviation ( <span class="math inline">\(\sigma\)</span>, to make our lives even simpler)
+<ul>
+<li>The little bit of random noise (<span class="math inline">\(\mathcal{N}(0, 0.25)\)</span>) added is meant to sort of reflect noise in ✨the real world✨.</li>
+</ul></li>
+<li>Perform a two-sample t-test (with equal variances), and obtain:
+<ul>
+<li>The observed effect size ( <span class="math inline">\(\hat{\Delta}\)</span> ) , and it’s 95% CI</li>
+<li>The p-value for that test</li>
+</ul></li>
+</ol>
+<p>Repeat 🔁 this process 100 times across a range of sample sizes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>simulate <span class="ot">&lt;-</span> <span class="cf">function</span>(mu1, mu2, sd, n_per_group){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_per_group, mu1, sd)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  y2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_per_group, mu2, sd)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1, y2, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> test<span class="sc">$</span>p.value</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  delta <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1) <span class="sc">-</span> <span class="fu">mean</span>(y2)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(test<span class="sc">$</span>conf.int)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">delta =</span> delta, </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lower =</span> ci[<span class="dv">1</span>],</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">upper =</span> ci[<span class="dv">2</span>], </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">pvalue =</span> p)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(results)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Sweep set up</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define sweep and simulation setup</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_sweep <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n_sims <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a cross grid of simulations</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>result_data <span class="ot">&lt;-</span> <span class="fu">crossing</span>(<span class="at">n_per_group =</span> n_sweep, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sim =</span> <span class="dv">1</span><span class="sc">:</span>n_sims) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">delta =</span> <span class="cn">NA_real_</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">lower =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">upper =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">pvalue =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">n =</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">true_delta =</span> <span class="cn">NA_real_</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="setting-the-simulation-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="setting-the-simulation-parameters">Setting the simulation parameters</h3>
+<p>Now, let’s define <span class="math inline">\(mu_1\)</span>, <span class="math inline">\(\sigma\)</span>, and <span class="math inline">\(\Delta\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(\mu_1 = 5\)</span></p></li>
+<li><p><span class="math inline">\(\sigma = 2\)</span></p></li>
+<li><p><span class="math inline">\(\Delta = 1 + \mathcal{N}(0, 0.25)\)</span></p></li>
+</ul>
+<p>We’re going to test this in sample sizes from 2–100 per group, and each run will be simulated 100 times.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Looping over Ns</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform simulations</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">666</span>) <span class="co"># 😈</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># True parameters for the simulation</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>mu1 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(result_data)){</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  true_delta <span class="ot">&lt;-</span> delta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.25</span>)  <span class="co"># Introduce some variability in true_delta</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  mu2 <span class="ot">&lt;-</span> mu1 <span class="sc">+</span> true_delta  <span class="co"># Adjust mu2 based on the true delta</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  n_per_group <span class="ot">&lt;-</span> result_data<span class="sc">$</span>n_per_group[i]  <span class="co"># Number of samples per group</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  sim_results <span class="ot">&lt;-</span> <span class="fu">simulate</span>(mu1, mu2, sd, n_per_group)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  result_data[i, <span class="fu">colnames</span>(sim_results)] <span class="ot">&lt;-</span> sim_results</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  result_data<span class="sc">$</span>n[i] <span class="ot">&lt;-</span> n_per_group <span class="sc">*</span> <span class="dv">2</span>  <span class="co"># Total sample size (n_per_group * 2)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  result_data<span class="sc">$</span>true_delta[i] <span class="ot">&lt;-</span> true_delta  <span class="co"># Store true delta</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>result_data<span class="sc">$</span>bias <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>result_data<span class="sc">$</span>delta <span class="sc">-</span> result_data<span class="sc">$</span>true_delta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="effects-in-small-studies-are-wildly-variable" class="level3">
+<h3 class="anchored" data-anchor-id="effects-in-small-studies-are-wildly-variable">Effects in small studies are <em>wildly variable</em></h3>
+<p>Studies with small sample sizes (small numbers of patients) produce much more variable treatment effect estimates and are therefore much more likely to show large differences when they are in fact small (<a href="#fig-sample-sizes" class="quarto-xref">Figure&nbsp;2</a> ).</p>
+<p>Now, on average, across <em>all studies</em>, these effects average out to be around the true effect (1). So, if all studies on this effect were published, we could estimate that the treatment effect was around 1 by taking the average effects across all of these studies – no matter the size of the study! So long as we have many of those studies!</p>
+<p>So, to answer the first question ( <a href="#sec-questions" class="quarto-xref">Section&nbsp;3</a> ) : <em>“How much does sample size influence bias in treatment effect?”</em>. The answer, strictly based on the <a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator#Definition">statistical definition of a biased estimator</a>(which is the difference in the expected values), the answer is actually <em>none.</em></p>
+<div class="callout callout-style-simple callout-warning no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Note that this is contingent entirely on a completely unbiased selection of studies.</p>
+</div>
+</div>
+</div>
+<p>But the variance is incredibly high. And this variance is problematic. Because we live in a finite world, with finite studies and resources, each study is a random draw from that highly variable distribution, leading to a treatment estimate that we are inclined to believe is “real”.</p>
+<p>And that is where publication bias comes in to really mess things up.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> result_data <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>n, <span class="at">y=</span><span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>delta)) <span class="sc">+</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> text, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="fu">position_jitter</span>()) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Study size'</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">'Reported effect size'</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">'Small studies are on average unbiased'</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">'but are much more variable'</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">'grey10'</span>, </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha=</span><span class="fl">0.5</span>, </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">5</span>)) <span class="sc">+</span> </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">10</span>), </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">205</span>)) <span class="sc">+</span> </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="co">#hjust=1, </span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">0</span>)),</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>points</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-sample-sizes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sample-sizes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-sample-sizes-1.png" class="img-fluid figure-img" width="576">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sample-sizes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;2. For small sample sizes, the observed treatment effect is highly variable and often extreme but on average reflects the true effect
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="publication-bias-small-samples-big-bias" class="level3">
+<h3 class="anchored" data-anchor-id="publication-bias-small-samples-big-bias">Publication bias + small samples = big bias</h3>
+<p>However, as mentioned above, most journals do not want to publish every study because non-significant findings are not attention-grabbing enough. So, instead, what we are generally seeing in the scientific literature is only the significant studies.</p>
+<p><a href="#fig-pub-bias" class="quarto-xref">Figure&nbsp;3</a> shows what treatment effects we see, assuming only the significant findings are published.</p>
+<p>So, not only are results more variable in small studies, but they are more likely to be extreme values if they do in fact reach statistical significance. Increasing the study size reduces this bias, but we still see consistent over estimation even in larger sample sizes.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Aggregating results</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the delta for each sample size (n_per_group)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>delta_summary <span class="ot">&lt;-</span> result_data <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(n_per_group, pvalue <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_delta =</span> <span class="fu">mean</span>(delta),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_delta =</span> <span class="fu">sd</span>(delta),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_95_ci_lower =</span> mean_delta <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd_delta <span class="sc">/</span> <span class="fu">sqrt</span>(n_sims),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_95_ci_upper =</span> mean_delta <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd_delta <span class="sc">/</span> <span class="fu">sqrt</span>(n_sims)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Figure code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># colors &lt;-  diverging_hcl(2, 'Green-Orange') </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>grns <span class="ot">&lt;-</span>  <span class="fu">sequential_hcl</span>(<span class="dv">2</span>, <span class="st">'TealGrn'</span>) </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>orngs <span class="ot">&lt;-</span>  <span class="fu">diverging_hcl</span>(<span class="dv">2</span>, <span class="st">'Green-Orange'</span>) </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(grns[<span class="dv">2</span>], orngs[<span class="dv">2</span>])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>colors2 <span class="ot">&lt;-</span>  <span class="fu">lighten</span>(colors, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">amount =</span> <span class="fl">0.5</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> delta_summary <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(<span class="st">`</span><span class="at">pvalue &lt; 0.05</span><span class="st">`</span>, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">'Likely to be published (p&lt;0.05)'</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">'Unlikely to be published (p&gt;0.05)'</span>), </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                               <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">'Likely to be published (p&lt;0.05)'</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">'Unlikely to be published (p&gt;0.05)'</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n_per_group<span class="sc">*</span><span class="dv">2</span>, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">abs</span>(mean_delta))) <span class="sc">+</span> </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> significance)) <span class="sc">+</span> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">abs</span>(delta_95_ci_lower), </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ymax =</span> <span class="fu">abs</span>(delta_95_ci_upper), </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> significance), </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.1</span>)  <span class="sc">+</span> </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype=</span> <span class="dv">2</span>, </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">'white'</span>, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colors2) <span class="sc">+</span> </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> colors2) <span class="sc">+</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">10</span>), </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">205</span>),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">5</span>), </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.25</span>, <span class="dv">4</span>)) <span class="sc">+</span> </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>, </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>, </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size =</span> <span class="dv">16</span>,</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">0</span>)), </span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>, </span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size =</span> <span class="dv">11</span>,</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">0</span>)</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>                                  ), </span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">10</span>)), </span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">0</span>)), </span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span> </span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">''</span>, </span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">''</span>, </span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Study size'</span>, </span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Reported effect size'</span>, </span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">'Publication bias leads to inflated treatment effects'</span>, </span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">'Most academic journals preferentially publish "significant" findings,</span><span class="sc">\n</span><span class="st">biasing towards exaggerated effect sizes, especially in small studies.'</span>, </span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">'@jessgraves.bsky.social'</span>) <span class="sc">+</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">'text'</span>,</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">'Statistically significant</span><span class="sc">\n</span><span class="st">(likely to be published)'</span>, </span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'Not siginficant</span><span class="sc">\n</span><span class="st">(unlikely to be published)'</span>, </span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'True effect'</span>),</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="fu">c</span>(colors2, <span class="st">'white'</span>), </span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>          <span class="at">y=</span><span class="fu">c</span>(<span class="fl">3.5</span>, <span class="fl">0.15</span>, <span class="fl">1.2</span>), </span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>          <span class="at">x=</span><span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">35</span>, <span class="dv">5</span>), </span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>          <span class="at">hjust=</span><span class="dv">0</span>, </span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>          <span class="at">fontface =</span> <span class="st">'bold'</span>)</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="st">"Mint"</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="co"># pal &lt;- "OrRd"</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>p1_v2 <span class="ot">&lt;-</span> result_data <span class="sc">|&gt;</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">20</span>, <span class="dv">60</span>, <span class="dv">100</span>, <span class="dv">200</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">factor</span>(n), </span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>             <span class="at">x=</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>delta, </span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> n, </span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> n)) <span class="sc">+</span> </span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges2</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, </span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>                       <span class="at">scale=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_sequential</span>(<span class="at">palette =</span> pal) <span class="sc">+</span> </span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_continuous_sequential</span>(<span class="at">palette =</span> pal) <span class="sc">+</span> </span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), </span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">5</span>), </span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">4</span>)) <span class="sc">+</span> </span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">'Observed effect size'</span>, </span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">'Study size'</span>, </span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">'Small studies → unreliable estimates'</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span> </span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>, </span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>), </span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="co">#margin = margin(10, 0, 0, 10), </span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">size =</span> <span class="dv">10</span>), </span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="co">#margin = margin(0, 10, 10, 0),</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">size =</span> <span class="dv">10</span>, </span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">hjust=</span><span class="fl">0.2</span>), </span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text, </span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size =</span> <span class="dv">10</span>,</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">hjust =</span> <span class="fl">0.75</span>,</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>                                  <span class="co"># margin=margin(5, 0, 20, 0)</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>                                  )) <span class="sc">+</span> </span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, </span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">'white'</span>, </span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>, </span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">'text'</span>, </span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>           <span class="at">size=</span><span class="dv">3</span>,</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">'True effect = 1'</span>,</span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>           <span class="at">y=</span><span class="fl">8.5</span>, </span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>           <span class="at">x=</span><span class="sc">-</span><span class="fl">1.25</span>, </span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>           <span class="co"># hjust=-1.25, </span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">'white'</span>, </span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>           <span class="at">fontface =</span> <span class="st">'bold'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-fig_height="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>final_fig <span class="ot">&lt;-</span> p2 <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inset_element</span>(p1_v2, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">left =</span> <span class="fl">0.7</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">right =</span> <span class="fl">0.98</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">top =</span> <span class="fl">1.2</span>, </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">bottom =</span> <span class="fl">0.5</span>) </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>final_fig</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">'preview-image.png'</span>, final_fig, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">units =</span> <span class="st">'cm'</span>, </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">width =</span> <span class="dv">9</span><span class="sc">*</span><span class="dv">3</span>, <span class="at">height =</span> <span class="dv">7</span><span class="sc">*</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-pub-bias" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pub-bias-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-pub-bias-1.png" class="img-fluid figure-img" width="864">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pub-bias-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;3. Publication bias exaggerates treatment effects, particularly when studies are small
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="read-with-caution" class="level2">
+<h2 class="anchored" data-anchor-id="read-with-caution">Read with caution</h2>
+<p>Publication bias poses substantial problems to science, both when treatment effects are real and not.</p>
+<ol type="1">
+<li>When there are real effects, we need consistently huge studies to approach unbiased estimates. This is a huge cost to study administrators and patients.</li>
+<li>While not presented here, in the case of no real effects, publication bias would encourage acceptance of false positives (those studies that happen to fall into the Type I error).</li>
+</ol>
+<p>So, as we go about reading papers and designing studies, we should think critically about what we are powering, what is being reported, and what it actually means.</p>
+<p>Seems to me the only way to genuinely address this is to conduct <em>many studies</em> on the <em>same topic</em>. Replicate, replicate, replicate. And yet… often papers are rejected because they are not “novel” 😵</p>
+
+
+<!-- -->
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bassler2010stopping" class="csl-entry" role="listitem">
+Bassler, Dirk, Matthias Briel, Victor M Montori, Melanie Lane, Paul Glasziou, Qi Zhou, Diane Heels-Ansdell, et al. 2010. <span>“Stopping Randomized Trials Early for Benefit and Estimation of Treatment Effects: Systematic Review and Meta-Regression Analysis.”</span> <em>Jama</em> 303 (12): 1180–87.
+</div>
+<div id="ref-fujian2013publication" class="csl-entry" role="listitem">
+Fujian, S, L Hooper, and KL Yoon. 2013. <span>“Publication Bias: What Is It? How Do We Measure It? How Do We Avoid It.”</span> <em>Open Access Journal of Clinical Trials, 571</em> 580.
+</div>
+<div id="ref-stylianou2021small" class="csl-entry" role="listitem">
+Stylianou, Katerina S, Victor L Fulgoni III, and Olivier Jolliet. 2021. <span>“Small Targeted Dietary Changes Can Yield Substantial Gains for Human Health and the Environment.”</span> <em>Nature Food</em> 2 (8): 616–27.
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{graves2025,
+  author = {Graves, Jess},
+  title = {Small Samples, Big Biases},
+  date = {2025-03-24},
+  url = {https://JessLGraves.github.io/posts/2025-03-22-small-samples-big-effects/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-graves2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Graves, Jess. 2025. <span>“Small Samples, Big Biases.”</span> March 24,
+2025. <a href="https://JessLGraves.github.io/posts/2025-03-22-small-samples-big-effects/">https://JessLGraves.github.io/posts/2025-03-22-small-samples-big-effects/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/JessLGraves\.github\.io");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="JessLGraves/post-comments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Small samples, big biases"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "The influence of publication bias on estimating effect sizes."</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Jess Graves</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 03-24-2025</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> last-modified</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="an">execute-dir:</span><span class="co"> project</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: '**Figure**'</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: '**Table**'</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-labels: arabic</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-labels: arabic</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "."</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> true</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [simulation, effect sizes, publication bias] # self-defined categories</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> preview-image.png</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false  </span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="an">nocite:</span><span class="co"> |</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">  @*</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># csl: statistics-in-biosciences.csl</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="an">bibliographystyle:</span><span class="co"> apa</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="an">citation:</span><span class="co"> true</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Save a hot dog for me</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>The goal of most scientific &amp; statistical endeavors is to identify if some variable or feature influences an outcome or disease state – and perhaps more importantly, by how much.</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>This "how much" is called the "treatment effect", or "effect size" more generally. I'll use effect size here. Effect sizes are the "so what" of scientific discovery. Just because we see a difference doesn't mean that difference is meaningful – or, the treatment won't dramatically change the odds of the outcome occurring.</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>One of my favorite examples is the finding that <span class="co">[</span><span class="ot">eating one hot dog will result in 36 minutes off your lifespan</span><span class="co">](https://sph.umich.edu/news/2021posts/small-changes-in-diet-could-help-you-live-healthier-more-sustainably.html)</span> <span class="co">[</span><span class="ot">@stylianou2021small</span><span class="co">]</span>. No hard feelings to the authors, there's no doubt that hot dogs are not great for your health.</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>But, for the sake of discussing the "so what", let's break it down. 1 hot dog = 36 mins / 60 mins per hour / 24 hours per day / 365 days per year = 6.849315e-05 years of life. So, how many hot dogs do you need to eat to lose 1 year of life? 14,600.</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>Let's say you live to be 75 years old. Then you need to eat 195 hot dogs per year *for* *75 years.* You'd need to be averaging one hot dog every other day *for 75 years*.</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>🌭 So, I won't be changing my hot dog eating habits. I am not eating nearly enough hot dogs to make a meaningful dent in my lifespan. Plus, I love hot dogs.</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>Anyway! Back to the point.</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Just because it's published doesn't mean it's real</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>Randomized control trials (RCTs) are generally considered the gold standard, or at least a good approximation of the gold standard, for capturing and measuring real treatment effects.</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>We need accurate treatment effect estimates to:</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Actually improve health outcomes</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Guide clinical practice</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Accurately test new treatments</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>We want to do the best science all the time! But RCTs have many resources and constraints to balance, like: financial and human resources, how many patients to enroll, safety, ethics (stopping trials early due to benefit or harm), regulatory risk, etc.</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>As I see it there are two major threats to accurate effect size estimation in RCTs:</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Publication Bias** – Journals largely publish significant results. People tend to want to read about things "that work" over things "that don't". The consequence of this is that journals end up only publishing a subset of the studies actually conducted on a given treatment. And not even a random subset, a systematic subset of largely significant findings. By the generally acceptable <span class="co">[</span><span class="ot">Type I error rate</span><span class="co">](https://en.wikipedia.org/wiki/Type_I_and_type_II_errors)</span> (5%), approximately 5% of all studies may falsely identify an effect when none exists.</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>📑 A nice read on what publication bias means, and how to measure it <span class="co">[</span><span class="ot">@fujian2013publication</span><span class="co">]</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Publication bias parallels many cognitive biases we have to combat when exploring data and interpreting results. We tend to think that if we see p <span class="sc">\&lt;</span> 0.05, it means we have attained something *real*.</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>This is not specific to RCTs – it's a threat to all published studies.</span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Interim Analyses** (or small sample sizes) - As mentioned above, sometimes there is good motivation to stop a study early. In very high stakes trials, like cancer trials, stopping a trial early could mean reducing the time that the placebo group *doesn't* receive an effective treatment. As a simplification, studies can stop early when their pre-determined statistical analysis performed at "interim" shows statistically significant differences. However, meta-analyses have shown that trials that stop early due to early detection of an effect often overestimates those differences, because smaller, more realistic effects take longer to reach significance.</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>📑 I really like this paper by Bassler et al 2010 <span class="co">[</span><span class="ot">@bassler2010stopping</span><span class="co">]</span>, see @fig-bassler from the paper.</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>This would apply to any prospective cohort study too</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Study size can also be an arguable surrogate for interim analysis, because in general, they occur *before* a certain number of events are attained.</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![Figure 3 from Bassler et al. (2010) -- Stopping Randomized Trials Early for Benefit and Estimation of Treatment Effects](images/clipboard-3137372249.png)</span><span class="ot">{#fig-bassler fig-alt="Scatter plot of treatment effects (Relative Risks) on y axis and number of outcomes on x axis. Treatment effects are large for small samples, and decrease as samples increase."}</span><span class="co">](https://d1wqtxts1xzle7.cloudfront.net/57167273/Stopping_randomized_trials_early_for_ben20180810-22461-1gn0lby-libre.pdf?1533941184=&amp;response-content-disposition=inline%3B+filename%3DStopping_Randomized_Trials_Early_for_Ben.pdf&amp;Expires=1742759424&amp;Signature=Ea5NahUKQZxPYv2udJq9TbFeg6kzI4PwbJGoaZTmsQa6rQtl4-eYyOaBy6sCqEzYVhiC2nJ56swIemJCp1ul4XHPgE3x7HXksRPewlob~Hnq5hG8xyAOMZTaLulrBRlesB6JTYhO2oFDsyV9d2E1IpYLuiyEzYJkXEo6FD45y6MqBRTpXXgr04~Utw9QqfSqEpeOxhIKzQD9gGqaARH~OBSgm-WDXsHAuebpoaxy~EcPrftJZu98n0LGkKoBFp3lQGrVeFCgLdjmlXT-U2LAcCIUVMuEXoQlVwCf8-bTSlM17qkUl-BN9exuNFvNnfnnyFHwnYH7Fqmy4Isf9Q0ZqA__&amp;Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA)</span></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## How do small samples &amp; publication bias work together to distort effect sizes? {#sec-questions}</span></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>First, to make a distinction – there are two different definitions of bias. The colloquial version, like the one used in the phrase "Publication Bias", and the other is the statistical version.</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">**Statistical Bias**</span><span class="co">](https://en.wikipedia.org/wiki/Bias_of_an_estimator#Definition)</span>: Systematic difference in the true effect and the one that is observed, due to factors such as improper study design, data collection, or selective reporting, which can lead to exaggerated or misleading conclusions.</span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>Here I'll use a simple simulation to ask how the following lead to or influence bias in observed treatment effects:</span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sample size</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Publication bias (reporting only p <span class="sc">\&lt;</span> 0.05 studies)</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sample size x Publication bias</span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Libraries</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorspace)</span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>background <span class="ot">&lt;-</span> <span class="st">'grey20'</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="st">'grey90'</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a>my_theme <span class="ot">&lt;-</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, </span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text), </span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>, </span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text, </span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">face=</span> <span class="st">'bold'</span>, </span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin=</span><span class="fu">margin</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span>)), </span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, </span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text), </span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>, </span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text), </span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, </span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">color=</span>text),</span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text, </span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size=</span><span class="dv">14</span>, </span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">face =</span> <span class="st">'bold'</span>),</span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text, </span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> background, </span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">fill =</span> background), </span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> background, </span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">fill =</span> background),</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">color =</span> background, </span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">fill =</span> background), </span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">color =</span> text), </span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(my_theme)</span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Simulation methods</span></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>The simulation framework is simple. We're going to assume that we have two groups that are different from each other. We'll:</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Generate $N$ observations of a random variable ( $y_1$) that is normally distributed with a mean ( $\mu_1$) and standard deviation ( $\sigma$)</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Pre-determine our effect size ( $\Delta$ )</span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Generate another set of $N$ observations of another random variable ( $y_2$) that is normally distributed with a mean that is offset by our pre-determined effect size plus a little random noise ( $\mu_2 = \mu_1 + \Delta + \mathcal{N}(0, 0.25)$ ) with the same standard deviation ( $\sigma$, to make our lives even simpler)</span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The little bit of random noise ($\mathcal{N}(0, 0.25)$) added is meant to sort of reflect noise in ✨the real world✨.</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Perform a two-sample t-test (with equal variances), and obtain:</span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The observed effect size ( $\hat{\Delta}$ ) , and it's 95% CI</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The p-value for that test</span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>Repeat 🔁 this process 100 times across a range of sample sizes.</span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Data generating and testing function</span></span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a>simulate <span class="ot">&lt;-</span> <span class="cf">function</span>(mu1, mu2, sd, n_per_group){</span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a>  y1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_per_group, mu1, sd)</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a>  y2 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n_per_group, mu2, sd)</span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y1, y2, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> test<span class="sc">$</span>p.value</span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>  delta <span class="ot">&lt;-</span> <span class="fu">mean</span>(y1) <span class="sc">-</span> <span class="fu">mean</span>(y2)</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(test<span class="sc">$</span>conf.int)</span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">delta =</span> delta, </span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lower =</span> ci[<span class="dv">1</span>],</span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>                    <span class="at">upper =</span> ci[<span class="dv">2</span>], </span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a>                    <span class="at">pvalue =</span> p)</span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(results)</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Sweep set up</span></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a><span class="co"># Define sweep and simulation setup</span></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>n_sweep <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">2</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">2</span>)</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a>n_sims <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a cross grid of simulations</span></span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a>result_data <span class="ot">&lt;-</span> <span class="fu">crossing</span>(<span class="at">n_per_group =</span> n_sweep, </span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sim =</span> <span class="dv">1</span><span class="sc">:</span>n_sims) <span class="sc">%&gt;%</span></span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">delta =</span> <span class="cn">NA_real_</span>, </span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a>         <span class="at">lower =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>         <span class="at">upper =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>         <span class="at">pvalue =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>         <span class="at">n =</span> <span class="cn">NA_integer_</span>,</span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a>         <span class="at">true_delta =</span> <span class="cn">NA_real_</span>)</span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### Setting the simulation parameters</span></span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a>Now, let's define $mu_1$, $\sigma$, and $\Delta$:</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\mu_1 = 5$</span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\sigma = 2$</span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>$\Delta = 1 + \mathcal{N}(0, 0.25)$</span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>We're going to test this in sample sizes from 2–100 per group, and each run will be simulated 100 times.</span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Looping over Ns </span></span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform simulations</span></span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">666</span>) <span class="co"># 😈</span></span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a><span class="co"># True parameters for the simulation</span></span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a>mu1 <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(result_data)){</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a>  true_delta <span class="ot">&lt;-</span> delta <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.25</span>)  <span class="co"># Introduce some variability in true_delta</span></span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a>  mu2 <span class="ot">&lt;-</span> mu1 <span class="sc">+</span> true_delta  <span class="co"># Adjust mu2 based on the true delta</span></span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>  n_per_group <span class="ot">&lt;-</span> result_data<span class="sc">$</span>n_per_group[i]  <span class="co"># Number of samples per group</span></span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a>  sim_results <span class="ot">&lt;-</span> <span class="fu">simulate</span>(mu1, mu2, sd, n_per_group)</span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a>  result_data[i, <span class="fu">colnames</span>(sim_results)] <span class="ot">&lt;-</span> sim_results</span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a>  result_data<span class="sc">$</span>n[i] <span class="ot">&lt;-</span> n_per_group <span class="sc">*</span> <span class="dv">2</span>  <span class="co"># Total sample size (n_per_group * 2)</span></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a>  result_data<span class="sc">$</span>true_delta[i] <span class="ot">&lt;-</span> true_delta  <span class="co"># Store true delta</span></span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a>result_data<span class="sc">$</span>bias <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>result_data<span class="sc">$</span>delta <span class="sc">-</span> result_data<span class="sc">$</span>true_delta</span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Results</span></span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### Effects in small studies are *wildly variable*</span></span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a>Studies with small sample sizes (small numbers of patients) produce much more variable treatment effect estimates and are therefore much more likely to show large differences when they are in fact small (@fig-sample-sizes ).</span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a>Now, on average, across *all studies*, these effects average out to be around the true effect (1). So, if all studies on this effect were published, we could estimate that the treatment effect was around 1 by taking the average effects across all of these studies – no matter the size of the study! So long as we have many of those studies!</span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a>So, to answer the first question ( @sec-questions ) : *"How much does sample size influence bias in treatment effect?"*. The answer, strictly based on the [statistical definition of a biased estimator](https://en.wikipedia.org/wiki/Bias_of_an_estimator#Definition)(which is the difference in the expected values), the answer is actually *none.*</span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning appearance="minimal"}</span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a>Note that this is contingent entirely on a completely unbiased selection of studies.</span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>But the variance is incredibly high. And this variance is problematic. Because we live in a finite world, with finite studies and resources, each study is a random draw from that highly variable distribution, leading to a treatment estimate that we are inclined to believe is "real".</span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a>And that is where publication bias comes in to really mess things up.</span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-sample-sizes</span></span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 6</span></span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: For small sample sizes, the observed treatment effect is highly variable and often extreme but on average reflects the true effect</span></span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> result_data <span class="sc">|&gt;</span></span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>n, <span class="at">y=</span><span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>delta)) <span class="sc">+</span> </span>
+<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> text, </span>
+<span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, </span>
+<span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="fu">position_jitter</span>()) <span class="sc">+</span></span>
+<span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Study size'</span>, </span>
+<span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">'Reported effect size'</span>,</span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">'Small studies are on average unbiased'</span>,</span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">'but are much more variable'</span></span>
+<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span> </span>
+<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, </span>
+<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">'grey10'</span>, </span>
+<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha=</span><span class="fl">0.5</span>, </span>
+<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">5</span>)) <span class="sc">+</span> </span>
+<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">10</span>), </span>
+<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), </span>
+<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">205</span>)) <span class="sc">+</span> </span>
+<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="co">#hjust=1, </span></span>
+<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">0</span>)),</span>
+<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a>points</span>
+<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-276"><a href="#cb9-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-277"><a href="#cb9-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### Publication bias + small samples = big bias</span></span>
+<span id="cb9-278"><a href="#cb9-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-279"><a href="#cb9-279" aria-hidden="true" tabindex="-1"></a>However, as mentioned above, most journals do not want to publish every study because non-significant findings are not attention-grabbing enough. So, instead, what we are generally seeing in the scientific literature is only the significant studies.</span>
+<span id="cb9-280"><a href="#cb9-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-281"><a href="#cb9-281" aria-hidden="true" tabindex="-1"></a>@fig-pub-bias shows what treatment effects we see, assuming only the significant findings are published.</span>
+<span id="cb9-282"><a href="#cb9-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-283"><a href="#cb9-283" aria-hidden="true" tabindex="-1"></a>So, not only are results more variable in small studies, but they are more likely to be extreme values if they do in fact reach statistical significance. Increasing the study size reduces this bias, but we still see consistent over estimation even in larger sample sizes.</span>
+<span id="cb9-284"><a href="#cb9-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-287"><a href="#cb9-287" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-288"><a href="#cb9-288" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Aggregating results</span></span>
+<span id="cb9-289"><a href="#cb9-289" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the delta for each sample size (n_per_group)</span></span>
+<span id="cb9-290"><a href="#cb9-290" aria-hidden="true" tabindex="-1"></a>delta_summary <span class="ot">&lt;-</span> result_data <span class="sc">|&gt;</span></span>
+<span id="cb9-291"><a href="#cb9-291" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(n_per_group, pvalue <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-292"><a href="#cb9-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb9-293"><a href="#cb9-293" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_delta =</span> <span class="fu">mean</span>(delta),</span>
+<span id="cb9-294"><a href="#cb9-294" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_delta =</span> <span class="fu">sd</span>(delta),</span>
+<span id="cb9-295"><a href="#cb9-295" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_95_ci_lower =</span> mean_delta <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd_delta <span class="sc">/</span> <span class="fu">sqrt</span>(n_sims),</span>
+<span id="cb9-296"><a href="#cb9-296" aria-hidden="true" tabindex="-1"></a>    <span class="at">delta_95_ci_upper =</span> mean_delta <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd_delta <span class="sc">/</span> <span class="fu">sqrt</span>(n_sims)</span>
+<span id="cb9-297"><a href="#cb9-297" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-298"><a href="#cb9-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-299"><a href="#cb9-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-302"><a href="#cb9-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-303"><a href="#cb9-303" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-summary: Figure code</span></span>
+<span id="cb9-304"><a href="#cb9-304" aria-hidden="true" tabindex="-1"></a><span class="co"># colors &lt;-  diverging_hcl(2, 'Green-Orange') </span></span>
+<span id="cb9-305"><a href="#cb9-305" aria-hidden="true" tabindex="-1"></a>grns <span class="ot">&lt;-</span>  <span class="fu">sequential_hcl</span>(<span class="dv">2</span>, <span class="st">'TealGrn'</span>) </span>
+<span id="cb9-306"><a href="#cb9-306" aria-hidden="true" tabindex="-1"></a>orngs <span class="ot">&lt;-</span>  <span class="fu">diverging_hcl</span>(<span class="dv">2</span>, <span class="st">'Green-Orange'</span>) </span>
+<span id="cb9-307"><a href="#cb9-307" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(grns[<span class="dv">2</span>], orngs[<span class="dv">2</span>])</span>
+<span id="cb9-308"><a href="#cb9-308" aria-hidden="true" tabindex="-1"></a>colors2 <span class="ot">&lt;-</span>  <span class="fu">lighten</span>(colors, </span>
+<span id="cb9-309"><a href="#cb9-309" aria-hidden="true" tabindex="-1"></a>                    <span class="at">amount =</span> <span class="fl">0.5</span>)</span>
+<span id="cb9-310"><a href="#cb9-310" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> delta_summary <span class="sc">|&gt;</span></span>
+<span id="cb9-311"><a href="#cb9-311" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">significance =</span> <span class="fu">factor</span>(<span class="fu">if_else</span>(<span class="st">`</span><span class="at">pvalue &lt; 0.05</span><span class="st">`</span>, </span>
+<span id="cb9-312"><a href="#cb9-312" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">'Likely to be published (p&lt;0.05)'</span>,</span>
+<span id="cb9-313"><a href="#cb9-313" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">'Unlikely to be published (p&gt;0.05)'</span>), </span>
+<span id="cb9-314"><a href="#cb9-314" aria-hidden="true" tabindex="-1"></a>                               <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">'Likely to be published (p&lt;0.05)'</span>,</span>
+<span id="cb9-315"><a href="#cb9-315" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">'Unlikely to be published (p&gt;0.05)'</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb9-316"><a href="#cb9-316" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> n_per_group<span class="sc">*</span><span class="dv">2</span>, </span>
+<span id="cb9-317"><a href="#cb9-317" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">abs</span>(mean_delta))) <span class="sc">+</span> </span>
+<span id="cb9-318"><a href="#cb9-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> significance)) <span class="sc">+</span> </span>
+<span id="cb9-319"><a href="#cb9-319" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> <span class="fu">abs</span>(delta_95_ci_lower), </span>
+<span id="cb9-320"><a href="#cb9-320" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ymax =</span> <span class="fu">abs</span>(delta_95_ci_upper), </span>
+<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> significance), </span>
+<span id="cb9-322"><a href="#cb9-322" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha=</span><span class="fl">0.1</span>)  <span class="sc">+</span> </span>
+<span id="cb9-323"><a href="#cb9-323" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, </span>
+<span id="cb9-324"><a href="#cb9-324" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype=</span> <span class="dv">2</span>, </span>
+<span id="cb9-325"><a href="#cb9-325" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">'white'</span>, </span>
+<span id="cb9-326"><a href="#cb9-326" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb9-327"><a href="#cb9-327" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> colors2) <span class="sc">+</span> </span>
+<span id="cb9-328"><a href="#cb9-328" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> colors2) <span class="sc">+</span></span>
+<span id="cb9-329"><a href="#cb9-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">10</span>), </span>
+<span id="cb9-330"><a href="#cb9-330" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">205</span>),</span>
+<span id="cb9-331"><a href="#cb9-331" aria-hidden="true" tabindex="-1"></a>                     <span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb9-332"><a href="#cb9-332" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">5</span>), </span>
+<span id="cb9-333"><a href="#cb9-333" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.25</span>, <span class="dv">4</span>)) <span class="sc">+</span> </span>
+<span id="cb9-334"><a href="#cb9-334" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>, </span>
+<span id="cb9-335"><a href="#cb9-335" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>, </span>
+<span id="cb9-336"><a href="#cb9-336" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size =</span> <span class="dv">16</span>,</span>
+<span id="cb9-337"><a href="#cb9-337" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">0</span>)), </span>
+<span id="cb9-338"><a href="#cb9-338" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>, </span>
+<span id="cb9-339"><a href="#cb9-339" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size =</span> <span class="dv">11</span>,</span>
+<span id="cb9-340"><a href="#cb9-340" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">0</span>)</span>
+<span id="cb9-341"><a href="#cb9-341" aria-hidden="true" tabindex="-1"></a>                                  ), </span>
+<span id="cb9-342"><a href="#cb9-342" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb9-343"><a href="#cb9-343" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">10</span>)), </span>
+<span id="cb9-344"><a href="#cb9-344" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">0</span>)), </span>
+<span id="cb9-345"><a href="#cb9-345" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text)</span>
+<span id="cb9-346"><a href="#cb9-346" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">+</span> </span>
+<span id="cb9-347"><a href="#cb9-347" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">''</span>, </span>
+<span id="cb9-348"><a href="#cb9-348" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">''</span>, </span>
+<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">'Study size'</span>, </span>
+<span id="cb9-350"><a href="#cb9-350" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Reported effect size'</span>, </span>
+<span id="cb9-351"><a href="#cb9-351" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">'Publication bias leads to inflated treatment effects'</span>, </span>
+<span id="cb9-352"><a href="#cb9-352" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">'Most academic journals preferentially publish "significant" findings,</span><span class="sc">\n</span><span class="st">biasing towards exaggerated effect sizes, especially in small studies.'</span>, </span>
+<span id="cb9-353"><a href="#cb9-353" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">'@jessgraves.bsky.social'</span>) <span class="sc">+</span></span>
+<span id="cb9-354"><a href="#cb9-354" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">'text'</span>,</span>
+<span id="cb9-355"><a href="#cb9-355" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">c</span>(<span class="st">'Statistically significant</span><span class="sc">\n</span><span class="st">(likely to be published)'</span>, </span>
+<span id="cb9-356"><a href="#cb9-356" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'Not siginficant</span><span class="sc">\n</span><span class="st">(unlikely to be published)'</span>, </span>
+<span id="cb9-357"><a href="#cb9-357" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'True effect'</span>),</span>
+<span id="cb9-358"><a href="#cb9-358" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="fu">c</span>(colors2, <span class="st">'white'</span>), </span>
+<span id="cb9-359"><a href="#cb9-359" aria-hidden="true" tabindex="-1"></a>          <span class="at">y=</span><span class="fu">c</span>(<span class="fl">3.5</span>, <span class="fl">0.15</span>, <span class="fl">1.2</span>), </span>
+<span id="cb9-360"><a href="#cb9-360" aria-hidden="true" tabindex="-1"></a>          <span class="at">x=</span><span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">35</span>, <span class="dv">5</span>), </span>
+<span id="cb9-361"><a href="#cb9-361" aria-hidden="true" tabindex="-1"></a>          <span class="at">hjust=</span><span class="dv">0</span>, </span>
+<span id="cb9-362"><a href="#cb9-362" aria-hidden="true" tabindex="-1"></a>          <span class="at">fontface =</span> <span class="st">'bold'</span>)</span>
+<span id="cb9-363"><a href="#cb9-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-364"><a href="#cb9-364" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="st">"Mint"</span></span>
+<span id="cb9-365"><a href="#cb9-365" aria-hidden="true" tabindex="-1"></a><span class="co"># pal &lt;- "OrRd"</span></span>
+<span id="cb9-366"><a href="#cb9-366" aria-hidden="true" tabindex="-1"></a>p1_v2 <span class="ot">&lt;-</span> result_data <span class="sc">|&gt;</span></span>
+<span id="cb9-367"><a href="#cb9-367" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">20</span>, <span class="dv">60</span>, <span class="dv">100</span>, <span class="dv">200</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-368"><a href="#cb9-368" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">factor</span>(n), </span>
+<span id="cb9-369"><a href="#cb9-369" aria-hidden="true" tabindex="-1"></a>             <span class="at">x=</span> <span class="sc">-</span><span class="dv">1</span><span class="sc">*</span>delta, </span>
+<span id="cb9-370"><a href="#cb9-370" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> n, </span>
+<span id="cb9-371"><a href="#cb9-371" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> n)) <span class="sc">+</span> </span>
+<span id="cb9-372"><a href="#cb9-372" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges2</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, </span>
+<span id="cb9-373"><a href="#cb9-373" aria-hidden="true" tabindex="-1"></a>                       <span class="at">scale=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb9-374"><a href="#cb9-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_continuous_sequential</span>(<span class="at">palette =</span> pal) <span class="sc">+</span> </span>
+<span id="cb9-375"><a href="#cb9-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_continuous_sequential</span>(<span class="at">palette =</span> pal) <span class="sc">+</span> </span>
+<span id="cb9-376"><a href="#cb9-376" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), </span>
+<span id="cb9-377"><a href="#cb9-377" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">5</span>), </span>
+<span id="cb9-378"><a href="#cb9-378" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">4</span>)) <span class="sc">+</span> </span>
+<span id="cb9-379"><a href="#cb9-379" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb9-380"><a href="#cb9-380" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">'Observed effect size'</span>, </span>
+<span id="cb9-381"><a href="#cb9-381" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">'Study size'</span>, </span>
+<span id="cb9-382"><a href="#cb9-382" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">'Small studies → unreliable estimates'</span></span>
+<span id="cb9-383"><a href="#cb9-383" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span> </span>
+<span id="cb9-384"><a href="#cb9-384" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>, </span>
+<span id="cb9-385"><a href="#cb9-385" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-386"><a href="#cb9-386" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>), </span>
+<span id="cb9-387"><a href="#cb9-387" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="co">#margin = margin(10, 0, 0, 10), </span></span>
+<span id="cb9-388"><a href="#cb9-388" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">size =</span> <span class="dv">10</span>), </span>
+<span id="cb9-389"><a href="#cb9-389" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="co">#margin = margin(0, 10, 10, 0),</span></span>
+<span id="cb9-390"><a href="#cb9-390" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">size =</span> <span class="dv">10</span>, </span>
+<span id="cb9-391"><a href="#cb9-391" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">hjust=</span><span class="fl">0.2</span>), </span>
+<span id="cb9-392"><a href="#cb9-392" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> text, </span>
+<span id="cb9-393"><a href="#cb9-393" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size =</span> <span class="dv">10</span>,</span>
+<span id="cb9-394"><a href="#cb9-394" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">hjust =</span> <span class="fl">0.75</span>,</span>
+<span id="cb9-395"><a href="#cb9-395" aria-hidden="true" tabindex="-1"></a>                                  <span class="co"># margin=margin(5, 0, 20, 0)</span></span>
+<span id="cb9-396"><a href="#cb9-396" aria-hidden="true" tabindex="-1"></a>                                  )) <span class="sc">+</span> </span>
+<span id="cb9-397"><a href="#cb9-397" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, </span>
+<span id="cb9-398"><a href="#cb9-398" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">'white'</span>, </span>
+<span id="cb9-399"><a href="#cb9-399" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="dv">2</span>, </span>
+<span id="cb9-400"><a href="#cb9-400" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb9-401"><a href="#cb9-401" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">'text'</span>, </span>
+<span id="cb9-402"><a href="#cb9-402" aria-hidden="true" tabindex="-1"></a>           <span class="at">size=</span><span class="dv">3</span>,</span>
+<span id="cb9-403"><a href="#cb9-403" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">'True effect = 1'</span>,</span>
+<span id="cb9-404"><a href="#cb9-404" aria-hidden="true" tabindex="-1"></a>           <span class="at">y=</span><span class="fl">8.5</span>, </span>
+<span id="cb9-405"><a href="#cb9-405" aria-hidden="true" tabindex="-1"></a>           <span class="at">x=</span><span class="sc">-</span><span class="fl">1.25</span>, </span>
+<span id="cb9-406"><a href="#cb9-406" aria-hidden="true" tabindex="-1"></a>           <span class="co"># hjust=-1.25, </span></span>
+<span id="cb9-407"><a href="#cb9-407" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">'white'</span>, </span>
+<span id="cb9-408"><a href="#cb9-408" aria-hidden="true" tabindex="-1"></a>           <span class="at">fontface =</span> <span class="st">'bold'</span>)</span>
+<span id="cb9-409"><a href="#cb9-409" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-410"><a href="#cb9-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-413"><a href="#cb9-413" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-414"><a href="#cb9-414" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-pub-bias</span></span>
+<span id="cb9-415"><a href="#cb9-415" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Publication bias exaggerates treatment effects, particularly when studies are small</span></span>
+<span id="cb9-416"><a href="#cb9-416" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig_height: 7</span></span>
+<span id="cb9-417"><a href="#cb9-417" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb9-418"><a href="#cb9-418" aria-hidden="true" tabindex="-1"></a>final_fig <span class="ot">&lt;-</span> p2 <span class="sc">+</span> </span>
+<span id="cb9-419"><a href="#cb9-419" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inset_element</span>(p1_v2, </span>
+<span id="cb9-420"><a href="#cb9-420" aria-hidden="true" tabindex="-1"></a>                <span class="at">left =</span> <span class="fl">0.7</span>, </span>
+<span id="cb9-421"><a href="#cb9-421" aria-hidden="true" tabindex="-1"></a>                <span class="at">right =</span> <span class="fl">0.98</span>, </span>
+<span id="cb9-422"><a href="#cb9-422" aria-hidden="true" tabindex="-1"></a>                <span class="at">top =</span> <span class="fl">1.2</span>, </span>
+<span id="cb9-423"><a href="#cb9-423" aria-hidden="true" tabindex="-1"></a>                <span class="at">bottom =</span> <span class="fl">0.5</span>) </span>
+<span id="cb9-424"><a href="#cb9-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-425"><a href="#cb9-425" aria-hidden="true" tabindex="-1"></a>final_fig</span>
+<span id="cb9-426"><a href="#cb9-426" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">'preview-image.png'</span>, final_fig, </span>
+<span id="cb9-427"><a href="#cb9-427" aria-hidden="true" tabindex="-1"></a>         <span class="at">units =</span> <span class="st">'cm'</span>, </span>
+<span id="cb9-428"><a href="#cb9-428" aria-hidden="true" tabindex="-1"></a>         <span class="at">width =</span> <span class="dv">9</span><span class="sc">*</span><span class="dv">3</span>, <span class="at">height =</span> <span class="dv">7</span><span class="sc">*</span><span class="dv">2</span>)</span>
+<span id="cb9-429"><a href="#cb9-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-430"><a href="#cb9-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-431"><a href="#cb9-431" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read with caution</span></span>
+<span id="cb9-432"><a href="#cb9-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-433"><a href="#cb9-433" aria-hidden="true" tabindex="-1"></a>Publication bias poses substantial problems to science, both when treatment effects are real and not.</span>
+<span id="cb9-434"><a href="#cb9-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-435"><a href="#cb9-435" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>When there are real effects, we need consistently huge studies to approach unbiased estimates. This is a huge cost to study administrators and patients.</span>
+<span id="cb9-436"><a href="#cb9-436" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>While not presented here, in the case of no real effects, publication bias would encourage acceptance of false positives (those studies that happen to fall into the Type I error).</span>
+<span id="cb9-437"><a href="#cb9-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-438"><a href="#cb9-438" aria-hidden="true" tabindex="-1"></a>So, as we go about reading papers and designing studies, we should think critically about what we are powering, what is being reported, and what it actually means.</span>
+<span id="cb9-439"><a href="#cb9-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-440"><a href="#cb9-440" aria-hidden="true" tabindex="-1"></a>Seems to me the only way to genuinely address this is to conduct *many studies* on the *same topic*. Replicate, replicate, replicate. And yet... often papers are rejected because they are not "novel" 😵</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

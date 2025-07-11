@@ -1,0 +1,22 @@
+---
+title: "Translational immune and metabolic markers of aging in dogs"
+author:
+  - name: James E. McMahon
+    affiliation: Loyal
+    affiliation-url: https://www.loyal.com
+  - name: Jessica L. Graves
+  - name: ...
+description: ''
+date: 04-25-2025
+categories: [immune markers, metabolism, dogs, aging]
+image: preview-image.png
+draft: false
+citation: 
+  url: "https://www.nature.com/articles/s41598-025-99349-2"
+---
+
+[Read full article here.](https://www.nature.com/articles/s41598-025-99349-2)
+
+> ## Abstract
+>
+> Dogs serve as a promising aging model due to their genetic diversity, condensed lifespan, and shared living environment with humans. Alterations in the immune and metabolic parameters are hallmarks of aging in humans, but few studies have investigated these changes in dogs. We investigated the association of whole blood parameters with aging in a cross-sectional field study with a population of 451 companion dogs. Additionally, we measured total lymphocytes, total T-cells, CD4 T-cells, CD8 T-cells, B-cells, CBC, insulin and adiponectin in a cross-sectional study of 74 laboratory research beagles. In companion dogs, we report total lymphocytes and RBCs decrease significantly with age while platelets increase significantly. In lab beagles, total lymphocytes, T-cells, CD4 T-cells, CD8 T-cells, and B cells are significantly lower in Aged and Geriatric beagles. Furthermore, the CD4/CD8 ratio is significantly lower in Geriatric beagles. We also found that Geriatric beagles experience hyperinsulinemia, while plasma adiponectin is significantly lower in both Aged and Geriatric beagles. These results align with the age-related immune and metabolic alterations seen in humans and provide additional evidence that dogs serve as a relevant translational model of aging.

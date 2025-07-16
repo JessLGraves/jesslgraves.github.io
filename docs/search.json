@@ -1,10 +1,10 @@
 [
   {
-    "objectID": "apps/skyrim/index.html",
-    "href": "apps/skyrim/index.html",
-    "title": "Skyrim alchemy assistant",
+    "objectID": "apps/2025-07-15_xkcd/index.html",
+    "href": "apps/2025-07-15_xkcd/index.html",
+    "title": "xkcd color survey explorer",
     "section": "",
-    "text": "CitationBibTeX citation:@online{graves2025,\n  author = {Graves, Jess},\n  title = {Skyrim Alchemy Assistant},\n  date = {2025-01-31},\n  url = {https://JessLGraves.github.io/apps/skyrim/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nGraves, Jess. 2025. “Skyrim Alchemy Assistant.” January 31,\n2025. https://JessLGraves.github.io/apps/skyrim/."
+    "text": "Click image to visit app:\n\n\n\n\n\n\n\n\n\n\nCitationBibTeX citation:@online{graves2025,\n  author = {Graves, Jess},\n  title = {Xkcd Color Survey Explorer},\n  date = {2025-07-15},\n  url = {https://JessLGraves.github.io/apps/2025-07-15_xkcd/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nGraves, Jess. 2025. “Xkcd Color Survey Explorer.” July 15,\n2025. https://JessLGraves.github.io/apps/2025-07-15_xkcd/."
   },
   {
     "objectID": "posts.html",
@@ -441,10 +441,10 @@
     "text": "About this site\n\n\nCode\n1 + 1\n\n\n[1] 2"
   },
   {
-    "objectID": "apps/xkcd/index.html",
-    "href": "apps/xkcd/index.html",
-    "title": "xkcd color survey explorer",
+    "objectID": "apps/2025-01-31_skyrim/index.html",
+    "href": "apps/2025-01-31_skyrim/index.html",
+    "title": "Skyrim alchemy assistant",
     "section": "",
-    "text": "CitationBibTeX citation:@online{graves2025,\n  author = {Graves, Jess},\n  title = {Xkcd Color Survey Explorer},\n  date = {2025-07-15},\n  url = {https://JessLGraves.github.io/apps/xkcd/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nGraves, Jess. 2025. “Xkcd Color Survey Explorer.” July 15,\n2025. https://JessLGraves.github.io/apps/xkcd/."
+    "text": "Click image to visit app:\n\n\n\n\n\n\n\n\n\n\nCitationBibTeX citation:@online{graves2025,\n  author = {Graves, Jess},\n  title = {Skyrim Alchemy Assistant},\n  date = {2025-01-31},\n  url = {https://JessLGraves.github.io/apps/2025-01-31_skyrim/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nGraves, Jess. 2025. “Skyrim Alchemy Assistant.” January 31,\n2025. https://JessLGraves.github.io/apps/2025-01-31_skyrim/."
   }
 ]

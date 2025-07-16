@@ -82,5 +82,11 @@
   },
   "apps/skyrim/index.qmd": {
     "index.html": "6648c60a"
+  },
+  "apps/2025-01-31_skyrim/index.qmd": {
+    "index.html": "350dd2fd"
+  },
+  "apps/2025-07-15_xkcd/index.qmd": {
+    "index.html": "c2213a3d"
   }
 }

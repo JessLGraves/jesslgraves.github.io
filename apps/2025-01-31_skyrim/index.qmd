@@ -24,4 +24,6 @@ nocite: |
 citation: true
 ---
 
+Click image to visit app:
+
 [![](preview-image.png){fig-align="center"}](https://jessgraves.shinyapps.io/skyrim-ingredients/)

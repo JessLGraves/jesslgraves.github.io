@@ -1,0 +1,27 @@
+---
+title: "Skyrim alchemy assistant"
+description: "Search for ingredients with matching effects to make potions."
+author:
+  - name: Jess Graves
+date: 01-31-2025
+execute-dir: project
+crossref:
+  fig-title: '**Figure**'
+  tbl-title: '**Table**'
+  fig-labels: arabic
+  tbl-labels: arabic
+  title-delim: "."
+link-citations: true
+execute:
+  echo: true
+  warning: false
+  message: false
+categories: [shiny, for fun] # self-defined categories
+image: preview-image.png
+draft: false  
+nocite: |
+  @*
+citation: true
+---
+
+[![](preview-image.png){fig-align="center"}](https://jessgraves.shinyapps.io/skyrim-ingredients/)

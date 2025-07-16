@@ -73,5 +73,14 @@
   },
   "publications/2025-04-25_translational_biomarkers/index.qmd": {
     "index.html": "457590d8"
+  },
+  "apps.qmd": {
+    "apps.html": "040654e5"
+  },
+  "apps/xkcd/index.qmd": {
+    "index.html": "a4430ef9"
+  },
+  "apps/skyrim/index.qmd": {
+    "index.html": "6648c60a"
   }
 }

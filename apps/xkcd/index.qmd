@@ -1,0 +1,27 @@
+---
+title: "xkcd color survey explorer"
+description: "3d visualization of results of the 2010 xkcd color survey"
+author:
+  - name: Jess Graves
+date: 07-15-2025
+execute-dir: project
+crossref:
+  fig-title: '**Figure**'
+  tbl-title: '**Table**'
+  fig-labels: arabic
+  tbl-labels: arabic
+  title-delim: "."
+link-citations: true
+execute:
+  echo: true
+  warning: false
+  message: false
+categories: [shiny, data visualization, tidytuesday] # self-defined categories
+image: preview-image.png
+draft: false  
+nocite: |
+  @*
+citation: true
+---
+
+[![](preview-image.png){fig-align="center"}](https://jessgraves.shinyapps.io/xkcd-color-survey/)

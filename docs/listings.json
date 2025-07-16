@@ -26,5 +26,12 @@
       "/publications/2022-02-15-circadian-reward/index.html",
       "/publications/2021-03-02-sensors/index.html"
     ]
+  },
+  {
+    "listing": "/apps.html",
+    "items": [
+      "/apps/xkcd/index.html",
+      "/apps/skyrim/index.html"
+    ]
   }
 ]

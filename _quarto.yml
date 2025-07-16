@@ -15,9 +15,12 @@ website:
       # - href: index.qmd
         # text: About
       - href: posts.qmd
-        text: Posts
+        text: Blog
+      - href: apps.qmd
+        text: Apps
       - href: publications.qmd
         text: Publications
+
 
 format:
   html:

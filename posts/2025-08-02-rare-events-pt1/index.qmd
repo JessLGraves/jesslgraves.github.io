@@ -406,7 +406,7 @@ For our 1% event rate study, we'd need to enroll at least 200 participants to ge
 
 ```{r}
 #| label: fig-p-k-gt-0
-#| fig-caption: Probabilities of observing > 0 events for given event rates and sample sizes. 
+#| fig-cap: Probabilities of observing > 0 events for given event rates and sample sizes. 
 
 ns <- seq(0, 200, by = 5)
 ps <- c(0.001, 0.002, 0.005, 0.01, 0.02, 0.05)

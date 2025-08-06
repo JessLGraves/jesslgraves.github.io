@@ -664,7 +664,7 @@ F(k; n, p) = P(X \leq k) = \sum_{k=0}^{x} \binom{n}{k} p^k (1 - p)^{n - k}
 <h1>You need very large N to see very rare events</h1>
 <p>We can generalize this across event rates and sample sizes to see that for very rare events, we need very large N.</p>
 <p>For our 1% event rate study, we’d need to enroll at least 200 participants to get an 80% chance of seeing &gt; 0 events! <a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
-<div class="cell" data-fig-caption="Probabilities of observing > 0 events for given event rates and sample sizes.">
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
@@ -704,13 +704,13 @@ F(k; n, p) = P(X \leq k) = \sum_{k=0}^{x} \binom{n}{k} p^k (1 - p)^{n - k}
 <span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-p-k-gt-0" class="quarto-float quarto-figure quarto-figure-center anchored" width="672">
+<div id="fig-p-k-gt-0" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-p-k-gt-0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="index_files/figure-html/fig-p-k-gt-0-1.png" id="fig-p-k-gt-0" class="img-fluid figure-img" width="672">
+<img src="index_files/figure-html/fig-p-k-gt-0-1.png" class="img-fluid figure-img" width="672">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-p-k-gt-0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<strong>Figure</strong>&nbsp;5
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-p-k-gt-0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<strong>Figure</strong>&nbsp;5. Probabilities of observing &gt; 0 events for given event rates and sample sizes.
 </figcaption>
 </figure>
 </div>
@@ -1630,7 +1630,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb11-422"><a href="#cb11-422" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-425"><a href="#cb11-425" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb11-426"><a href="#cb11-426" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-p-k-gt-0</span></span>
-<span id="cb11-427"><a href="#cb11-427" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-caption: Probabilities of observing &gt; 0 events for given event rates and sample sizes. </span></span>
+<span id="cb11-427"><a href="#cb11-427" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: Probabilities of observing &gt; 0 events for given event rates and sample sizes. </span></span>
 <span id="cb11-428"><a href="#cb11-428" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-429"><a href="#cb11-429" aria-hidden="true" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">200</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
 <span id="cb11-430"><a href="#cb11-430" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="fl">0.002</span>, <span class="fl">0.005</span>, <span class="fl">0.01</span>, <span class="fl">0.02</span>, <span class="fl">0.05</span>)</span>

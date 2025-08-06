@@ -88,5 +88,8 @@
   },
   "apps/2025-07-15_xkcd/index.qmd": {
     "index.html": "c2213a3d"
+  },
+  "posts/2025-08-02-rare-events-pt1/index.qmd": {
+    "index.html": "7955529e"
   }
 }

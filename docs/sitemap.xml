@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://JessLGraves.github.io/apps/2025-07-15_xkcd/index.html</loc>
-    <lastmod>2025-07-16T14:48:18.561Z</lastmod>
+    <lastmod>2025-08-02T01:39:47.403Z</lastmod>
   </url>
   <url>
     <loc>https://JessLGraves.github.io/posts.html</loc>
@@ -14,11 +14,11 @@
   </url>
   <url>
     <loc>https://JessLGraves.github.io/index.html</loc>
-    <lastmod>2025-07-16T02:59:56.255Z</lastmod>
+    <lastmod>2025-08-02T01:39:47.451Z</lastmod>
   </url>
   <url>
     <loc>https://JessLGraves.github.io/publications/2025-04-25_translational_biomarkers/index.html</loc>
-    <lastmod>2025-07-11T16:25:22.395Z</lastmod>
+    <lastmod>2025-08-02T01:39:47.456Z</lastmod>
   </url>
   <url>
     <loc>https://JessLGraves.github.io/publications/2023-04-11-circadian-phase/index.html</loc>
@@ -46,7 +46,11 @@
   </url>
   <url>
     <loc>https://JessLGraves.github.io/posts/2025-06-01-confounding/index.html</loc>
-    <lastmod>2025-07-11T03:12:03.464Z</lastmod>
+    <lastmod>2025-08-02T01:39:47.455Z</lastmod>
+  </url>
+  <url>
+    <loc>https://JessLGraves.github.io/posts/2025-08-02-rare-events-pt1/index.html</loc>
+    <lastmod>2025-08-06T01:35:27.731Z</lastmod>
   </url>
   <url>
     <loc>https://JessLGraves.github.io/posts/2025-02-26-tidytuesday/index.html</loc>
@@ -90,7 +94,7 @@
   </url>
   <url>
     <loc>https://JessLGraves.github.io/apps.html</loc>
-    <lastmod>2025-07-16T14:36:50.066Z</lastmod>
+    <lastmod>2025-08-02T01:39:47.401Z</lastmod>
   </url>
   <url>
     <loc>https://JessLGraves.github.io/about.html</loc>
@@ -98,6 +102,6 @@
   </url>
   <url>
     <loc>https://JessLGraves.github.io/apps/2025-01-31_skyrim/index.html</loc>
-    <lastmod>2025-07-16T14:47:54.098Z</lastmod>
+    <lastmod>2025-08-02T01:39:47.401Z</lastmod>
   </url>
 </urlset>
